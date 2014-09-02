@@ -1,0 +1,51 @@
+A viable virtual holonomic constraint is one which can guarantee feasible motion of the robotic walker given some reasonable initial conditions. A favourable condition for a family of virtual constraints is that they are able to be sparsely identified and can be classified by at least a partial ordering. For simplicity, it is also desirable that the constraints are time-invariant.
+
+\subsection{Simple linear constraints}
+The constraint for keeping the end of the swing leg at the same level as the end of the stance leg is
+\begin{equation}
+	\theta_2 = -2\theta_1
+\end{equation}
+for the coordinate system chosen. This constraint can generate feasible walking, but cannot account for the energy lost in collisions, and does not comply with the assumption made of the hybrid zero dynamics being invariant. In the general case, it is not straightforward to use linear constraints to set a desired end position, and the range of motion is strictly limited. As a result, linear constraints should not be chosen as a basis for the library of motion primitives.
+
+\subsection{Bézier curve constraints}
+Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $n+1$ points, where $n$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients.
+\par
+
+Theoretically, these curves need only be defined from the start to the endpoint of the continuous-phase which they specify. However, since the curve provides a virtual constraint to be enforced by a controller, it is necessary to define the curve over the full range of possible motion, here considered to be $\theta_1 \in \left[0, \pi\right]$, else it is possible for the walker to enter a region where the control signal is undefined. If we assume that the overshoot past the desired endpoint is small, then the shape of the curve should be flat outside the defined region. That is, when we leave the target region, we wish to set $\theta_2$ to the closest defined $\theta_2$. \\ \par
+
+For the compass-gait walker, a general Bézier curve is defined by the following parametric equation.
+\begin{equation}
+	\begin{bmatrix}
+		\theta_1 \\ \theta_2
+	\end{bmatrix}
+	=
+	\sum_{i=0}^{n}\binom{n}{i}\left(1-t\right)^{n-i}t^i
+	\begin{bmatrix}
+		\theta_{1_i} \\ \theta_{2_i}
+	\end{bmatrix} \label{eqn:genBez}
+\end{equation}
+Since this equation is not monotonic in $\theta_1$, it is not a convenient expression. Therefore, we build families of Bézier curves with the following formulation:
+\begin{eqnarray}
+	t &=& \frac{\theta_1 - \theta_{1_0}}{\theta_{1_n} - \theta_{1_0}} \\
+	\theta_2 &=& \sum_{i=0}^{n}\binom{n}{i}\left(1-t\right)^{n-i}t^i\theta_{2_i}
+\end{eqnarray}
+This is expressible explicitly as
+\begin{equation}
+	\theta_2 = \frac{1}{\left(\theta_{1_n} - \theta_{1_0}\right)^n}\sum_{i=0}^{n}\binom{n}{i}
+		\left(\theta_{1_n} - \theta_1\right)^{n-i}
+		\left(\theta_1 - \theta_{1_0}\right)^i\theta_{2_i} \label{eqn:expBez}
+\end{equation}
+This formulation removes our ability to arbitrarily define the control points $\left(\theta_{1_i}, \theta_{2_i}\right)$, other than the endpoints. That is, this formulation produces curves of the form given in Equation~\ref{eqn:genBez} with
+\begin{equation}
+	\theta_{1_i} = \frac{i}{n}\left(\theta_{1_n}-\theta_{1_0}\right) + \theta_{1_0} ~~
+	\forall ~~ i \in \left[1,~n-1\right]
+\end{equation}
+
+Since we can only define one of the two variables in each control point, to yield arbitrary curves of order $n$, before achievable with $n - 1$ free control points (i.e. non-endpoint control points), now requires $2n - 2$ such points. Since it is desirable to have the ability to set the gradient of approach to the control points independently of the shape of the polynomial (achievable using a general cubic Bézier curve) we use a quintic curve in the new formulation. This requires six control points. \\ \par
+
+As in \cite{manchester13planning}, assume the hybrid zero dynamics are invariant, then:
+\begin{eqnarray}
+	\theta^+ &=& \kappa \\
+	\dot{\theta}^+ &=& \delta\dot{\theta}^-
+\end{eqnarray}
+when $\theta = \theta_f$. Note that $\theta^+$ is fixed by the specification of the constraint. I need to understand what this $\delta$ is.\\ \par

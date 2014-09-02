@@ -1,0 +1,40 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Literature Review}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Background}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{Walking Robots}{chapter.2}% 4
+\BOOKMARK [2][-]{subsection.2.2.1}{Fully actuated bipedal walking robots}{section.2.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.2}{Passive dynamic walkers}{section.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.2.3}{Underactuated dynamic walkers}{section.2.2}% 7
+\BOOKMARK [1][-]{section.2.3}{Feedback Control}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.4}{Motion Planning}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.4.1}{Motion planning architectures}{section.2.4}% 10
+\BOOKMARK [2][-]{subsection.2.4.2}{Path planning methods}{section.2.4}% 11
+\BOOKMARK [1][-]{section.2.5}{Virtual Holonomic Constraints}{chapter.2}% 12
+\BOOKMARK [2][-]{subsection.2.5.1}{Hybrid Zero Dynamics \(HZD\)}{section.2.5}% 13
+\BOOKMARK [2][-]{subsection.2.5.2}{Selection of motion primitives}{section.2.5}% 14
+\BOOKMARK [1][-]{section.2.6}{Conclusion}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.6.1}{State of the art}{section.2.6}% 16
+\BOOKMARK [2][-]{subsection.2.6.2}{Current gaps in research}{section.2.6}% 17
+\BOOKMARK [2][-]{subsection.2.6.3}{Contribution of this thesis work}{section.2.6}% 18
+\BOOKMARK [0][-]{chapter.3}{Technical Background}{}% 19
+\BOOKMARK [1][-]{section.3.1}{Full actuation and underactuation}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.2}{Hybrid Zero Dynamics}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.2.1}{Dynamics of a general underactuated walker}{section.3.2}% 22
+\BOOKMARK [2][-]{subsection.3.2.2}{Application of virtual constraints and zero dynamics}{section.3.2}% 23
+\BOOKMARK [2][-]{subsection.3.2.3}{Partial closed-form solutions for velocity and energy}{section.3.2}% 24
+\BOOKMARK [1][-]{section.3.3}{B\351zier curves as virtual constraints}{chapter.3}% 25
+\BOOKMARK [0][-]{chapter.4}{Virtual Constraint Library}{}% 26
+\BOOKMARK [1][-]{section.4.1}{Data stored}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.2}{Graphical interface for constraint design}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.3}{Automatic generation of constraints}{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.4}{Ordering methods}{chapter.4}% 30
+\BOOKMARK [0][-]{chapter.5}{Algorithm Design}{}% 31
+\BOOKMARK [0][-]{chapter.6}{Verification}{}% 32
+\BOOKMARK [1][-]{section.6.1}{Simulation}{chapter.6}% 33
+\BOOKMARK [1][-]{section.6.2}{Experiment}{chapter.6}% 34
+\BOOKMARK [0][-]{chapter.7}{Results}{}% 35
+\BOOKMARK [0][-]{chapter.8}{Discussion}{}% 36
+\BOOKMARK [1][-]{section.8.1}{Outcomes of study}{chapter.8}% 37
+\BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 38
+\BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 39
+\BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 40

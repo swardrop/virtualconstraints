@@ -1,0 +1,26 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Literature Review}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}Background}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}Walking Robots}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Fully actuated bipedal walking robots}{5}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Passive dynamic walkers}{6}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Underactuated dynamic walkers}{6}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Feedback Control}{9}{section.2.3}
+\contentsline {section}{\numberline {2.4}Motion Planning}{11}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Motion planning architectures}{11}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Path planning methods}{12}{subsection.2.4.2}
+\contentsline {section}{\numberline {2.5}Virtual Holonomic Constraints}{14}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Hybrid Zero Dynamics (HZD)}{14}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Selection of motion primitives}{15}{subsection.2.5.2}
+\contentsline {section}{\numberline {2.6}Conclusion}{16}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}State of the art}{16}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2.6.2}Current gaps in research}{16}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}Contribution of this thesis work}{17}{subsection.2.6.3}
+\contentsline {chapter}{\numberline {3}Technical Background}{18}{chapter.3}
+\contentsline {section}{\numberline {3.1}Full actuation and underactuation}{18}{section.3.1}
+\contentsline {section}{\numberline {3.2}Hybrid Zero Dynamics}{19}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Dynamics of a general underactuated walker}{19}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Application of virtual constraints and zero dynamics}{20}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Partial closed-form solutions for velocity and energy}{21}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}B{\'e}zier curves as virtual constraints}{22}{section.3.3}
+\contentsline {chapter}{\numberline {4}Progress Report}{23}{chapter.4}

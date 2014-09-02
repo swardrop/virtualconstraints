@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{manchester13planning}
+Ian~R. Manchester and Jack Umenberger.
+\newblock Real-time planning with primitives for dynamic walking over uneven
+  terrain.
+\newblock {\em CoRR}, abs/1310.7062, 2013.
+
+\bibitem{westervelt2007feedback}
+Eric~R Westervelt, Jessy~W Grizzle, Christine Chevallereau, Jun-Ho Choi, and
+  Benjamin Morris.
+\newblock {\em Feedback Control of Dynamic Bipedal Robot Locomotion}.
+\newblock Taylor \& Francis/{CRC}, 2007.
+
+\end{thebibliography}
