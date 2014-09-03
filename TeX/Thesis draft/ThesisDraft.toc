@@ -1,48 +1,48 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Literature Review}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Background}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}Walking Robots}{5}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Fully actuated bipedal walking robots}{5}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Passive dynamic walkers}{6}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Underactuated dynamic walkers}{6}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Feedback Control}{9}{section.2.3}
-\contentsline {section}{\numberline {2.4}Motion Planning}{11}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Motion planning architectures}{11}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Path planning methods}{12}{subsection.2.4.2}
-\contentsline {section}{\numberline {2.5}Virtual Holonomic Constraints}{14}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}Hybrid Zero Dynamics (HZD)}{14}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}Selection of motion primitives}{15}{subsection.2.5.2}
-\contentsline {section}{\numberline {2.6}Conclusion}{16}{section.2.6}
-\contentsline {subsection}{\numberline {2.6.1}State of the art}{16}{subsection.2.6.1}
-\contentsline {subsection}{\numberline {2.6.2}Current gaps in research}{16}{subsection.2.6.2}
-\contentsline {subsection}{\numberline {2.6.3}Contribution of this thesis work}{17}{subsection.2.6.3}
-\contentsline {chapter}{\numberline {3}Technical Background}{18}{chapter.3}
-\contentsline {section}{\numberline {3.1}Full actuation and underactuation}{18}{section.3.1}
-\contentsline {section}{\numberline {3.2}Hybrid Zero Dynamics}{19}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Dynamics of a general underactuated walker}{19}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Application of virtual constraints and zero dynamics}{20}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Partial closed-form solutions for velocity and energy}{21}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}B{\'e}zier curves as virtual constraints}{22}{section.3.3}
-\contentsline {chapter}{\numberline {4}Virtual Constraint Library}{23}{chapter.4}
-\contentsline {section}{\numberline {4.1}Data stored}{23}{section.4.1}
-\contentsline {section}{\numberline {4.2}Graphical interface for constraint design}{23}{section.4.2}
-\contentsline {section}{\numberline {4.3}Automatic generation of constraints}{23}{section.4.3}
-\contentsline {section}{\numberline {4.4}Ordering methods}{23}{section.4.4}
-\contentsline {chapter}{\numberline {5}Algorithm Design}{24}{chapter.5}
-\contentsline {chapter}{\numberline {6}Verification}{25}{chapter.6}
-\contentsline {section}{\numberline {6.1}Simulation}{25}{section.6.1}
-\contentsline {section}{\numberline {6.2}Experiment}{25}{section.6.2}
-\contentsline {chapter}{\numberline {7}Results}{26}{chapter.7}
-\contentsline {chapter}{\numberline {8}Discussion}{27}{chapter.8}
-\contentsline {section}{\numberline {8.1}Outcomes of study}{27}{section.8.1}
-\contentsline {section}{\numberline {8.2}Advantages of virtual constraints method}{27}{section.8.2}
-\contentsline {section}{\numberline {8.3}Limitations of virtual constraints method}{27}{section.8.3}
-\contentsline {section}{\numberline {8.4}Future work}{27}{section.8.4}
-\contentsline {chapter}{Appendices}{28}{section*.4}
-\contentsline {chapter}{\numberline {A}Worked example: compass-gait walker}{29}{Appendix.a.A}
-\contentsline {section}{\numberline {A.1}Continuous phase dynamics}{29}{section.a.A.1}
-\contentsline {section}{\numberline {A.2}Impact dynamics}{31}{section.a.A.2}
-\contentsline {section}{\numberline {A.3}Application of virtual constraints}{32}{section.a.A.3}
-\contentsline {section}{\numberline {A.4}Optimisation of single constraint}{33}{section.a.A.4}
-\contentsline {section}{\numberline {A.5}Optimisation of library of constraints}{33}{section.a.A.5}
-\contentsline {chapter}{\numberline {B}Numerical integration method}{34}{Appendix.a.B}
+\contentsline {chapter}{\numberline {2}Literature Review}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}Background}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}Walking Robots}{6}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Fully actuated bipedal walking robots}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Passive dynamic walkers}{7}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Underactuated dynamic walkers}{8}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Feedback Control}{11}{section.2.3}
+\contentsline {section}{\numberline {2.4}Motion Planning}{13}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Motion planning architectures}{13}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Path planning methods}{15}{subsection.2.4.2}
+\contentsline {section}{\numberline {2.5}Virtual Holonomic Constraints}{18}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Hybrid Zero Dynamics (HZD)}{19}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Selection of motion primitives}{19}{subsection.2.5.2}
+\contentsline {section}{\numberline {2.6}Conclusion}{21}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}State of the art}{21}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2.6.2}Current gaps in research}{21}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}Contribution of this thesis work}{22}{subsection.2.6.3}
+\contentsline {chapter}{\numberline {3}Technical Background}{24}{chapter.3}
+\contentsline {section}{\numberline {3.1}Full actuation and underactuation}{24}{section.3.1}
+\contentsline {section}{\numberline {3.2}Hybrid Zero Dynamics}{25}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Dynamics of a general underactuated walker}{25}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Application of virtual constraints and zero dynamics}{26}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Partial closed-form solutions for velocity and energy}{28}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}B{\'e}zier curves as virtual constraints}{30}{section.3.3}
+\contentsline {chapter}{\numberline {4}Virtual Constraint Library}{32}{chapter.4}
+\contentsline {section}{\numberline {4.1}Data stored}{32}{section.4.1}
+\contentsline {section}{\numberline {4.2}Graphical interface for constraint design}{32}{section.4.2}
+\contentsline {section}{\numberline {4.3}Automatic generation of constraints}{32}{section.4.3}
+\contentsline {section}{\numberline {4.4}Ordering methods}{32}{section.4.4}
+\contentsline {chapter}{\numberline {5}Algorithm Design}{33}{chapter.5}
+\contentsline {chapter}{\numberline {6}Verification}{34}{chapter.6}
+\contentsline {section}{\numberline {6.1}Simulation}{34}{section.6.1}
+\contentsline {section}{\numberline {6.2}Experiment}{34}{section.6.2}
+\contentsline {chapter}{\numberline {7}Results}{35}{chapter.7}
+\contentsline {chapter}{\numberline {8}Discussion}{36}{chapter.8}
+\contentsline {section}{\numberline {8.1}Outcomes of study}{36}{section.8.1}
+\contentsline {section}{\numberline {8.2}Advantages of virtual constraints method}{36}{section.8.2}
+\contentsline {section}{\numberline {8.3}Limitations of virtual constraints method}{36}{section.8.3}
+\contentsline {section}{\numberline {8.4}Future work}{36}{section.8.4}
+\contentsline {chapter}{Appendices}{37}{section*.4}
+\contentsline {chapter}{\numberline {A}Worked example: compass-gait}{38}{Appendix.a.A}
+\contentsline {section}{\numberline {A.1}Continuous phase dynamics}{38}{section.a.A.1}
+\contentsline {section}{\numberline {A.2}Impact dynamics}{41}{section.a.A.2}
+\contentsline {section}{\numberline {A.3}Application of virtual constraints}{41}{section.a.A.3}
+\contentsline {section}{\numberline {A.4}Optimisation of single constraint}{43}{section.a.A.4}
+\contentsline {section}{\numberline {A.5}Optimisation of library of constraints}{43}{section.a.A.5}
+\contentsline {chapter}{\numberline {B}Numerical integration method}{44}{Appendix.a.B}

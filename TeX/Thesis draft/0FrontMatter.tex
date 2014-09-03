@@ -1,8 +1,40 @@
+% Title page
+\thispagestyle{empty}
+\begin{titlepage}
+\setcounter{page}{1}
+\begin{center}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = 0.8\textwidth]{Images/usyd.jpg}
+\end{figure}
+
+\doublespacing
+\textsc{ \LARGE Algorithm Design for Real-Time Path Planning of Underactuated Dynamic Walking Using Virtual Constraints}
+
+\vspace{2cm}
+
+\singlespacing
+A thesis submitted in partial fulfilment of the requirements for the degree of \\ Bachelor of Engineering (Honours) and Bachelor of Science
+
+\vspace{2cm}
+
+\large
+Stephen Wardrop
+
+\vfill
+
+October, 2014
+
+\end{center}
+\end{titlepage}
+\pagebreak
+
 \begin{abstract}
 \thispagestyle{plain}
 \pagenumbering{roman}
 \setcounter{page}{2}
-There is significant interest, both technical and aesthetic, in bipedal robots which locomote stably, efficiently and reliably over uneven terrain. This continues to present a significant challenge due to computational intractability, highly complex nonlinear dynamics and intrinsic static and dynamic instability. Successful methods which achieve walking gaits restrict the problem to particular domains or motions to overcome the intractability of the general problem. One such method is to prepare a library of motion primitives and thus to limit the on-line computation to the choice of a particular constraint within the library. \\
+There is significant interest, both technical and aesthetic, in developing bipedal robots which locomote stably, efficiently and reliably over uneven terrain. This continues to present a significant challenge due to computational intractability, highly complex nonlinear dynamics and intrinsic static and dynamic instability. Successful methods which achieve walking gaits restrict the problem to particular domains or motions to overcome the intractability of the general problem. One such method is to prepare a library of motion primitives and thus to limit the on-line computation to the choice of a particular constraint within the library. \\
 
 Previous work has demonstrated the in-principle effectiveness of the motion primitives approach for real-time path planning of dynamic walking over uneven terrain. The contribution of this thesis work is to present a general method for the production of a library of motion primitives which achieves sufficient coverage of the feasible motions of the robot along with a method for intelligently choosing between them.
 \end{abstract}
@@ -17,14 +49,18 @@ Previous work has demonstrated the in-principle effectiveness of the motion prim
 \begin{itemize}
 	\item I completed the literature review largely independently, with some papers being recommended to me by my supervisor
 	\item I designed and implemented the simulator for the compass-gait robot and 5-link walker, with the code for generating the dynamics of the 5-link walker being sourced from Westervelt et al.
+	\item I designed the graphical interfaces for the investigation of virtual constraints
 	\item I designed the method by which the motion primitives could be automatically generated (yet to complete...)
 	\item I extended the algorithm designed by my supervisor and others to include a more intelligent heuristic for selection of motion primitives in real time. (yet to complete...)
 	\item I carried out the experiments on the compass-gait walker, which was constructed prior to the commencement of my thesis work. (Hopefully)
 \end{itemize}
 ~\\~\\
-The above represents an accurate summary of the student's contribution. \\~\\~\\
 
-Signed \hspace{5mm} _______________ (student) \hspace{5mm} _______________ (supervisor)
+The above represents an accurate summary of the student's contribution.  \\~\\~\\
+
+Signed \\~\\~\\
+
+_______________ (student) \hspace{5mm} _______________ (supervisor)
 \end{abstract}
 
 \pagebreak

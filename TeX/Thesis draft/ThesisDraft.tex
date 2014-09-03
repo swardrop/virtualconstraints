@@ -14,7 +14,7 @@
 \usepackage[toc,page]{appendix}
 \usepackage{epstopdf}
 \usepackage{multicol}
-\usepackage[includeheadfoot, margin=2cm]{geometry}
+\usepackage[includeheadfoot, margin=3cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{lscape}
@@ -32,6 +32,9 @@
 \usepackage{titlesec}
 \usepackage{pdfpages}
 
+\usepackage{draftwatermark}
+\SetWatermarkLightness{0.95}
+
 \bibliographystyle{plain}
 % Figures within a column...
 \makeatletter
@@ -46,6 +49,9 @@
 %commands
 \providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 
+% Document properties
+\hypersetup{pdfauthor={Stephen Wardrop},pdftitle={Honours Thesis}}
+
 % Set figure numbering
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 \renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
@@ -54,22 +60,7 @@
 \renewcommand{\chaptermark}[1]{\markleft{}}
 \renewcommand{\sectionmark}[1]{\markright{}}
 
-% Title Page
-\title{\begin{figure}[!htb]
-\centering
-\includegraphics[width = 0.8\textwidth]{Images/usyd.jpg}
-\end{figure}
-\textsc{Algorithm Design for Real-Time Path Planning of Underactuated Dynamic Walking Using Virtual Constraints }}
-\author{A thesis submitted in partial fulfilment of the requirements for the degree of \\ Bachelor of Engineering (Honours) and Bachelor of Science \\~\\~\\ \vspace{10mm} Stephen Wardrop}
-\date{\today}
-
 \begin{document}
-\thispagestyle{empty}
-\maketitle
-\pagebreak
-
-
-
 \input{0FrontMatter}
 
 \fancyhf{}
@@ -80,7 +71,7 @@
 \fancyfoot[CE,CO]{\thepage}
 \pagenumbering{arabic}
 \setcounter{page}{1}
-
+\onehalfspacing
 
 \begingroup
 \titleformat{\chapter}[display]
