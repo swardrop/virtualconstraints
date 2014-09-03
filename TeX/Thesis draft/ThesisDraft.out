@@ -38,3 +38,11 @@
 \BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 38
 \BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 39
 \BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 40
+\BOOKMARK [0][-]{section*.4}{Appendices}{}% 41
+\BOOKMARK [0][-]{Appendix.a.A}{Worked example: compass-gait walker}{}% 42
+\BOOKMARK [1][-]{section.a.A.1}{Continuous phase dynamics}{Appendix.a.A}% 43
+\BOOKMARK [1][-]{section.a.A.2}{Impact dynamics}{Appendix.a.A}% 44
+\BOOKMARK [1][-]{section.a.A.3}{Application of virtual constraints}{Appendix.a.A}% 45
+\BOOKMARK [1][-]{section.a.A.4}{Optimisation of single constraint}{Appendix.a.A}% 46
+\BOOKMARK [1][-]{section.a.A.5}{Optimisation of library of constraints}{Appendix.a.A}% 47
+\BOOKMARK [0][-]{Appendix.a.B}{Numerical integration method}{}% 48

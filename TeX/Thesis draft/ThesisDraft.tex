@@ -64,14 +64,13 @@
 \date{\today}
 
 \begin{document}
-
-\maketitle
 \thispagestyle{empty}
+\maketitle
 \pagebreak
 
-\pagenumbering{roman}
-\tableofcontents
-\clearpage
+
+
+\input{0FrontMatter}
 
 \fancyhf{}
 \pagestyle{fancy}
@@ -80,6 +79,7 @@
 \fancyhead[RE,LO]{Stephen Wardrop}
 \fancyfoot[CE,CO]{\thepage}
 \pagenumbering{arabic}
+\setcounter{page}{1}
 
 
 \begingroup
@@ -133,7 +133,16 @@
 \clearpage
 
 
+\begin{appendices}
+\renewcommand{\thefigure}{\Alph{chapter}.\arabic{figure}}
+\renewcommand{\theequation}{\Alph{chapter}.\arabic{equation}}
+\renewcommand{\thetable}{\Alph{chapter}.\arabic{table}}
+\input{9App}
+\end{appendices}
+
 \endgroup
+\clearpage
+
 
 \bibliography{../references}
 

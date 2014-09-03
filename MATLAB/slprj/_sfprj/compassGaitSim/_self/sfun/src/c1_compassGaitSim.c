@@ -799,13 +799,15 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_xb_b = c1_l_x;
   c1_dc_y = c1_hb_a * c1_xb_b;
   c1_T2 = ((c1_pb_y + c1_ub_y) + c1_yb_y) + c1_dc_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 40);
-  c1_K_p = 0.0;
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 37);
+  c1_T2 = 0.0;
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 41);
+  c1_K_p = 0.0;
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 42);
   c1_K_d = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 43);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 44);
   c1_t2err = c1_t2_des - c1_t2;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 45);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 46);
   c1_m_x = c1_t2err;
   c1_eml_scalar_eg(chartInstance);
   c1_xk = c1_m_x;
@@ -830,21 +832,21 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     c1_t2err = (c1_t2err - c1_t_x) * 6.2831853071795862;
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 47);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 48);
   if (CV_EML_IF(0, 1, 0, c1_t2err > 3.1415926535897931)) {
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 48);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 49);
     c1_t2err = -(6.2831853071795862 - c1_t2err);
   } else {
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 49);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 50);
     if (CV_EML_IF(0, 1, 1, c1_t2err < -3.1415926535897931)) {
-      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 50);
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 51);
       c1_t2err = 6.2831853071795862 - c1_t2err;
     }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 53);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 54);
   c1_t2ed = c1_t2err - c1_t2err_p;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 55);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 56);
   c1_dv2[0] = c1_t2ed;
   c1_eml_li_find(chartInstance, c1_t2ed > 3.1415926535897931, c1_tmp_data,
                  c1_tmp_sizes);
@@ -854,7 +856,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t2ed = c1_dv2[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 56);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 57);
   c1_dv3[0] = c1_t2ed;
   c1_eml_li_find(chartInstance, c1_t2ed < -3.1415926535897931, c1_tmp_data,
                  c1_tmp_sizes);
@@ -864,7 +866,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t2ed = c1_dv3[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 57);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 58);
   c1_d_A = c1_t2ed;
   c1_d_B = c1_t_step;
   c1_u_x = c1_d_A;
@@ -872,13 +874,13 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_v_x = c1_u_x;
   c1_ic_y = c1_hc_y;
   c1_t2ed = c1_v_x / c1_ic_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 59);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 60);
   c1_ac_b = c1_t2err;
   c1_jc_y = 0.0 * c1_ac_b;
   c1_bc_b = c1_t2ed;
   c1_kc_y = 0.0 * c1_bc_b;
-  c1_T2 = (c1_T2 + c1_jc_y) + c1_kc_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -59);
+  c1_T2 = c1_jc_y + c1_kc_y;
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -60);
   _SFD_SYMBOL_SCOPE_POP();
   *c1_b_T2 = c1_T2;
   *c1_b_t2err = c1_t2err;
@@ -1889,10 +1891,10 @@ extern void utFree(void*);
 
 void sf_c1_compassGaitSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(250561652U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(790811224U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3225503798U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2350776432U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3062452U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3357940551U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(827748278U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1718707012U);
 }
 
 mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
@@ -1904,7 +1906,7 @@ mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("mYsGiQVS48WBomI4NDCZME");
+    mxArray *mxChecksum = mxCreateString("mjiQmRLnGnAtVKzCMFINr");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -2272,9 +2274,9 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,2,0,0,0,3,0,0,0);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,1816);
-        _SFD_CV_INIT_EML_IF(0,1,0,1523,1536,1566,1584);
-        _SFD_CV_INIT_EML_IF(0,1,1,1566,1584,-1,1584);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,1824);
+        _SFD_CV_INIT_EML_IF(0,1,0,1531,1544,1574,1592);
+        _SFD_CV_INIT_EML_IF(0,1,1,1574,1592,-1,1592);
         _SFD_CV_INIT_EML_FOR(0,1,0,281,295,371);
         _SFD_CV_INIT_EML_FOR(0,1,1,458,474,568);
         _SFD_CV_INIT_EML_FOR(0,1,2,826,842,971);
@@ -2372,7 +2374,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "tDKxmZVjJzwuBsojqXlubF";
+  return "z3QoWAzRWkvoSBaRISwMEG";
 }
 
 static void sf_opaque_initialize_c1_compassGaitSim(void *chartInstanceVar)
@@ -2554,10 +2556,10 @@ static void mdlSetWorkWidths_c1_compassGaitSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(2348663711U));
-  ssSetChecksum1(S,(3556142886U));
-  ssSetChecksum2(S,(2748843501U));
-  ssSetChecksum3(S,(3549639420U));
+  ssSetChecksum0(S,(1124826545U));
+  ssSetChecksum1(S,(2205574063U));
+  ssSetChecksum2(S,(3490190254U));
+  ssSetChecksum3(S,(2752534659U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);
