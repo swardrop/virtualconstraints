@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  3 SEP 2014 21:48
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  5 SEP 2014 23:53
 entering extended mode
 **ThesisDraft.tex
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.tex"
@@ -1207,7 +1207,14 @@ Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
 \titlewidthlast=\dimen265
 \titlewidthfirst=\dimen266
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\draftwatermark\draftwatermark.sty"
+("C:\Program Files\MiKTeX 2.9\tex\latex\tocbibind\tocbibind.sty"
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has chapter divisions on input line 50.
+
+
+Package tocbibind Note: Using chapter style headings, unless overridden.
+
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\draftwatermark\draftwatermark.sty"
 Package: draftwatermark 2006/06/30 1.0 Put a gray textual watermark on document
  pages
 
@@ -1217,28 +1224,28 @@ Package: everypage 2007/06/20 1.1 Hooks to run on every page
 \sc@wm@fontsize=\skip82
 )
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 63.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 63.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 65.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 63.
-LaTeX Font Info:    ... okay on input line 63.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 63.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 65.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1294,7 +1301,7 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 63.
+Package hyperref Info: Link coloring OFF on input line 65.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -1303,16 +1310,16 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count191
 )
-LaTeX Info: Redefining \ref on input line 63.
-LaTeX Info: Redefining \pageref on input line 63.
-LaTeX Info: Redefining \nameref on input line 63.
+LaTeX Info: Redefining \ref on input line 65.
+LaTeX Info: Redefining \pageref on input line 65.
+LaTeX Info: Redefining \nameref on input line 65.
 
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.out")
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.out")
 \@outlinefile=\write3
 
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\0FrontMatter.tex"
-<Images/usyd.jpg, id=195, 426.8748pt x 284.5029pt>
+<Images/usyd.jpg, id=215, 426.8748pt x 284.5029pt>
 File: Images/usyd.jpg Graphic file (type jpg)
  <use Images/usyd.jpg>
 Package pdftex.def Info: Images/usyd.jpg used on input line 9.
@@ -1330,52 +1337,52 @@ LaTeX Font Info:    Try loading font information for TS1+lmr on input line 50.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
+Underfull \hbox (badness 10000) in paragraph at lines 57--58
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 60--61
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 60--61
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 60--61
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+Underfull \hbox (badness 10000) in paragraph at lines 73--74
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--75
+Underfull \hbox (badness 10000) in paragraph at lines 75--76
 
  []
 
@@ -1510,13 +1517,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--10
  []
 
 )
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[5]
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/2WalkingRobo
 ts.tex"
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
@@ -1524,6 +1524,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--2
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[5]
 Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
@@ -1539,9 +1545,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[6
-
-]
+[6]
 Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
@@ -1600,13 +1604,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
  []
 
 )
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[10]
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/3Feedback.te
 x"
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
@@ -1614,6 +1611,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--2
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[10]
 Underfull \hbox (badness 10000) in paragraph at lines 3--4
 
  []
@@ -1628,22 +1631,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
+)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11
-
-])
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[12]
+[11]
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/4MotionPlann
 ing.tex"
 Underfull \hbox (badness 10000) in paragraph at lines 2--3
@@ -1656,19 +1651,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--5
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[13
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
-]
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
@@ -1679,7 +1672,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[14]
+[13]
 Underfull \hbox (badness 10000) in paragraph at lines 17--18
 
  []
@@ -1690,17 +1683,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--20
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--22
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[15]
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 23--24
 
  []
@@ -1710,21 +1703,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 25--26
 
  []
 
-)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[16]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[17]
+[15])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/5VirtHolonom
 ic.tex"
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
@@ -1737,42 +1722,33 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--4
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[16]
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
 
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[18
-
-]
 Underfull \hbox (badness 10000) in paragraph at lines 10--11
 
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17]
 Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[19])
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[20]
+)
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/6Conclusion.
 tex"
 Underfull \hbox (badness 10000) in paragraph at lines 2--3
@@ -1780,6 +1756,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--3
  []
 
 
+Underfull \vbox (badness 1776) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 4--5
 
  []
@@ -1795,9 +1781,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[21
-
-]
+[19]
 Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
@@ -1818,14 +1802,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[22]))
+[20]))
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23]
+[21]
 Chapter 3.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/1Actuat
@@ -1849,18 +1833,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
  []
 
-[24
+[22
 
 
 ])
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/2hzd.te
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/2Opt.te
+x")
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/3hzd.te
 x"
 Underfull \hbox (badness 10000) in paragraph at lines 8--10
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
  []
 
@@ -1870,11 +1851,16 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25] <../images/impact.png, id=524, 196.735pt x 172.645pt>
-File: ../images/impact.png Graphic file (type png)
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
 
-<use ../images/impact.png>
-Package pdftex.def Info: ../images/impact.png used on input line 21.
+ []
+
+<3TechBackground/impact.png, id=540, 196.735pt x 172.645pt>
+File: 3TechBackground/impact.png Graphic file (type png)
+
+<use 3TechBackground/impact.png>
+Package pdftex.def Info: 3TechBackground/impact.png used on input line 21.
 (pdftex.def)             Requested size: 196.7345pt x 172.64456pt.
 
 
@@ -1883,12 +1869,23 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[26 <C:/Users/yak/Documents/GitHub/thesis/TeX/images/impact.png>]
+[24 <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/3TechBackground/impa
+ct.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 49--50
 
  []
 
 
+Underfull \vbox (badness 1968) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[25]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1898,90 +1895,144 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[27]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[28])
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[29]
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/3Bezier
-.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 4--4
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 109--109
 
  []
 
 
-Underfull \vbox (badness 3323) has occurred while \output is active []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-
+[27])
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/4Planni
+ng.tex"))
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[30]))
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 15.17403pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[31]
+[28]
 Chapter 4.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/1Data.tex
 ")
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/2gui.tex"
-)) [32
+)
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/3autogen.
+tex"
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+
+ []
 
 
-]
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+[29
+
+
+] <4VirtConstLib/manualgen.png, id=597, 822.82407pt x 316.18124pt>
+File: 4VirtConstLib/manualgen.png Graphic file (type png)
+
+<use 4VirtConstLib/manualgen.png>
+Package pdftex.def Info: 4VirtConstLib/manualgen.png used on input line 12.
+(pdftex.def)             Requested size: 384.1096pt x 147.59686pt.
+))
+Underfull \vbox (badness 6125) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[30 <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/4VirtConstLib/manual
+gen.png (PNG copy)>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[31]
 Chapter 5.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\5AlgDesign.tex")
-[33
+[32
 
 
 ]
 Chapter 6.
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\6Verif.tex") [34
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\6Verif.tex") [33
 
 
 ]
 Chapter 7.
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\7Results.tex") [35
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\7Results.tex") [34
 
 
 ]
 Chapter 8.
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\8Disc.tex") [36
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\8Disc.tex") [35
 
 
 ]
-[37
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.bbl"
+Chapter 9.
+[36
 
+
+]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[37]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[38]
+Underfull \hbox (badness 1152) in paragraph at lines 172--176
+[]\T1/lmr/m/n/12 N. J. Nils-son, C. A. Rosen, B. Raphael, G. Forsen, L. Chaitin
+, and
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[39])
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[40] [41
 
 
 ] ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App.tex"
 Appendix A.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait/1Cont
-Phase.tex" [38
+Phase.tex" [42
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1993,7 +2044,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[39]
+[43]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -2003,7 +2054,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[40]
+[44]
 Overfull \hbox (3.844pt too wide) in alignment at lines 69--92
  [][][] []
  []
@@ -2022,7 +2073,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[41]
+[45]
 Overfull \hbox (9.44786pt too wide) in alignment at lines 58--75
  [][][] []
  []
@@ -2033,7 +2084,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[42])
+[46])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait/4OptS
 ingle.tex")
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait/5OptL
@@ -2044,12 +2095,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[43]
+[47]
 Appendix B.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/2NumInt.tex"
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [44
+ [48
 
 
 ])
@@ -2059,63 +2110,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[45]) ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.bbl"
-[46
-
-
-
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[47]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[48]
-Underfull \hbox (badness 1152) in paragraph at lines 172--176
-[]\T1/lmr/m/n/12 N. J. Nils-son, C. A. Rosen, B. Raphael, G. Forsen, L. Chaitin
-, and
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
 [49])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 140.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[50]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 140.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 143.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 143.
  ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 140.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 140.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 143.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 143.
 Package rerunfilecheck Info: File `ThesisDraft.out' has not changed.
-(rerunfilecheck)             Checksum: D91C98C34491819F06FF347D281F26BA;3462.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 140.
+(rerunfilecheck)             Checksum: 570B354BE9D527A77F778F116C41E8CF;3843.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 143.
  ) 
 Here is how much of TeX's memory you used:
- 17041 strings out of 493921
- 267411 string characters out of 3147288
- 352595 words of memory out of 3000000
- 19710 multiletter control sequences out of 15000+200000
+ 17142 strings out of 493921
+ 269222 string characters out of 3147288
+ 353658 words of memory out of 3000000
+ 19797 multiletter control sequences out of 15000+200000
  54656 words of font info for 47 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,14n,45p,1519b,631s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,14n,47p,1519b,685s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/M
 iKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/e
 nc/dvips/lm/lm-mathex.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ma
@@ -2131,9 +2143,9 @@ iles/MiKTeX 2.9/fonts/type1/public/lm/lmr6.pfb><C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/
 lmri12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb>
-Output written on ThesisDraft.pdf (58 pages, 766795 bytes).
+Output written on ThesisDraft.pdf (57 pages, 785594 bytes).
 PDF statistics:
- 771 PDF objects out of 1000 (max. 8388607)
- 188 named destinations out of 1000 (max. 500000)
- 395 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 795 PDF objects out of 1000 (max. 8388607)
+ 192 named destinations out of 1000 (max. 500000)
+ 440 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -306,26 +306,20 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   int32_T c4_i7;
   int32_T c4_b_loop_ub;
   int32_T c4_i8;
-  real_T c4_u;
-  const mxArray *c4_f_y = NULL;
-  real_T c4_b_u;
-  const mxArray *c4_g_y = NULL;
-  real_T c4_c_u;
-  const mxArray *c4_h_y = NULL;
   real_T *c4_b_t1;
   real_T *c4_b_t2;
   real_T *c4_b_l1;
   real_T *c4_b_l2;
   real_T *c4_b_y_prev;
   boolean_T *c4_b_impact;
-  real_T *c4_i_y;
+  real_T *c4_f_y;
   real_T (*c4_b_ground_y)[5];
   real_T (*c4_b_ground_x)[5];
   real_T (*c4_b_org)[2];
   boolean_T guard1 = FALSE;
   boolean_T guard2 = FALSE;
   boolean_T exitg1;
-  c4_i_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
+  c4_f_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
   c4_b_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
   c4_b_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
   c4_b_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
@@ -474,27 +468,6 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
         CV_EML_MCDC(0, 1, 0, TRUE);
         CV_EML_IF(0, 1, 0, TRUE);
         _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 23);
-        sf_mex_printf("%s =\\n", "y");
-        c4_u = c4_y;
-        c4_f_y = NULL;
-        sf_mex_assign(&c4_f_y, sf_mex_create("y", &c4_u, 0, 0U, 0U, 0U, 0),
-                      FALSE);
-        sf_mex_call_debug("disp", 0U, 1U, 14, c4_f_y);
-        _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 24);
-        sf_mex_printf("%s =\\n", "y_prev");
-        c4_b_u = c4_y_prev;
-        c4_g_y = NULL;
-        sf_mex_assign(&c4_g_y, sf_mex_create("y", &c4_b_u, 0, 0U, 0U, 0U, 0),
-                      FALSE);
-        sf_mex_call_debug("disp", 0U, 1U, 14, c4_g_y);
-        _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 25);
-        sf_mex_printf("%s =\\n", "t2");
-        c4_c_u = c4_t2;
-        c4_h_y = NULL;
-        sf_mex_assign(&c4_h_y, sf_mex_create("y", &c4_c_u, 0, 0U, 0U, 0U, 0),
-                      FALSE);
-        sf_mex_call_debug("disp", 0U, 1U, 14, c4_h_y);
-        _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 26);
         c4_impact = TRUE;
       } else {
         guard1 = TRUE;
@@ -515,10 +488,10 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
     CV_EML_IF(0, 1, 0, FALSE);
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, -26);
+  _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, -23);
   _SFD_SYMBOL_SCOPE_POP();
   *c4_b_impact = c4_impact;
-  *c4_i_y = c4_y;
+  *c4_f_y = c4_y;
   _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 2U, chartInstance->c4_sfEvent);
 }
 
@@ -1127,10 +1100,10 @@ extern void utFree(void*);
 
 void sf_c4_compassGaitSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2319347427U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(557717241U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1090945606U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1089160213U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1088382572U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2785236721U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3091541725U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3372580081U);
 }
 
 mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
@@ -1142,7 +1115,7 @@ mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("tT3aTGpAKh4cOA1oE6OeTH");
+    mxArray *mxChecksum = mxCreateString("XMQPtLdkoDXaN56TVgPtaD");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -1450,8 +1423,8 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,1,0,0,0,0,0,3,1);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,647);
-        _SFD_CV_INIT_EML_IF(0,1,0,550,595,-1,642);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,623);
+        _SFD_CV_INIT_EML_IF(0,1,0,550,595,-1,618);
 
         {
           static int condStart[] = { 553, 568, 587 };
@@ -1553,7 +1526,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "xKE5Ru1Fi3hOtmR4EPEc0";
+  return "L37GpWp2Yntku1aSFWPrCG";
 }
 
 static void sf_opaque_initialize_c4_compassGaitSim(void *chartInstanceVar)
@@ -1732,10 +1705,10 @@ static void mdlSetWorkWidths_c4_compassGaitSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(2421502819U));
-  ssSetChecksum1(S,(3736404955U));
-  ssSetChecksum2(S,(3045294281U));
-  ssSetChecksum3(S,(248586196U));
+  ssSetChecksum0(S,(3026186575U));
+  ssSetChecksum1(S,(1407375078U));
+  ssSetChecksum2(S,(3866819734U));
+  ssSetChecksum3(S,(3689027383U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

@@ -3,7 +3,8 @@
 % control points in constrPts, at the point through the constraint defined
 % by theta.
 
-function [alpha, beta, gamma] = ZeroDynCompassGait(constrPts, theta)
+function [alpha, beta, gamma, phi, d_phi, dd_phi] = ...
+    ZeroDynCompassGait(constrPts, theta)
 
 [Is, ls, ms, g] = getDynParams();
 I1 = Is(1);

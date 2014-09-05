@@ -31,10 +31,12 @@
 \usepackage{breqn}
 \usepackage{titlesec}
 \usepackage{pdfpages}
+\usepackage[nottoc,numbib,notlof,notlot]{tocbibind}
 
 \usepackage{draftwatermark}
 \SetWatermarkLightness{0.95}
 
+\AtBeginDocument{\renewcommand{\bibname}{References}}
 \bibliographystyle{plain}
 % Figures within a column...
 \makeatletter
@@ -123,6 +125,7 @@
 \input{8Disc}
 \clearpage
 
+\bibliography{../references}
 
 \begin{appendices}
 \renewcommand{\thefigure}{\Alph{chapter}.\arabic{figure}}
@@ -135,6 +138,6 @@
 \clearpage
 
 
-\bibliography{../references}
+
 
 \end{document}

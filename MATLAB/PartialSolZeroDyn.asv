@@ -6,32 +6,27 @@
 % when the physical system is subject to the holonomic constraint defined
 % by the Bezier control points defined by the matrix constrPts.
 
-function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
-    phi, d_phi, dd_phi] = PartialSolZeroDyn(constrPts)
+function [Gamma, Psi, th_base, th_c, phi, d_phi, dd_phi] = ...
+    PartialSolZeroDyn(constrPts)
 
 theta_f = constrPts(end,1);
 theta_0 = constrPts(1,1);
-num_points = 50;
+num_points = 500;
 th_base = linspace(theta_0,theta_f,num_points);
 step_size = (theta_f-theta_0)/num_points;
 
 alpha = zeros(size(th_base));
 beta = zeros(size(th_base));
 gamma = zeros(size(th_base));
-phi = zeros(size(th_base));
-d_phi = zeros(size(th_base));
-dd_phi = zeros(size(th_base));
+
 th_c = inf;
 
 for i = 1 : num_points
     % Calculate zero dynamics coefficients
-    [al, bet, gam, p, dp, ddp] = ZeroDynCompassGait(constrPts, th_base(i));
+    [al, bet, gam] = ZeroDynCompassGait(constrPts, th_base(i));
     alpha(i) = al;
     beta(i) = bet;
     gamma(i) = gam;
-    phi = p;
-    d_phi(i) = dp;
-    dd_phi(i) = ddp;
     
     % Find th_c
     if i == 1

@@ -39,8 +39,13 @@ points = constrData(1).points;
 
 % Set initial conditions
 [t1d_0, t2d_0, t1_0, t2_0] = initialCond('slowWalk');
+theta_dot_sq_0 = t1_0^2;
 last_t = 0;
 while (timeleft > dur_tol)
+    
+    [u, theta] = nomTorqueCG(points, theta_dot_sq_0);
+    us_ths = [u', theta'];
+    
     stoptime = sprintf('%.2f', timeleft);
     disp('Simulating footstep...');
     simOut = sim('compassGaitSim', ...
@@ -65,7 +70,9 @@ while (timeleft > dur_tol)
     impact = [impact; false(length(new_t)-1, 1)];
     
     % Deduct time of footstep from remaining time
-    timeleft = timeleft - new_t(end);  
+    timeleft = timeleft - new_t(end);
+    
+    theta_dot_sq_0 = t1d(end)^2;
     
     if simOut.find('fall')
         fprintf('Fallback detected. Ceasing simulation.\n\n');
@@ -80,7 +87,8 @@ while (timeleft > dur_tol)
         org(2) = org(2) + l1*sin(t1(end)) + l2*sin(t1(end)+t2(end));
         fprintf('Origin: (%.2f, %.2f)\n\n', org(1), org(2));
         
-    end  
+    end
+    
 end
 
 % Diagnostic plots
