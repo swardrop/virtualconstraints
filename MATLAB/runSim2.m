@@ -44,7 +44,7 @@ last_t = 0;
 while (timeleft > dur_tol)
     
     [u, theta] = nomTorqueCG(points, theta_dot_sq_0);
-    us_ths = [u', theta'];
+    nom_torque_table = [theta', u'];
     
     stoptime = sprintf('%.2f', timeleft);
     disp('Simulating footstep...');

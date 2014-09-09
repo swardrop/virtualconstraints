@@ -18,5 +18,6 @@ h = plot([points(1,1) points(end,1)], ...
     points(:,1), points(:,2), 'r');
 
 axis([pi/4 3/4*pi -3/2*pi -pi/2])
+grid on
 
 end

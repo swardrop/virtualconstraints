@@ -271,6 +271,7 @@ hold on
 sc_fact = 0.05*(max(Gamma)-min(Gamma));
 plot([th_c th_c], [min(Gamma)-sc_fact, max(Gamma)+sc_fact], 'k-');
 ylim([min(Gamma)-sc_fact, max(Gamma)+sc_fact])
+grid on
 axes(handles.axes7)
 hold off
 plot(theta,Psi)
@@ -278,6 +279,7 @@ sc_fact = 0.05*(max(Psi)-min(Psi));
 hold on
 plot([th_c th_c], [min(Psi)-sc_fact, max(Psi)+sc_fact], 'k-');
 ylim([min(Psi)-sc_fact, max(Psi)+sc_fact]);
+grid on
 
 % --- Executes during object deletion, before destroying properties.
 function figure1_DeleteFcn(hObject, eventdata, handles)

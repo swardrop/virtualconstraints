@@ -123,10 +123,10 @@ unsigned int sf_compassGaitSim_process_check_sum_call( int nlhs, mxArray * plhs[
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3508669859U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4267199148U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3430199971U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3691465372U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3959145791U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2069112290U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3671922458U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2628708673U);
   }
 
   return 1;
@@ -164,7 +164,7 @@ unsigned int sf_compassGaitSim_autoinheritance_info( int nlhs, mxArray * plhs[],
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(aiChksum, "YQbAjN0HpJfBZv2rp2KliB") == 0) {
+        if (strcmp(aiChksum, "njseZxw7CwCd3V2Zn23ATD") == 0) {
           extern mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void);
           plhs[0] = sf_c1_compassGaitSim_get_autoinheritance_info();
           break;
@@ -303,7 +303,7 @@ unsigned int sf_compassGaitSim_third_party_uses_info( int nlhs, mxArray * plhs[]
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "FychlEyUPATMMn1B8zGsSB") == 0) {
+        if (strcmp(tpChksum, "9ryK1N93xWfPP2X2hTtfRF") == 0) {
           extern mxArray *sf_c1_compassGaitSim_third_party_uses_info(void);
           plhs[0] = sf_c1_compassGaitSim_third_party_uses_info();
           break;

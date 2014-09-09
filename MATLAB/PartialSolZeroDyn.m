@@ -29,7 +29,7 @@ for i = 1 : num_points
     alpha(i) = al;
     beta(i) = bet;
     gamma(i) = gam;
-    phi = p;
+    phi(i) = p;
     d_phi(i) = dp;
     dd_phi(i) = ddp;
     

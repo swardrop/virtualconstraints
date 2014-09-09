@@ -444,9 +444,9 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
 
   c1_idx = 0;
   c1_ii_sizes = c1_iv0[0];
-  c1_ii = 1;
+  c1_ii = 50;
   exitg1 = FALSE;
-  while ((exitg1 == FALSE) && (c1_ii < 51)) {
+  while ((exitg1 == FALSE) && (c1_ii > 0)) {
     c1_b_ii = c1_ii;
     if (c1_x[c1_b_ii - 1]) {
       c1_idx = 1;
@@ -454,7 +454,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
       c1_ii_data[0] = c1_b_ii;
       exitg1 = TRUE;
     } else {
-      c1_ii++;
+      c1_ii--;
     }
   }
 
@@ -470,40 +470,48 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
 
   _SFD_SYMBOL_SWITCH(0U, 0U);
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 8);
-  (real_T)_SFD_EML_ARRAY_BOUNDS_CHECK("i", 1, 1, c1_i_sizes, 1, 0);
-  c1_i = c1_i_data[0];
-  _SFD_SYMBOL_SWITCH(0U, 9U);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 9);
-  for (c1_i6 = 0; c1_i6 < 2; c1_i6++) {
-    c1_ths[c1_i6] = c1_nom_torque_table[(int32_T)(real_T)
-      _SFD_EML_ARRAY_BOUNDS_CHECK("nom_torque_table", (int32_T)(c1_i + (-1.0 +
-      (real_T)c1_i6)), 1, 50, 1, 0) - 1];
+  if (CV_EML_IF(0, 1, 0, c1_i_sizes == 0)) {
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 9);
+    c1_T2 = 0.0;
+  } else {
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 11);
+    c1_i = c1_i_data[0];
+    _SFD_SYMBOL_SWITCH(0U, 9U);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 12);
+    if (CV_EML_IF(0, 1, 1, c1_i < 50.0)) {
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 13);
+      for (c1_i6 = 0; c1_i6 < 2; c1_i6++) {
+        c1_ths[c1_i6] = c1_nom_torque_table[(int32_T)(c1_i + (real_T)c1_i6) - 1];
+      }
+
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 14);
+      for (c1_i7 = 0; c1_i7 < 2; c1_i7++) {
+        c1_us[c1_i7] = c1_nom_torque_table[(int32_T)(c1_i + (real_T)c1_i7) + 49];
+      }
+
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 15);
+      c1_A = c1_us[1] - c1_us[0];
+      c1_B = c1_ths[1] - c1_ths[0];
+      c1_b_x = c1_A;
+      c1_y = c1_B;
+      c1_c_x = c1_b_x;
+      c1_b_y = c1_y;
+      c1_c_y = c1_c_x / c1_b_y;
+      c1_a = c1_c_y;
+      c1_b = c1_t1 - c1_ths[0];
+      c1_d_y = c1_a * c1_b;
+      c1_T2 = c1_d_y + c1_us[0];
+    } else {
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 17);
+      c1_T2 = 0.0;
+    }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 10);
-  for (c1_i7 = 0; c1_i7 < 2; c1_i7++) {
-    c1_us[c1_i7] = c1_nom_torque_table[(int32_T)(real_T)
-      _SFD_EML_ARRAY_BOUNDS_CHECK("nom_torque_table", (int32_T)(c1_i + (-1.0 +
-      (real_T)c1_i7)), 1, 50, 1, 0) + 49];
-  }
-
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 12);
-  c1_A = c1_us[1] - c1_us[0];
-  c1_B = c1_ths[1] - c1_ths[0];
-  c1_b_x = c1_A;
-  c1_y = c1_B;
-  c1_c_x = c1_b_x;
-  c1_b_y = c1_y;
-  c1_c_y = c1_c_x / c1_b_y;
-  c1_a = c1_c_y;
-  c1_b = c1_t1 - c1_ths[0];
-  c1_d_y = c1_a * c1_b;
-  c1_T2 = c1_d_y + c1_us[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 16);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 23);
   c1_K_p = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 17);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 24);
   c1_K_d = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 20);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 27);
   c1_b_A = c1_t1 - c1_points[0];
   c1_b_B = c1_points[5] - c1_points[0];
   c1_d_x = c1_b_A;
@@ -511,7 +519,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_e_x = c1_d_x;
   c1_f_y = c1_e_y;
   c1_t = c1_e_x / c1_f_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 21);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 28);
   c1_dv0[0] = c1_t;
   c1_eml_li_find(chartInstance, c1_t > 1.0, c1_tmp_data, c1_tmp_sizes);
   c1_b_loop_ub = c1_tmp_sizes[0] * c1_tmp_sizes[1] - 1;
@@ -520,7 +528,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t = c1_dv0[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 22);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 29);
   c1_dv1[0] = c1_t;
   c1_eml_li_find(chartInstance, c1_t < 0.0, c1_tmp_data, c1_tmp_sizes);
   c1_c_loop_ub = c1_tmp_sizes[0] * c1_tmp_sizes[1] - 1;
@@ -529,11 +537,11 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t = c1_dv1[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 23);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 30);
   c1_t2_des = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 24);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 31);
   c1_n = 5.0;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 25);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 32);
   c1_i = 0.0;
   _SFD_SYMBOL_SWITCH(0U, 9U);
   c1_b_i = 0;
@@ -541,7 +549,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     c1_i = (real_T)c1_b_i;
     _SFD_SYMBOL_SWITCH(0U, 9U);
     CV_EML_FOR(0, 1, 0, 1);
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 26);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 33);
     c1_k = c1_i;
     c1_f_x = c1_k;
     c1_g_x = c1_f_x;
@@ -597,9 +605,9 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   CV_EML_FOR(0, 1, 0, 0);
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 29);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 36);
   c1_t2err = c1_t2_des - c1_t2;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 31);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 38);
   c1_h_x = c1_t2err;
   c1_eml_scalar_eg(chartInstance);
   c1_xk = c1_h_x;
@@ -624,21 +632,21 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     c1_t2err = (c1_t2err - c1_o_x) * 6.2831853071795862;
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 33);
-  if (CV_EML_IF(0, 1, 0, c1_t2err > 3.1415926535897931)) {
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 34);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 40);
+  if (CV_EML_IF(0, 1, 2, c1_t2err > 3.1415926535897931)) {
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 41);
     c1_t2err = -(6.2831853071795862 - c1_t2err);
   } else {
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 35);
-    if (CV_EML_IF(0, 1, 1, c1_t2err < -3.1415926535897931)) {
-      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 36);
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 42);
+    if (CV_EML_IF(0, 1, 3, c1_t2err < -3.1415926535897931)) {
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 43);
       c1_t2err = 6.2831853071795862 - c1_t2err;
     }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 39);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 46);
   c1_t2ed = c1_t2err - c1_t2err_p;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 41);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 48);
   c1_dv2[0] = c1_t2ed;
   c1_eml_li_find(chartInstance, c1_t2ed > 3.1415926535897931, c1_tmp_data,
                  c1_tmp_sizes);
@@ -648,7 +656,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t2ed = c1_dv2[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 42);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 49);
   c1_dv3[0] = c1_t2ed;
   c1_eml_li_find(chartInstance, c1_t2ed < -3.1415926535897931, c1_tmp_data,
                  c1_tmp_sizes);
@@ -658,7 +666,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   }
 
   c1_t2ed = c1_dv3[0];
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 43);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 50);
   c1_c_A = c1_t2ed;
   c1_c_B = c1_t_step;
   c1_p_x = c1_c_A;
@@ -666,13 +674,13 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_q_x = c1_p_x;
   c1_p_y = c1_o_y;
   c1_t2ed = c1_q_x / c1_p_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 45);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 52);
   c1_g_b = c1_t2err;
   c1_q_y = 0.0 * c1_g_b;
   c1_h_b = c1_t2ed;
   c1_r_y = 0.0 * c1_h_b;
   c1_T2 = (c1_T2 + c1_q_y) + c1_r_y;
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -45);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -52);
   _SFD_SYMBOL_SCOPE_POP();
   *c1_b_T2 = c1_T2;
   *c1_b_t2err = c1_t2err;
@@ -1146,11 +1154,11 @@ static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[61])
   c1_info[11].mFileTimeHi = 0U;
   c1_info[12].context =
     "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_int_forloop_overflow_check.m!eml_int_forloop_overflow_check_helper";
-  c1_info[12].name = "intmax";
+  c1_info[12].name = "intmin";
   c1_info[12].dominantType = "char";
   c1_info[12].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elmat/intmax.m";
-  c1_info[12].fileTimeLo = 1311226516U;
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elmat/intmin.m";
+  c1_info[12].fileTimeLo = 1311226518U;
   c1_info[12].fileTimeHi = 0U;
   c1_info[12].mFileTimeLo = 0U;
   c1_info[12].mFileTimeHi = 0U;
@@ -1843,10 +1851,10 @@ extern void utFree(void*);
 
 void sf_c1_compassGaitSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2387547281U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4062815290U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4124746498U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(962473074U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3886940895U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3031340304U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2640706397U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1696977009U);
 }
 
 mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
@@ -1858,7 +1866,7 @@ mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("YQbAjN0HpJfBZv2rp2KliB");
+    mxArray *mxChecksum = mxCreateString("njseZxw7CwCd3V2Zn23ATD");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -2125,11 +2133,13 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_CV_INIT_TRANS(0,0,NULL,NULL,0,NULL);
 
         /* Initialization of MATLAB Function Model Coverage */
-        _SFD_CV_INIT_EML(0,1,1,2,0,0,0,1,0,0,0);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,1140);
-        _SFD_CV_INIT_EML_IF(0,1,0,847,860,890,908);
-        _SFD_CV_INIT_EML_IF(0,1,1,890,908,-1,908);
-        _SFD_CV_INIT_EML_FOR(0,1,0,629,643,719);
+        _SFD_CV_INIT_EML(0,1,1,4,0,0,0,1,0,0,0);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,1280);
+        _SFD_CV_INIT_EML_IF(0,1,0,233,246,259,498);
+        _SFD_CV_INIT_EML_IF(0,1,1,283,314,466,494);
+        _SFD_CV_INIT_EML_IF(0,1,2,987,1000,1030,1048);
+        _SFD_CV_INIT_EML_IF(0,1,3,1030,1048,-1,1048);
+        _SFD_CV_INIT_EML_FOR(0,1,0,769,783,859);
         _SFD_TRANS_COV_WTS(0,0,0,1,0);
         if (chartAlreadyPresent==0) {
           _SFD_TRANS_COV_MAPS(0,
@@ -2206,7 +2216,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "FychlEyUPATMMn1B8zGsSB";
+  return "9ryK1N93xWfPP2X2hTtfRF";
 }
 
 static void sf_opaque_initialize_c1_compassGaitSim(void *chartInstanceVar)
@@ -2383,10 +2393,10 @@ static void mdlSetWorkWidths_c1_compassGaitSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(2696581902U));
-  ssSetChecksum1(S,(905730395U));
-  ssSetChecksum2(S,(3946680714U));
-  ssSetChecksum3(S,(2797215166U));
+  ssSetChecksum0(S,(4066501123U));
+  ssSetChecksum1(S,(597663604U));
+  ssSetChecksum2(S,(2366926808U));
+  ssSetChecksum3(S,(1468688462U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);
