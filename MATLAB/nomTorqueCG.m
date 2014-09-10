@@ -5,7 +5,7 @@ function [ u, theta ] = nomTorqueCG( constrPts, theta_dot_sq_0 )
 %   This should ideally be replaced by some kind of polynomial.
 
 [I, l, m, g] = getDynParams;
-I = I(2);
+I2 = I(2);
 l = l(1);
 m = m(1);
 
@@ -17,9 +17,7 @@ th_dd = -beta./alpha.*th_d_sq - gamma./alpha;
 
 t2dd = dd_phi.*th_d_sq + d_phi.*th_dd;
 
-u = t2dd*(I + 0.25*m*l^2) + ...
-    th_dd.*(I + 0.5*m*(0.5*l^2 + l^2*cos(phi))) ...
+u = t2dd*(I2 + 0.25*m*l^2) + ...
+    th_dd.*(I2 + 0.5*m*(0.5*l^2 + l^2*cos(phi))) ...
     + th_d_sq.*(0.5*m*l^2*sin(phi)) + 0.5*m*g*l*cos(theta+phi);
-
 end
-

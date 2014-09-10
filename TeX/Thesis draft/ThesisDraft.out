@@ -23,31 +23,32 @@
 \BOOKMARK [2][-]{subsection.3.3.1}{Dynamics of a general underactuated walker}{section.3.3}% 23
 \BOOKMARK [2][-]{subsection.3.3.2}{Application of virtual constraints and zero dynamics}{section.3.3}% 24
 \BOOKMARK [2][-]{subsection.3.3.3}{Partial closed-form solutions for velocity and energy}{section.3.3}% 25
-\BOOKMARK [2][-]{subsection.3.3.4}{B\351zier curves as virtual constraints}{section.3.3}% 26
-\BOOKMARK [1][-]{section.3.4}{Motion planning using primitives}{chapter.3}% 27
-\BOOKMARK [0][-]{chapter.4}{Virtual Constraint Library}{}% 28
-\BOOKMARK [1][-]{section.4.1}{Data stored}{chapter.4}% 29
-\BOOKMARK [1][-]{section.4.2}{Graphical interface for constraint design}{chapter.4}% 30
-\BOOKMARK [1][-]{section.4.3}{Automatic generation of constraints}{chapter.4}% 31
-\BOOKMARK [2][-]{subsection.4.3.1}{Optimisation of a single constraint}{section.4.3}% 32
-\BOOKMARK [2][-]{subsection.4.3.2}{Optimisation of library coverage}{section.4.3}% 33
-\BOOKMARK [1][-]{section.4.4}{Ordering methods}{chapter.4}% 34
-\BOOKMARK [0][-]{chapter.5}{Algorithm Design}{}% 35
-\BOOKMARK [0][-]{chapter.6}{Verification}{}% 36
-\BOOKMARK [1][-]{section.6.1}{Simulation}{chapter.6}% 37
-\BOOKMARK [1][-]{section.6.2}{Experiment}{chapter.6}% 38
-\BOOKMARK [0][-]{chapter.7}{Results}{}% 39
-\BOOKMARK [0][-]{chapter.8}{Discussion}{}% 40
-\BOOKMARK [1][-]{section.8.1}{Outcomes of study}{chapter.8}% 41
-\BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 42
-\BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 43
-\BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 44
-\BOOKMARK [0][-]{chapter.9}{References}{}% 45
-\BOOKMARK [0][-]{section*.4}{Appendices}{}% 46
-\BOOKMARK [0][-]{Appendix.a.A}{Worked example: compass-gait}{}% 47
-\BOOKMARK [1][-]{section.a.A.1}{Continuous phase dynamics}{Appendix.a.A}% 48
-\BOOKMARK [1][-]{section.a.A.2}{Impact dynamics}{Appendix.a.A}% 49
-\BOOKMARK [1][-]{section.a.A.3}{Application of virtual constraints}{Appendix.a.A}% 50
-\BOOKMARK [1][-]{section.a.A.4}{Optimisation of single constraint}{Appendix.a.A}% 51
-\BOOKMARK [1][-]{section.a.A.5}{Optimisation of library of constraints}{Appendix.a.A}% 52
-\BOOKMARK [0][-]{Appendix.a.B}{Numerical integration method}{}% 53
+\BOOKMARK [2][-]{subsection.3.3.4}{Impact conditions}{section.3.3}% 26
+\BOOKMARK [2][-]{subsection.3.3.5}{B\351zier curves as virtual constraints}{section.3.3}% 27
+\BOOKMARK [1][-]{section.3.4}{Motion planning using primitives}{chapter.3}% 28
+\BOOKMARK [0][-]{chapter.4}{Virtual Constraint Library}{}% 29
+\BOOKMARK [1][-]{section.4.1}{Data stored}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.2}{Graphical interface for constraint design}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.3}{Automatic generation of constraints}{chapter.4}% 32
+\BOOKMARK [2][-]{subsection.4.3.1}{Optimisation of a single constraint}{section.4.3}% 33
+\BOOKMARK [2][-]{subsection.4.3.2}{Optimisation of library coverage}{section.4.3}% 34
+\BOOKMARK [1][-]{section.4.4}{Ordering methods}{chapter.4}% 35
+\BOOKMARK [0][-]{chapter.5}{Algorithm Design}{}% 36
+\BOOKMARK [0][-]{chapter.6}{Verification}{}% 37
+\BOOKMARK [1][-]{section.6.1}{Simulation}{chapter.6}% 38
+\BOOKMARK [1][-]{section.6.2}{Experiment}{chapter.6}% 39
+\BOOKMARK [0][-]{chapter.7}{Results}{}% 40
+\BOOKMARK [0][-]{chapter.8}{Discussion}{}% 41
+\BOOKMARK [1][-]{section.8.1}{Outcomes of study}{chapter.8}% 42
+\BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 43
+\BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 44
+\BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 45
+\BOOKMARK [0][-]{chapter.9}{References}{}% 46
+\BOOKMARK [0][-]{section*.4}{Appendices}{}% 47
+\BOOKMARK [0][-]{Appendix.a.A}{Worked example: compass-gait}{}% 48
+\BOOKMARK [1][-]{section.a.A.1}{Continuous phase dynamics}{Appendix.a.A}% 49
+\BOOKMARK [1][-]{section.a.A.2}{Impact dynamics}{Appendix.a.A}% 50
+\BOOKMARK [1][-]{section.a.A.3}{Application of virtual constraints}{Appendix.a.A}% 51
+\BOOKMARK [1][-]{section.a.A.4}{Optimisation of single constraint}{Appendix.a.A}% 52
+\BOOKMARK [1][-]{section.a.A.5}{Optimisation of library of constraints}{Appendix.a.A}% 53
+\BOOKMARK [0][-]{Appendix.a.B}{Numerical integration method}{}% 54

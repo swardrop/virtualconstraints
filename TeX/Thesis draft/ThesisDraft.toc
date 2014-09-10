@@ -14,40 +14,41 @@
 \contentsline {subsection}{\numberline {2.5.2}Selection of motion primitives}{18}{subsection.2.5.2}
 \contentsline {section}{\numberline {2.6}Conclusion}{19}{section.2.6}
 \contentsline {subsection}{\numberline {2.6.1}State of the art}{19}{subsection.2.6.1}
-\contentsline {subsection}{\numberline {2.6.2}Current gaps in research}{19}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.2}Current gaps in research}{20}{subsection.2.6.2}
 \contentsline {subsection}{\numberline {2.6.3}Contribution of this thesis work}{20}{subsection.2.6.3}
 \contentsline {chapter}{\numberline {3}Technical Background}{22}{chapter.3}
 \contentsline {section}{\numberline {3.1}Full actuation and underactuation}{22}{section.3.1}
 \contentsline {section}{\numberline {3.2}Nonlinear Optimisation}{23}{section.3.2}
 \contentsline {section}{\numberline {3.3}Hybrid Zero Dynamics}{23}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Dynamics of a general underactuated walker}{23}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Application of virtual constraints and zero dynamics}{24}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.1}Dynamics of a general underactuated walker}{24}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Application of virtual constraints and zero dynamics}{25}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Partial closed-form solutions for velocity and energy}{26}{subsection.3.3.3}
-\contentsline {subsection}{\numberline {3.3.4}B{\'e}zier curves as virtual constraints}{27}{subsection.3.3.4}
-\contentsline {section}{\numberline {3.4}Motion planning using primitives}{28}{section.3.4}
-\contentsline {chapter}{\numberline {4}Virtual Constraint Library}{29}{chapter.4}
-\contentsline {section}{\numberline {4.1}Data stored}{29}{section.4.1}
-\contentsline {section}{\numberline {4.2}Graphical interface for constraint design}{29}{section.4.2}
-\contentsline {section}{\numberline {4.3}Automatic generation of constraints}{29}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Optimisation of a single constraint}{29}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}Optimisation of library coverage}{30}{subsection.4.3.2}
-\contentsline {section}{\numberline {4.4}Ordering methods}{31}{section.4.4}
-\contentsline {chapter}{\numberline {5}Algorithm Design}{32}{chapter.5}
-\contentsline {chapter}{\numberline {6}Verification}{33}{chapter.6}
-\contentsline {section}{\numberline {6.1}Simulation}{33}{section.6.1}
-\contentsline {section}{\numberline {6.2}Experiment}{33}{section.6.2}
-\contentsline {chapter}{\numberline {7}Results}{34}{chapter.7}
-\contentsline {chapter}{\numberline {8}Discussion}{35}{chapter.8}
-\contentsline {section}{\numberline {8.1}Outcomes of study}{35}{section.8.1}
-\contentsline {section}{\numberline {8.2}Advantages of virtual constraints method}{35}{section.8.2}
-\contentsline {section}{\numberline {8.3}Limitations of virtual constraints method}{35}{section.8.3}
-\contentsline {section}{\numberline {8.4}Future work}{35}{section.8.4}
-\contentsline {chapter}{\numberline {9}References}{36}{chapter.9}
-\contentsline {chapter}{Appendices}{41}{section*.4}
-\contentsline {chapter}{\numberline {A}Worked example: compass-gait}{42}{Appendix.a.A}
-\contentsline {section}{\numberline {A.1}Continuous phase dynamics}{42}{section.a.A.1}
-\contentsline {section}{\numberline {A.2}Impact dynamics}{45}{section.a.A.2}
-\contentsline {section}{\numberline {A.3}Application of virtual constraints}{45}{section.a.A.3}
-\contentsline {section}{\numberline {A.4}Optimisation of single constraint}{47}{section.a.A.4}
-\contentsline {section}{\numberline {A.5}Optimisation of library of constraints}{47}{section.a.A.5}
-\contentsline {chapter}{\numberline {B}Numerical integration method}{48}{Appendix.a.B}
+\contentsline {subsection}{\numberline {3.3.4}Impact conditions}{27}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.5}B{\'e}zier curves as virtual constraints}{28}{subsection.3.3.5}
+\contentsline {section}{\numberline {3.4}Motion planning using primitives}{30}{section.3.4}
+\contentsline {chapter}{\numberline {4}Virtual Constraint Library}{32}{chapter.4}
+\contentsline {section}{\numberline {4.1}Data stored}{32}{section.4.1}
+\contentsline {section}{\numberline {4.2}Graphical interface for constraint design}{32}{section.4.2}
+\contentsline {section}{\numberline {4.3}Automatic generation of constraints}{32}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Optimisation of a single constraint}{32}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}Optimisation of library coverage}{33}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Ordering methods}{34}{section.4.4}
+\contentsline {chapter}{\numberline {5}Algorithm Design}{35}{chapter.5}
+\contentsline {chapter}{\numberline {6}Verification}{36}{chapter.6}
+\contentsline {section}{\numberline {6.1}Simulation}{36}{section.6.1}
+\contentsline {section}{\numberline {6.2}Experiment}{36}{section.6.2}
+\contentsline {chapter}{\numberline {7}Results}{37}{chapter.7}
+\contentsline {chapter}{\numberline {8}Discussion}{38}{chapter.8}
+\contentsline {section}{\numberline {8.1}Outcomes of study}{38}{section.8.1}
+\contentsline {section}{\numberline {8.2}Advantages of virtual constraints method}{38}{section.8.2}
+\contentsline {section}{\numberline {8.3}Limitations of virtual constraints method}{38}{section.8.3}
+\contentsline {section}{\numberline {8.4}Future work}{38}{section.8.4}
+\contentsline {chapter}{\numberline {9}References}{39}{chapter.9}
+\contentsline {chapter}{Appendices}{44}{section*.4}
+\contentsline {chapter}{\numberline {A}Worked example: compass-gait}{45}{Appendix.a.A}
+\contentsline {section}{\numberline {A.1}Continuous phase dynamics}{45}{section.a.A.1}
+\contentsline {section}{\numberline {A.2}Impact dynamics}{48}{section.a.A.2}
+\contentsline {section}{\numberline {A.3}Application of virtual constraints}{48}{section.a.A.3}
+\contentsline {section}{\numberline {A.4}Optimisation of single constraint}{50}{section.a.A.4}
+\contentsline {section}{\numberline {A.5}Optimisation of library of constraints}{50}{section.a.A.5}
+\contentsline {chapter}{\numberline {B}Numerical integration method}{51}{Appendix.a.B}

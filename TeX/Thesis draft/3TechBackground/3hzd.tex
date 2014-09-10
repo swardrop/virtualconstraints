@@ -1,4 +1,6 @@
-\textit{Hybrid zero dynamics} is the term used to describe the dynamics of the phase variable of an underactuated walker which is subject to virtual constraints. The hybrid zero dynamics of a system are derived from the full state dynamics of continuous phase of the system, the impact map and the virtual constraint.
+In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. The application of control may be viewed as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an analogous output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values, rather than a unique value, of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the underactuated system to a single variable, known as the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints}.\\
+
+Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what is labelled the \textit{swing phase}, interspersed with impacts. Thus we produce \textit{hybrid zero dynamics} based upon the swing phase dynamics of the robot coupled with the applied virtual constraints, along with the impact dynamics. In this section, the derivation of hybrid zero dynamics for general underactuation degree one robots is presented along with some useful results for the motion planner.
 
 \subsection{Dynamics of a general underactuated walker}
 The general equation of motion of a nonlinear time-invariant physical system may be written as:
@@ -10,8 +12,8 @@ where $M\left(q(t)\right)$ is the matrix of inertial terms, $C\left(q(t),\dot{q}
 
 As in \cite{hurmuzlu1994rigid}, we assume that the collisions at each footstep are purely inelastic and the impact map has the following form:
 \begin{eqnarray}
-	q\left(t^+\right) &=& Rq\left(t^-\right) \\
-	\dot{q}\left(t^+\right) &=& R\Delta\left(q\left(t^-\right)\right)\dot{q}\left(t^-\right)
+	q\left(t^+\right) &=& Rq\left(t^-\right) \label{eqn:impactconfig}\\
+	\dot{q}\left(t^+\right) &=& R\Delta\left(q\left(t^-\right)\right)\dot{q}\left(t^-\right) \label{eqn:impactvel}
 \end{eqnarray} ~\\
 
 For the underactuated walkers considered in this thesis, $R$ represents a relabelling of coordinates. An example is shown of such relabelling for the simple compass gait walker in Figure~\ref{fig:relabelimpact}.
@@ -24,7 +26,7 @@ For the underactuated walkers considered in this thesis, $R$ represents a relabe
 \end{figure}
 
 \subsection{Application of virtual constraints and zero dynamics}
-The application of virtual holonomic constraints is a method by which a system's generalised coordinates may be synchronised to a single coordinate, called the \textit{phase variable}, $\theta$. In order for this to be sensible, we assume that $\theta$ is increasing over some interval $[\theta_0, \theta_f]$. Under that assumption, we may construct functions for all of the generalised coordinates of the form:
+The application of virtual holonomic constraints is a method by which a system's generalised coordinates may be synchronised to a single coordinate, called the \textit{phase variable}, $\theta$. In order for this to be sensible, we assume that $\theta$ is increasing over some interval $[\theta_0, \theta_n]$. Under that assumption, we may construct functions for all of the generalised coordinates of the form:
 \begin{equation}
 	q_i(t) = \phi_i\left(\theta(t)\right), ~~ i = 1,2,\ldots,n
 \end{equation}
@@ -67,7 +69,7 @@ where, if we denote $B^{\perp}(q)$ as a row vector which satisfies $B^{\perp}(q)
 \end{eqnarray}
 
 \subsection{Partial closed-form solutions for velocity and energy}
-One of the useful properties of virtual constraints is the ability that they lend the designer of a motion planner to precompute a partial closed-form solution for velocity and energy. The solution is partial in that we obtain an expression for $\dot{\theta}^2$ in terms of $\theta$, rather than $\theta$ in terms of time. Under the assumption that $\theta$ is monotonic, it can be used as a new dependent variable:
+One of the useful properties of virtual constraints is the ability that they lend the designer of a motion planner the ability to precompute a partial closed-form solution for velocity and energy. The solution is partial in that we obtain an expression for $\dot{\theta}^2$ in terms of $\theta$ rather than time. Under the assumption that $\theta$ is monotonic, it can be used as a new dependent variable:
 \begin{eqnarray}
 	\frac{d}{d\theta}\left[\dot{\theta}\left(t(\theta)\right)^2\right] &=& 
 	\frac{d}{dt}\frac{dt}{d\theta}\left[\frac{d\theta}{dt}\left(t(\theta)\right)^2\right] \nonumber \\ 
@@ -78,7 +80,7 @@ Substituting Equation~\ref{eqn:zerodyn} into this expression, we arrive at a fir
 	\frac{d}{d\theta}\dot{\theta}(\theta)^2 = -2\frac{\beta(\theta)}{\alpha(\theta)}
 		\dot{\theta}(\theta)^2 - 2\frac{\gamma(\theta)}{\alpha(\theta)}
 \end{equation}
-If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta_0, \theta_f]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta_0, \theta_f]$, which yields an affine solution, i.e.
+If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta_0, \theta_n]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta_0, \theta_n]$, which yields an affine solution, i.e.
 \begin{equation}
 	\dot{\theta}(\theta)^2 = \Gamma(\theta, \theta_0)\dot{\theta}_0^2 + \Psi(\theta, \theta_0)
 \end{equation}
@@ -102,38 +104,75 @@ Since this is affine in $\dot{\theta}^2$ for a given $\theta$, we may trivially 
 	\Upsilon(\theta)\Psi\left(\theta,\theta_0\right) + \Xi(\theta)
 \end{equation}
 
+\subsection{Impact conditions} \label{sec:impact}
+It is not possible to apply virtual constraints across impacts since the dynamics of impact are discontinuous; the impulsive forces applied by the ground on the end of the swing leg occur over too short a time period to oppose through the application of control. The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impactvel} are therefore independent of the control applied over the swing phase. \\
+
+These equations apply conditions on the design of admissible virtual constraints; it is not possible for the constraint to be regulated perfectly, i.e. $h \neq 0$ and the zero dynamics do not describe the evolution of the system, if the constraint does not obey what we may call the \textit{invariance of the zero dynamics}. That is, if the constraint does not match the previous constraint in configuration and velocity through the impact map, there is no control which will enforce the constraint immediately after impact. \\
+
+More precisely, in order to satisfy invariance of the zero dynamics, a virtual constraint must satisfy two conditions. Consider $\alpha$ to denote the previous constraint and $\beta$ the next:
+\begin{itemize}
+	\item $q_{\beta_0} = Rq_{\alpha_f}$ -- The initial value of the constraint matches the output of the impact map for the final value of the previous constraint.
+	\item $\dot{q}_{\beta_0} = R\Delta\left(q_{\alpha_f}\right)\dot{q}_{\alpha_f}$ -- The post-impact velocity matches the velocity under the new constraint.
+\end{itemize}
+
+Furthermore, impact events must lie within the static friction cone. Any constraint which terminates in an impact event that does not satisfy this requirement will result in slipping, which violates the assumptions made when deriving the swing phase zero dynamics.
+
 \subsection{B{\'e}zier curves as virtual constraints}
-Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $n+1$ points, where $n$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients.
-\par
+Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $n+1$ points, where $n$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients. Furthermore, as demonstrated in \cite{westervelt2007feedback}, the use of Bézier polynomials to describe the virtual constraint leads to a closed form of the invariance conditions described in Section \ref{sec:impact}. \\
 
-Theoretically, these curves need only be defined from the start to the endpoint of the continuous-phase which they specify. However, since the curve provides a virtual constraint to be enforced by a controller, it is necessary to define the curve over the full range of possible motion, here considered to be $\theta_1 \in \left[0, \pi\right]$, else it is possible for the walker to enter a region where the control signal is undefined. If we assume that the overshoot past the desired endpoint is small, then the shape of the curve should be flat outside the defined region. That is, when we leave the target region, we wish to set $\theta_2$ to the closest defined $\theta_2$. \\ \par
-
-For the compass-gait walker, a general Bézier curve is defined by the following parametric equation.
+A general Bézier curve is defined by the following parametric equation.
 \begin{equation}
 	\begin{bmatrix}
-		\theta_1 \\ \theta_2
+		\theta \\ b_k
 	\end{bmatrix}
 	=
-	\sum_{i=0}^{n}\binom{n}{i}\left(1-t\right)^{n-i}t^i
+	\sum_{i=0}^{N}\binom{N}{i}\left(1-t\right)^{N-i}t^i
 	\begin{bmatrix}
-		\theta_{1_i} \\ \theta_{2_i}
+		\theta_i \\ \alpha^k_i
 	\end{bmatrix} \label{eqn:genBez}
-\end{equation}
-Since this equation is not monotonic in $\theta_1$, it is not a convenient expression. Therefore, we build families of Bézier curves with the following formulation:
+\end{equation} \\
+Since this equation is not monotonic in $\theta$, it is not a convenient expression. Therefore, we build families of Bézier curves with the following formulation:
 \begin{eqnarray}
-	t &=& \frac{\theta_1 - \theta_{1_0}}{\theta_{1_n} - \theta_{1_0}} \\
-	\theta_2 &=& \sum_{i=0}^{n}\binom{n}{i}\left(1-t\right)^{n-i}t^i\theta_{2_i}
+	t &=& \frac{\theta - \theta_0}{\theta_N - \theta_0} \\
+	b_k &=& \sum_{i=0}^{N}\binom{N}{i}\left(1-t\right)^{N-i}t^i\alpha^k_i
 \end{eqnarray}
 This is expressible explicitly as
 \begin{equation}
-	\theta_2 = \frac{1}{\left(\theta_{1_n} - \theta_{1_0}\right)^n}\sum_{i=0}^{n}\binom{n}{i}
-		\left(\theta_{1_n} - \theta_1\right)^{n-i}
-		\left(\theta_1 - \theta_{1_0}\right)^i\theta_{2_i} \label{eqn:expBez}
+	b_k = \frac{1}{\left(\theta_N - \theta_0\right)^N}\sum_{i=0}^{N}\binom{N}{i}
+		\left(\theta_N - \theta\right)^{N-i}
+		\left(\theta - \theta_0\right)^i\alpha^k_i \label{eqn:expBez}
 \end{equation}
-This formulation removes our ability to arbitrarily define the control points $\left(\theta_{1_i}, \theta_{2_i}\right)$, other than the endpoints. That is, this formulation produces curves of the form given in Equation~\ref{eqn:genBez} with
+This formulation removes our ability to arbitrarily define the phase variable component of the control points, other than the endpoints. That is, this formulation produces curves of the form given in Equation~\ref{eqn:genBez} with
 \begin{equation}
-	\theta_{1_i} = \frac{i}{n}\left(\theta_{1_n}-\theta_{1_0}\right) + \theta_{1_0} ~~
-	\forall ~~ i \in \left[1,~n-1\right]
+	\theta_i = \frac{i}{N}\left(\theta_N-\theta_0\right) + \theta_0 ~~
+	\forall ~~ i \in \left[1,~N-1\right]
 \end{equation}
 
-Since we can only define one of the two variables in each control point, to yield arbitrary curves of order $n$, before achievable with $n - 1$ free control points (i.e. non-endpoint control points), now requires $2n - 2$ such points. Since it is desirable to have the ability to set the gradient of approach to the control points independently of the shape of the polynomial (achievable using a general cubic Bézier curve) we use a quintic curve in the new formulation. This requires six control points.
+The use of Bézier polynomials in this manner to define constraints trivially generalises to arbitrary dimensions. We define the output function to be:
+
+\begin{equation} \label{eqn:outputfun}
+	h(q) := H_0 q - B \circ \theta(q)
+\end{equation}
+
+Where $\theta(q) = cq$ ($c$ is a $1\times n$ vector) is the phase variable, each row of $B\circ\theta(q)$ is a Bézier polynomial of the form above and $H_0$ is a $(n-1)\times n$ matrix. This avails a convenient and compact method to encapsulate the parameters of the virtual constraints -- since each row of Equation \ref{eqn:outputfun} relates to the phase variable in the same manner, only with differing coefficients $\alpha_i^k$, and each row has a Bézier polynomial of the same degree, the coefficients may be all stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$. \\
+
+The invariance conditions introduced in Section \ref{sec:impact} place a restriction on the first and second control points as well as $\theta_0$. If we label $\alpha_0, \alpha_1, \ldots, \alpha_N$ as the columns and $\theta_\alpha^+, \theta_\alpha^-$ to be $\theta_0$ and $\theta_N$ respectively in the preceding constraint, and similarly with $\beta$ (with degree $M$) in the next constraint, and with $H = [H_0; c]$, the invariance conditions can be written in closed form \cite{westervelt2007feedback}:
+
+\begin{eqnarray}
+	\begin{bmatrix}
+	\theta_\beta^+ \\ \beta_0
+	\end{bmatrix}
+	&=& HRH^{-1} \begin{bmatrix}
+		\theta_\alpha^- \\ \alpha_N
+	\end{bmatrix} \label{eqn:bezinvconfig} \\
+	\beta_1 &=& H_0R\Delta\omega_\alpha^-\frac{\theta_\beta^- - \theta_\beta^+}{M}(cR\Delta\omega_\alpha^-)^{-1} + \beta_0 \label{eqn:bezinvvel} \\
+	\omega_\alpha^- &=& H^{-1}\begin{bmatrix}
+		\frac{N}{\theta_\alpha^- - \theta\alpha^+}(\alpha_N - \alpha_{N-1}) \\ 1
+	\end{bmatrix}
+\end{eqnarray}
+
+Imposing the invariance conditions constrains the coefficients $\beta_0$ and $\beta_1$ to be functions of $\alpha_N$ and $\alpha_{N-1}$. In order for this to make sense in the context of continuous walking, this implies that the minimum degree of Bézier polynomial chosen to define the constraints must be no less than 3. Of course, higher degree polynomials allow for greater control over the shape of the curve. \\
+
+Note that Equation \ref{eqn:bezinvconfig} corresponds to the configuration condition in Equation \ref{eqn:impactconfig}, while Equation \ref{eqn:bezinvvel} satisfies the velocity condition in Equation \ref{eqn:impactvel}. This makes intuitive sense, since the first and last coefficients in a Bézier polynomial define the start and end points, while the immediately following inner coefficients define the derivative of the polynomial at the start and end points. \\
+
+Theoretically, these curves should only be defined from the start to the endpoint of the continuous-phase which they specify. However, since the constraint is not guaranteed to be perfectly regulated, it is necessary to define the constraint over the full range of possible motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the control signal is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta_n]$, otherwise it is zero.\\

@@ -207,7 +207,7 @@ static void sf_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   real_T *c1_T2;
   real_T *c1_t2err;
   real_T *c1_t2err_p;
-  real_T (*c1_points)[12];
+  real_T (*c1_points)[10];
   real_T (*c1_nom_torque_table)[100];
   c1_t2err_p = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
   c1_t2err = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
@@ -215,7 +215,7 @@ static void sf_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_t_step = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
   c1_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
   c1_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-  c1_points = (real_T (*)[12])ssGetInputPortSignal(chartInstance->S, 1);
+  c1_points = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 1);
   c1_nom_torque_table = (real_T (*)[100])ssGetInputPortSignal(chartInstance->S,
     0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
@@ -224,7 +224,7 @@ static void sf_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     _SFD_DATA_RANGE_CHECK((*c1_nom_torque_table)[c1_i0], 0U);
   }
 
-  for (c1_i1 = 0; c1_i1 < 12; c1_i1++) {
+  for (c1_i1 = 0; c1_i1 < 10; c1_i1++) {
     _SFD_DATA_RANGE_CHECK((*c1_points)[c1_i1], 1U);
   }
 
@@ -250,7 +250,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   int32_T c1_i2;
   real_T c1_nom_torque_table[100];
   int32_T c1_i3;
-  real_T c1_points[12];
+  real_T c1_points[10];
   real_T c1_t1;
   real_T c1_t2;
   real_T c1_t_step;
@@ -373,7 +373,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   real_T *c1_b_t2err_p;
   real_T *c1_b_T2;
   real_T *c1_b_t2err;
-  real_T (*c1_b_points)[12];
+  real_T (*c1_b_points)[10];
   real_T (*c1_b_nom_torque_table)[100];
   boolean_T exitg1;
   c1_b_t2err_p = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
@@ -382,7 +382,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_b_t_step = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
   c1_b_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
   c1_b_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-  c1_b_points = (real_T (*)[12])ssGetInputPortSignal(chartInstance->S, 1);
+  c1_b_points = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 1);
   c1_b_nom_torque_table = (real_T (*)[100])ssGetInputPortSignal(chartInstance->S,
     0);
   _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 0U, chartInstance->c1_sfEvent);
@@ -394,7 +394,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     c1_nom_torque_table[c1_i2] = (*c1_b_nom_torque_table)[c1_i2];
   }
 
-  for (c1_i3 = 0; c1_i3 < 12; c1_i3++) {
+  for (c1_i3 = 0; c1_i3 < 10; c1_i3++) {
     c1_points[c1_i3] = (*c1_b_points)[c1_i3];
   }
 
@@ -513,7 +513,7 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   c1_K_d = 0.0;
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 27);
   c1_b_A = c1_t1 - c1_points[0];
-  c1_b_B = c1_points[5] - c1_points[0];
+  c1_b_B = c1_points[4] - c1_points[0];
   c1_d_x = c1_b_A;
   c1_e_y = c1_b_B;
   c1_e_x = c1_d_x;
@@ -540,12 +540,12 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 30);
   c1_t2_des = 0.0;
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 31);
-  c1_n = 5.0;
+  c1_n = 4.0;
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 32);
   c1_i = 0.0;
   _SFD_SYMBOL_SWITCH(0U, 9U);
   c1_b_i = 0;
-  while (c1_b_i < 6) {
+  while (c1_b_i < 5) {
     c1_i = (real_T)c1_b_i;
     _SFD_SYMBOL_SWITCH(0U, 9U);
     CV_EML_FOR(0, 1, 0, 1);
@@ -570,12 +570,12 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
 
     c1_b_k = c1_k;
     c1_eml_scalar_eg(chartInstance);
-    if (c1_b_k > 2.5) {
-      c1_b_k = 5.0 - c1_b_k;
+    if (c1_b_k > 2.0) {
+      c1_b_k = 4.0 - c1_b_k;
     }
 
     c1_h_y = 1.0;
-    c1_nmk = 5.0 - c1_b_k;
+    c1_nmk = 4.0 - c1_b_k;
     c1_c_k = c1_b_k;
     c1_i11 = (int32_T)c1_c_k - 1;
     for (c1_j = 0; c1_j <= c1_i11; c1_j++) {
@@ -591,13 +591,13 @@ static void c1_chartstep_c1_compassGaitSim(SFc1_compassGaitSimInstanceStruct
     }
 
     c1_c_a = c1_h_y;
-    c1_c_b = c1_mpower(chartInstance, 1.0 - c1_t, 5.0 - c1_i);
+    c1_c_b = c1_mpower(chartInstance, 1.0 - c1_t, 4.0 - c1_i);
     c1_i_y = c1_c_a * c1_c_b;
     c1_d_a = c1_i_y;
     c1_d_b = c1_mpower(chartInstance, c1_t, c1_i);
     c1_j_y = c1_d_a * c1_d_b;
     c1_e_a = c1_j_y;
-    c1_e_b = c1_points[(int32_T)(c1_i + 1.0) + 5];
+    c1_e_b = c1_points[(int32_T)(c1_i + 1.0) + 4];
     c1_k_y = c1_e_a * c1_e_b;
     c1_t2_des += c1_k_y;
     c1_b_i++;
@@ -766,36 +766,36 @@ static const mxArray *c1_b_sf_marshallOut(void *chartInstanceVoid, void
   int32_T c1_i14;
   int32_T c1_i15;
   int32_T c1_i16;
-  real_T c1_b_inData[12];
+  real_T c1_b_inData[10];
   int32_T c1_i17;
   int32_T c1_i18;
   int32_T c1_i19;
-  real_T c1_u[12];
+  real_T c1_u[10];
   const mxArray *c1_y = NULL;
   SFc1_compassGaitSimInstanceStruct *chartInstance;
   chartInstance = (SFc1_compassGaitSimInstanceStruct *)chartInstanceVoid;
   c1_mxArrayOutData = NULL;
   c1_i14 = 0;
   for (c1_i15 = 0; c1_i15 < 2; c1_i15++) {
-    for (c1_i16 = 0; c1_i16 < 6; c1_i16++) {
-      c1_b_inData[c1_i16 + c1_i14] = (*(real_T (*)[12])c1_inData)[c1_i16 +
+    for (c1_i16 = 0; c1_i16 < 5; c1_i16++) {
+      c1_b_inData[c1_i16 + c1_i14] = (*(real_T (*)[10])c1_inData)[c1_i16 +
         c1_i14];
     }
 
-    c1_i14 += 6;
+    c1_i14 += 5;
   }
 
   c1_i17 = 0;
   for (c1_i18 = 0; c1_i18 < 2; c1_i18++) {
-    for (c1_i19 = 0; c1_i19 < 6; c1_i19++) {
+    for (c1_i19 = 0; c1_i19 < 5; c1_i19++) {
       c1_u[c1_i19 + c1_i17] = c1_b_inData[c1_i19 + c1_i17];
     }
 
-    c1_i17 += 6;
+    c1_i17 += 5;
   }
 
   c1_y = NULL;
-  sf_mex_assign(&c1_y, sf_mex_create("y", c1_u, 0, 0U, 1U, 0U, 2, 6, 2), FALSE);
+  sf_mex_assign(&c1_y, sf_mex_create("y", c1_u, 0, 0U, 1U, 0U, 2, 5, 2), FALSE);
   sf_mex_assign(&c1_mxArrayOutData, c1_y, FALSE);
   return c1_mxArrayOutData;
 }
@@ -1851,10 +1851,10 @@ extern void utFree(void*);
 
 void sf_c1_compassGaitSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3886940895U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3031340304U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2640706397U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1696977009U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3783000148U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(982395708U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3451195823U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1966011742U);
 }
 
 mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
@@ -1866,7 +1866,7 @@ mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("njseZxw7CwCd3V2Zn23ATD");
+    mxArray *mxChecksum = mxCreateString("4dIntng0ZH92Qk9Kc5W2XF");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -1897,7 +1897,7 @@ mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void)
     {
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
       double *pr = mxGetPr(mxSize);
-      pr[0] = (double)(6);
+      pr[0] = (double)(5);
       pr[1] = (double)(2);
       mxSetField(mxData,1,"size",mxSize);
     }
@@ -2159,7 +2159,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         {
           unsigned int dimVector[2];
-          dimVector[0]= 6;
+          dimVector[0]= 5;
           dimVector[1]= 2;
           _SFD_SET_DATA_COMPILED_PROPS(1,SF_DOUBLE,2,&(dimVector[0]),0,0,0,0.0,
             1.0,0,0,(MexFcnForType)c1_b_sf_marshallOut,(MexInFcnForType)NULL);
@@ -2186,14 +2186,14 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           real_T *c1_t2err;
           real_T *c1_t2err_p;
           real_T (*c1_nom_torque_table)[100];
-          real_T (*c1_points)[12];
+          real_T (*c1_points)[10];
           c1_t2err_p = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
           c1_t2err = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
           c1_T2 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
           c1_t_step = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
           c1_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
           c1_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-          c1_points = (real_T (*)[12])ssGetInputPortSignal(chartInstance->S, 1);
+          c1_points = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 1);
           c1_nom_torque_table = (real_T (*)[100])ssGetInputPortSignal
             (chartInstance->S, 0);
           _SFD_SET_DATA_VALUE_PTR(0U, *c1_nom_torque_table);
@@ -2216,7 +2216,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "9ryK1N93xWfPP2X2hTtfRF";
+  return "bxOtQQQBh6CCPnjnn0WiPC";
 }
 
 static void sf_opaque_initialize_c1_compassGaitSim(void *chartInstanceVar)
@@ -2393,10 +2393,10 @@ static void mdlSetWorkWidths_c1_compassGaitSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(4066501123U));
-  ssSetChecksum1(S,(597663604U));
-  ssSetChecksum2(S,(2366926808U));
-  ssSetChecksum3(S,(1468688462U));
+  ssSetChecksum0(S,(2946507761U));
+  ssSetChecksum1(S,(3341058137U));
+  ssSetChecksum2(S,(1538379854U));
+  ssSetChecksum3(S,(2696810271U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

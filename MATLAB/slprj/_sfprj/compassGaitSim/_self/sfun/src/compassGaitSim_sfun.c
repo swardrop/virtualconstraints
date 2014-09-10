@@ -123,10 +123,10 @@ unsigned int sf_compassGaitSim_process_check_sum_call( int nlhs, mxArray * plhs[
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3959145791U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2069112290U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3671922458U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2628708673U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1497014576U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1963715063U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2004491284U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(548711180U);
   }
 
   return 1;
@@ -164,7 +164,7 @@ unsigned int sf_compassGaitSim_autoinheritance_info( int nlhs, mxArray * plhs[],
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(aiChksum, "njseZxw7CwCd3V2Zn23ATD") == 0) {
+        if (strcmp(aiChksum, "4dIntng0ZH92Qk9Kc5W2XF") == 0) {
           extern mxArray *sf_c1_compassGaitSim_get_autoinheritance_info(void);
           plhs[0] = sf_c1_compassGaitSim_get_autoinheritance_info();
           break;
@@ -188,7 +188,7 @@ unsigned int sf_compassGaitSim_autoinheritance_info( int nlhs, mxArray * plhs[],
 
      case 4:
       {
-        if (strcmp(aiChksum, "XMQPtLdkoDXaN56TVgPtaD") == 0) {
+        if (strcmp(aiChksum, "WfvsAxMyfp3yqfy0LLB0gD") == 0) {
           extern mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void);
           plhs[0] = sf_c4_compassGaitSim_get_autoinheritance_info();
           break;
@@ -303,7 +303,7 @@ unsigned int sf_compassGaitSim_third_party_uses_info( int nlhs, mxArray * plhs[]
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(tpChksum, "9ryK1N93xWfPP2X2hTtfRF") == 0) {
+        if (strcmp(tpChksum, "bxOtQQQBh6CCPnjnn0WiPC") == 0) {
           extern mxArray *sf_c1_compassGaitSim_third_party_uses_info(void);
           plhs[0] = sf_c1_compassGaitSim_third_party_uses_info();
           break;
@@ -321,7 +321,7 @@ unsigned int sf_compassGaitSim_third_party_uses_info( int nlhs, mxArray * plhs[]
 
      case 4:
       {
-        if (strcmp(tpChksum, "L37GpWp2Yntku1aSFWPrCG") == 0) {
+        if (strcmp(tpChksum, "pVKMoqXz6WwuqMZlapphTE") == 0) {
           extern mxArray *sf_c4_compassGaitSim_third_party_uses_info(void);
           plhs[0] = sf_c4_compassGaitSim_third_party_uses_info();
           break;

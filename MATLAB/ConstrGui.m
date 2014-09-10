@@ -59,10 +59,10 @@ drag = 0;
 % Start and end points
 points = [];
 points(1,:) = [7*pi/12 -7*pi/6];
-points(6,:) = [5*pi/12; -5*pi/6];
+points(5,:) = [5*pi/12; -5*pi/6];
 updatePoints; % Set appropriate th_1 vals according to endpoints
 % Set th_2 values such that the constraint is initially a straight line.
-points(2:end-1,2) = -2*points(2:end-1,1);
+points(3:end-1,2) = -2*points(3:end-1,1);
 origPoints = points;
 
 constrData = makeConstr(points);
@@ -189,7 +189,8 @@ if ~isempty(possPoints)
     for i = possPoints'
         if abs(points(i,2) - p(2)) < 0.05
             drag = i;
-            if i == 1 || i == length(xvals)
+            if i == 1 || i == 2 ...
+                      || i == length(xvals)-1 || i == length(xvals)
                 dragEnd = true;
             end
             break;
@@ -250,6 +251,13 @@ axes(handles.axes3);
 function updatePoints()
 global points
 N = size(points,1);
+
+% Impose self-invariance
+[p0, th0, p1] = invarianceCond(points, points(end,1), N, true);
+points(1,1) = th0;
+points(1,2) = p0;
+points(2,2) = p1;
+
 % Note that x value must be i*(xf-x0)/n + x0 due to
 % functional formulation of bezier curve.
 for i = 2 : N-1

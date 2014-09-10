@@ -30,8 +30,6 @@ ground = [-realmax, 0;
             2 0
             3 0.05
             3.5 0.1];
-ground_x = ground(:,1);
-ground_y = ground(:,2);
 
 % Define holonomic constraint (Bezier curve)
 constrData = ConstrGui;
@@ -80,15 +78,17 @@ while (timeleft > dur_tol)
     elseif timeleft > dur_tol
         fprintf('Time of impact: %.2f s\n', last_t);
         % Enact change of coordinates and velocities at impact
-        [t1_0, t2_0, t1d_0, t2d_0] = ...
-            impactDynamics(t1(end), t2(end), t1d(end), t2d(end));
+        [q_, qd_, error] = ...
+            impactDynamics([t1(end); t2(end)], [t1d(end); t2d(end)]);
+        t1_0 = q_(1); t2_0 = q_(2); t1d_0= qd_(1); t2d_0 = qd_(2);
         % Set origin in (x,y) for new swing phase
         org(1) = org(1) + l1*cos(t1(end)) + l2*cos(t1(end)+t2(end));
         org(2) = org(2) + l1*sin(t1(end)) + l2*sin(t1(end)+t2(end));
         fprintf('Origin: (%.2f, %.2f)\n\n', org(1), org(2));
-        
+        if (error)
+            break;
+        end
     end
-    
 end
 
 % Diagnostic plots

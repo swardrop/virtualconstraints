@@ -18,9 +18,8 @@
 /* Variable Declarations */
 
 /* Variable Definitions */
-static const char * c4_debug_family_names[15] = { "height", "x", "ind", "nargin",
-  "nargout", "org", "t1", "ground_x", "ground_y", "t2", "l1", "l2", "y_prev",
-  "impact", "y" };
+static const char * c4_debug_family_names[14] = { "height", "x", "ind", "nargin",
+  "nargout", "org", "t1", "ground", "t2", "l1", "l2", "y_prev", "impact", "y" };
 
 /* Function Declarations */
 static void initialize_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
@@ -195,7 +194,6 @@ static void sf_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
 {
   int32_T c4_i0;
   int32_T c4_i1;
-  int32_T c4_i2;
   real_T *c4_t1;
   boolean_T *c4_impact;
   real_T *c4_t2;
@@ -203,17 +201,15 @@ static void sf_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   real_T *c4_l2;
   real_T *c4_y_prev;
   real_T *c4_y;
-  real_T (*c4_ground_y)[5];
-  real_T (*c4_ground_x)[5];
+  real_T (*c4_ground)[10];
   real_T (*c4_org)[2];
   c4_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
-  c4_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-  c4_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-  c4_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-  c4_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c4_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+  c4_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+  c4_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c4_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
   c4_impact = (boolean_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-  c4_ground_y = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 3);
-  c4_ground_x = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 2);
+  c4_ground = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 2);
   c4_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c4_org = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
@@ -223,20 +219,16 @@ static void sf_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   }
 
   _SFD_DATA_RANGE_CHECK(*c4_t1, 1U);
-  for (c4_i1 = 0; c4_i1 < 5; c4_i1++) {
-    _SFD_DATA_RANGE_CHECK((*c4_ground_x)[c4_i1], 2U);
+  for (c4_i1 = 0; c4_i1 < 10; c4_i1++) {
+    _SFD_DATA_RANGE_CHECK((*c4_ground)[c4_i1], 2U);
   }
 
-  for (c4_i2 = 0; c4_i2 < 5; c4_i2++) {
-    _SFD_DATA_RANGE_CHECK((*c4_ground_y)[c4_i2], 3U);
-  }
-
-  _SFD_DATA_RANGE_CHECK((real_T)*c4_impact, 4U);
-  _SFD_DATA_RANGE_CHECK(*c4_t2, 5U);
-  _SFD_DATA_RANGE_CHECK(*c4_l1, 6U);
-  _SFD_DATA_RANGE_CHECK(*c4_l2, 7U);
-  _SFD_DATA_RANGE_CHECK(*c4_y_prev, 8U);
-  _SFD_DATA_RANGE_CHECK(*c4_y, 9U);
+  _SFD_DATA_RANGE_CHECK((real_T)*c4_impact, 3U);
+  _SFD_DATA_RANGE_CHECK(*c4_t2, 4U);
+  _SFD_DATA_RANGE_CHECK(*c4_l1, 5U);
+  _SFD_DATA_RANGE_CHECK(*c4_l2, 6U);
+  _SFD_DATA_RANGE_CHECK(*c4_y_prev, 7U);
+  _SFD_DATA_RANGE_CHECK(*c4_y, 8U);
   chartInstance->c4_sfEvent = CALL_EVENT;
   c4_chartstep_c4_compassGaitSim(chartInstance);
   _SFD_CHECK_FOR_STATE_INCONSISTENCY(_compassGaitSimMachineNumber_,
@@ -251,25 +243,23 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   real_T c4_c_hoistedGlobal;
   real_T c4_d_hoistedGlobal;
   real_T c4_e_hoistedGlobal;
-  int32_T c4_i3;
+  int32_T c4_i2;
   real_T c4_org[2];
   real_T c4_t1;
-  int32_T c4_i4;
-  real_T c4_ground_x[5];
-  int32_T c4_i5;
-  real_T c4_ground_y[5];
+  int32_T c4_i3;
+  real_T c4_ground[10];
   real_T c4_t2;
   real_T c4_l1;
   real_T c4_l2;
   real_T c4_y_prev;
-  uint32_T c4_debug_family_var_map[15];
+  uint32_T c4_debug_family_var_map[14];
   real_T c4_height;
   real_T c4_x;
   int32_T c4_ind_sizes;
   real_T c4_ind_data[1];
   int32_T c4_height_sizes;
   real_T c4_height_data[1];
-  real_T c4_nargin = 8.0;
+  real_T c4_nargin = 7.0;
   real_T c4_nargout = 2.0;
   boolean_T c4_impact;
   real_T c4_y;
@@ -293,7 +283,7 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   real_T c4_d_a;
   real_T c4_d_b;
   real_T c4_e_y;
-  int32_T c4_i6;
+  int32_T c4_i4;
   boolean_T c4_j_x[5];
   int32_T c4_idx;
   static int32_T c4_iv0[1] = { 1 };
@@ -303,9 +293,9 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   int32_T c4_b_ii;
   int32_T c4_ii_data[1];
   int32_T c4_loop_ub;
-  int32_T c4_i7;
+  int32_T c4_i5;
   int32_T c4_b_loop_ub;
-  int32_T c4_i8;
+  int32_T c4_i6;
   real_T *c4_b_t1;
   real_T *c4_b_t2;
   real_T *c4_b_l1;
@@ -313,20 +303,18 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   real_T *c4_b_y_prev;
   boolean_T *c4_b_impact;
   real_T *c4_f_y;
-  real_T (*c4_b_ground_y)[5];
-  real_T (*c4_b_ground_x)[5];
+  real_T (*c4_b_ground)[10];
   real_T (*c4_b_org)[2];
   boolean_T guard1 = FALSE;
   boolean_T guard2 = FALSE;
   boolean_T exitg1;
   c4_f_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
-  c4_b_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-  c4_b_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-  c4_b_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-  c4_b_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c4_b_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+  c4_b_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+  c4_b_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c4_b_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
   c4_b_impact = (boolean_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-  c4_b_ground_y = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 3);
-  c4_b_ground_x = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 2);
+  c4_b_ground = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 2);
   c4_b_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c4_b_org = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 0);
   _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 2U, chartInstance->c4_sfEvent);
@@ -335,24 +323,20 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   c4_c_hoistedGlobal = *c4_b_l1;
   c4_d_hoistedGlobal = *c4_b_l2;
   c4_e_hoistedGlobal = *c4_b_y_prev;
-  for (c4_i3 = 0; c4_i3 < 2; c4_i3++) {
-    c4_org[c4_i3] = (*c4_b_org)[c4_i3];
+  for (c4_i2 = 0; c4_i2 < 2; c4_i2++) {
+    c4_org[c4_i2] = (*c4_b_org)[c4_i2];
   }
 
   c4_t1 = c4_hoistedGlobal;
-  for (c4_i4 = 0; c4_i4 < 5; c4_i4++) {
-    c4_ground_x[c4_i4] = (*c4_b_ground_x)[c4_i4];
-  }
-
-  for (c4_i5 = 0; c4_i5 < 5; c4_i5++) {
-    c4_ground_y[c4_i5] = (*c4_b_ground_y)[c4_i5];
+  for (c4_i3 = 0; c4_i3 < 10; c4_i3++) {
+    c4_ground[c4_i3] = (*c4_b_ground)[c4_i3];
   }
 
   c4_t2 = c4_b_hoistedGlobal;
   c4_l1 = c4_c_hoistedGlobal;
   c4_l2 = c4_d_hoistedGlobal;
   c4_y_prev = c4_e_hoistedGlobal;
-  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 15U, 16U, c4_debug_family_names,
+  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 14U, 15U, c4_debug_family_names,
     c4_debug_family_var_map);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c4_height, MAX_uint32_T,
     c4_sf_marshallOut, c4_sf_marshallIn);
@@ -370,15 +354,14 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
     c4_sf_marshallIn);
   _SFD_SYMBOL_SCOPE_ADD_EML(c4_org, 5U, c4_d_sf_marshallOut);
   _SFD_SYMBOL_SCOPE_ADD_EML(&c4_t1, 6U, c4_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(c4_ground_x, 7U, c4_c_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(c4_ground_y, 8U, c4_c_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_t2, 9U, c4_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_l1, 10U, c4_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_l2, 11U, c4_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_y_prev, 12U, c4_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c4_impact, 13U, c4_b_sf_marshallOut,
+  _SFD_SYMBOL_SCOPE_ADD_EML(c4_ground, 7U, c4_c_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_t2, 8U, c4_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_l1, 9U, c4_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_l2, 10U, c4_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(&c4_y_prev, 11U, c4_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c4_impact, 12U, c4_b_sf_marshallOut,
     c4_b_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c4_y, 14U, c4_sf_marshallOut,
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c4_y, 13U, c4_sf_marshallOut,
     c4_sf_marshallIn);
   CV_EML_FCN(0, 0);
   _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 5);
@@ -417,8 +400,8 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
   c4_e_y = c4_d_a * c4_d_b;
   c4_y = (c4_org[1] + c4_d_y) + c4_e_y;
   _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 17);
-  for (c4_i6 = 0; c4_i6 < 5; c4_i6++) {
-    c4_j_x[c4_i6] = (c4_x > c4_ground_x[c4_i6]);
+  for (c4_i4 = 0; c4_i4 < 5; c4_i4++) {
+    c4_j_x[c4_i4] = (c4_x > c4_ground[c4_i4]);
   }
 
   c4_idx = 0;
@@ -443,15 +426,15 @@ static void c4_chartstep_c4_compassGaitSim(SFc4_compassGaitSimInstanceStruct
 
   c4_ind_sizes = c4_ii_sizes;
   c4_loop_ub = c4_ii_sizes - 1;
-  for (c4_i7 = 0; c4_i7 <= c4_loop_ub; c4_i7++) {
-    c4_ind_data[c4_i7] = (real_T)c4_ii_data[c4_i7];
+  for (c4_i5 = 0; c4_i5 <= c4_loop_ub; c4_i5++) {
+    c4_ind_data[c4_i5] = (real_T)c4_ii_data[c4_i5];
   }
 
   _SFD_EML_CALL(0U, chartInstance->c4_sfEvent, 18);
   c4_height_sizes = c4_ind_sizes;
   c4_b_loop_ub = c4_ind_sizes - 1;
-  for (c4_i8 = 0; c4_i8 <= c4_b_loop_ub; c4_i8++) {
-    c4_height_data[c4_i8] = c4_ground_y[(int32_T)c4_ind_data[c4_i8] - 1];
+  for (c4_i6 = 0; c4_i6 <= c4_b_loop_ub; c4_i6++) {
+    c4_height_data[c4_i6] = c4_ground[(int32_T)c4_ind_data[c4_i6] + 4];
   }
 
   _SFD_SYMBOL_SWITCH(0U, 3U);
@@ -629,24 +612,38 @@ static const mxArray *c4_c_sf_marshallOut(void *chartInstanceVoid, void
   *c4_inData)
 {
   const mxArray *c4_mxArrayOutData = NULL;
+  int32_T c4_i7;
+  int32_T c4_i8;
   int32_T c4_i9;
-  real_T c4_b_inData[5];
+  real_T c4_b_inData[10];
   int32_T c4_i10;
-  real_T c4_u[5];
+  int32_T c4_i11;
+  int32_T c4_i12;
+  real_T c4_u[10];
   const mxArray *c4_y = NULL;
   SFc4_compassGaitSimInstanceStruct *chartInstance;
   chartInstance = (SFc4_compassGaitSimInstanceStruct *)chartInstanceVoid;
   c4_mxArrayOutData = NULL;
-  for (c4_i9 = 0; c4_i9 < 5; c4_i9++) {
-    c4_b_inData[c4_i9] = (*(real_T (*)[5])c4_inData)[c4_i9];
+  c4_i7 = 0;
+  for (c4_i8 = 0; c4_i8 < 2; c4_i8++) {
+    for (c4_i9 = 0; c4_i9 < 5; c4_i9++) {
+      c4_b_inData[c4_i9 + c4_i7] = (*(real_T (*)[10])c4_inData)[c4_i9 + c4_i7];
+    }
+
+    c4_i7 += 5;
   }
 
-  for (c4_i10 = 0; c4_i10 < 5; c4_i10++) {
-    c4_u[c4_i10] = c4_b_inData[c4_i10];
+  c4_i10 = 0;
+  for (c4_i11 = 0; c4_i11 < 2; c4_i11++) {
+    for (c4_i12 = 0; c4_i12 < 5; c4_i12++) {
+      c4_u[c4_i12 + c4_i10] = c4_b_inData[c4_i12 + c4_i10];
+    }
+
+    c4_i10 += 5;
   }
 
   c4_y = NULL;
-  sf_mex_assign(&c4_y, sf_mex_create("y", c4_u, 0, 0U, 1U, 0U, 1, 5), FALSE);
+  sf_mex_assign(&c4_y, sf_mex_create("y", c4_u, 0, 0U, 1U, 0U, 2, 5, 2), FALSE);
   sf_mex_assign(&c4_mxArrayOutData, c4_y, FALSE);
   return c4_mxArrayOutData;
 }
@@ -655,20 +652,20 @@ static const mxArray *c4_d_sf_marshallOut(void *chartInstanceVoid, void
   *c4_inData)
 {
   const mxArray *c4_mxArrayOutData = NULL;
-  int32_T c4_i11;
+  int32_T c4_i13;
   real_T c4_b_inData[2];
-  int32_T c4_i12;
+  int32_T c4_i14;
   real_T c4_u[2];
   const mxArray *c4_y = NULL;
   SFc4_compassGaitSimInstanceStruct *chartInstance;
   chartInstance = (SFc4_compassGaitSimInstanceStruct *)chartInstanceVoid;
   c4_mxArrayOutData = NULL;
-  for (c4_i11 = 0; c4_i11 < 2; c4_i11++) {
-    c4_b_inData[c4_i11] = (*(real_T (*)[2])c4_inData)[c4_i11];
+  for (c4_i13 = 0; c4_i13 < 2; c4_i13++) {
+    c4_b_inData[c4_i13] = (*(real_T (*)[2])c4_inData)[c4_i13];
   }
 
-  for (c4_i12 = 0; c4_i12 < 2; c4_i12++) {
-    c4_u[c4_i12] = c4_b_inData[c4_i12];
+  for (c4_i14 = 0; c4_i14 < 2; c4_i14++) {
+    c4_u[c4_i14] = c4_b_inData[c4_i14];
   }
 
   c4_y = NULL;
@@ -683,11 +680,11 @@ static const mxArray *c4_e_sf_marshallOut(void *chartInstanceVoid, real_T
   const mxArray *c4_mxArrayOutData = NULL;
   int32_T c4_b_inData_sizes;
   int32_T c4_loop_ub;
-  int32_T c4_i13;
+  int32_T c4_i15;
   real_T c4_b_inData_data[1];
   int32_T c4_u_sizes;
   int32_T c4_b_loop_ub;
-  int32_T c4_i14;
+  int32_T c4_i16;
   real_T c4_u_data[1];
   const mxArray *c4_y = NULL;
   SFc4_compassGaitSimInstanceStruct *chartInstance;
@@ -695,14 +692,14 @@ static const mxArray *c4_e_sf_marshallOut(void *chartInstanceVoid, real_T
   c4_mxArrayOutData = NULL;
   c4_b_inData_sizes = c4_inData_sizes[0];
   c4_loop_ub = c4_inData_sizes[0] - 1;
-  for (c4_i13 = 0; c4_i13 <= c4_loop_ub; c4_i13++) {
-    c4_b_inData_data[c4_i13] = c4_inData_data[c4_i13];
+  for (c4_i15 = 0; c4_i15 <= c4_loop_ub; c4_i15++) {
+    c4_b_inData_data[c4_i15] = c4_inData_data[c4_i15];
   }
 
   c4_u_sizes = c4_b_inData_sizes;
   c4_b_loop_ub = c4_b_inData_sizes - 1;
-  for (c4_i14 = 0; c4_i14 <= c4_b_loop_ub; c4_i14++) {
-    c4_u_data[c4_i14] = c4_b_inData_data[c4_i14];
+  for (c4_i16 = 0; c4_i16 <= c4_b_loop_ub; c4_i16++) {
+    c4_u_data[c4_i16] = c4_b_inData_data[c4_i16];
   }
 
   c4_y = NULL;
@@ -725,15 +722,15 @@ static void c4_e_emlrt_marshallIn(SFc4_compassGaitSimInstanceStruct
   int32_T c4_tmp_sizes;
   real_T c4_tmp_data[1];
   int32_T c4_loop_ub;
-  int32_T c4_i15;
+  int32_T c4_i17;
   c4_uv1[0] = c4_uv0[0];
   c4_bv1[0] = c4_bv0[0];
   sf_mex_import_vs(c4_parentId, sf_mex_dup(c4_u), c4_tmp_data, 1, 0, 0U, 1, 0U,
                    1, c4_bv1, c4_uv1, &c4_tmp_sizes);
   c4_y_sizes[0] = c4_tmp_sizes;
   c4_loop_ub = c4_tmp_sizes - 1;
-  for (c4_i15 = 0; c4_i15 <= c4_loop_ub; c4_i15++) {
-    c4_y_data[c4_i15] = c4_tmp_data[c4_i15];
+  for (c4_i17 = 0; c4_i17 <= c4_loop_ub; c4_i17++) {
+    c4_y_data[c4_i17] = c4_tmp_data[c4_i17];
   }
 
   sf_mex_destroy(&c4_u);
@@ -749,7 +746,7 @@ static void c4_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   int32_T c4_y_sizes;
   real_T c4_y_data[1];
   int32_T c4_loop_ub;
-  int32_T c4_i16;
+  int32_T c4_i18;
   SFc4_compassGaitSimInstanceStruct *chartInstance;
   chartInstance = (SFc4_compassGaitSimInstanceStruct *)chartInstanceVoid;
   c4_height = sf_mex_dup(c4_mxArrayInData);
@@ -761,8 +758,8 @@ static void c4_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   sf_mex_destroy(&c4_height);
   c4_outData_sizes[0] = c4_y_sizes;
   c4_loop_ub = c4_y_sizes - 1;
-  for (c4_i16 = 0; c4_i16 <= c4_loop_ub; c4_i16++) {
-    c4_outData_data[c4_i16] = c4_y_data[c4_i16];
+  for (c4_i18 = 0; c4_i18 <= c4_loop_ub; c4_i18++) {
+    c4_outData_data[c4_i18] = c4_y_data[c4_i18];
   }
 
   sf_mex_destroy(&c4_mxArrayInData);
@@ -773,33 +770,33 @@ const mxArray *sf_c4_compassGaitSim_get_eml_resolved_functions_info(void)
   const mxArray *c4_nameCaptureInfo;
   c4_ResolvedFunctionInfo c4_info[20];
   const mxArray *c4_m0 = NULL;
-  int32_T c4_i17;
+  int32_T c4_i19;
   c4_ResolvedFunctionInfo *c4_r0;
   c4_nameCaptureInfo = NULL;
   c4_nameCaptureInfo = NULL;
   c4_info_helper(c4_info);
   sf_mex_assign(&c4_m0, sf_mex_createstruct("nameCaptureInfo", 1, 20), FALSE);
-  for (c4_i17 = 0; c4_i17 < 20; c4_i17++) {
-    c4_r0 = &c4_info[c4_i17];
+  for (c4_i19 = 0; c4_i19 < 20; c4_i19++) {
+    c4_r0 = &c4_info[c4_i19];
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->context, 15,
       0U, 0U, 0U, 2, 1, strlen(c4_r0->context)), "context", "nameCaptureInfo",
-                    c4_i17);
+                    c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->name, 15, 0U,
-      0U, 0U, 2, 1, strlen(c4_r0->name)), "name", "nameCaptureInfo", c4_i17);
+      0U, 0U, 2, 1, strlen(c4_r0->name)), "name", "nameCaptureInfo", c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->dominantType,
       15, 0U, 0U, 0U, 2, 1, strlen(c4_r0->dominantType)), "dominantType",
-                    "nameCaptureInfo", c4_i17);
+                    "nameCaptureInfo", c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->resolved, 15,
       0U, 0U, 0U, 2, 1, strlen(c4_r0->resolved)), "resolved", "nameCaptureInfo",
-                    c4_i17);
+                    c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->fileTimeLo,
-      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c4_i17);
+      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->fileTimeHi,
-      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c4_i17);
+      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->mFileTimeLo,
-      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c4_i17);
+      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c4_i19);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->mFileTimeHi,
-      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c4_i17);
+      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c4_i19);
   }
 
   sf_mex_assign(&c4_nameCaptureInfo, c4_m0, FALSE);
@@ -1020,9 +1017,9 @@ static int32_T c4_f_emlrt_marshallIn(SFc4_compassGaitSimInstanceStruct
   *chartInstance, const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId)
 {
   int32_T c4_y;
-  int32_T c4_i18;
-  sf_mex_import(c4_parentId, sf_mex_dup(c4_u), &c4_i18, 1, 6, 0U, 0, 0U, 0);
-  c4_y = c4_i18;
+  int32_T c4_i20;
+  sf_mex_import(c4_parentId, sf_mex_dup(c4_u), &c4_i20, 1, 6, 0U, 0, 0U, 0);
+  c4_y = c4_i20;
   sf_mex_destroy(&c4_u);
   return c4_y;
 }
@@ -1100,10 +1097,10 @@ extern void utFree(void*);
 
 void sf_c4_compassGaitSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1088382572U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2785236721U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3091541725U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3372580081U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2241949637U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(275676021U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2448151918U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1294387330U);
 }
 
 mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
@@ -1115,14 +1112,14 @@ mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("XMQPtLdkoDXaN56TVgPtaD");
+    mxArray *mxChecksum = mxCreateString("WfvsAxMyfp3yqfy0LLB0gD");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
   {
     const char *dataFields[] = { "size", "type", "complexity" };
 
-    mxArray *mxData = mxCreateStructMatrix(1,8,3,dataFields);
+    mxArray *mxData = mxCreateStructMatrix(1,7,3,dataFields);
 
     {
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
@@ -1166,7 +1163,7 @@ mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
       double *pr = mxGetPr(mxSize);
       pr[0] = (double)(5);
-      pr[1] = (double)(1);
+      pr[1] = (double)(2);
       mxSetField(mxData,2,"size",mxSize);
     }
 
@@ -1184,7 +1181,7 @@ mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
     {
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
       double *pr = mxGetPr(mxSize);
-      pr[0] = (double)(5);
+      pr[0] = (double)(1);
       pr[1] = (double)(1);
       mxSetField(mxData,3,"size",mxSize);
     }
@@ -1256,25 +1253,6 @@ mxArray *sf_c4_compassGaitSim_get_autoinheritance_info(void)
     }
 
     mxSetField(mxData,6,"complexity",mxCreateDoubleScalar(0));
-
-    {
-      mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
-      double *pr = mxGetPr(mxSize);
-      pr[0] = (double)(1);
-      pr[1] = (double)(1);
-      mxSetField(mxData,7,"size",mxSize);
-    }
-
-    {
-      const char *typeFields[] = { "base", "fixpt" };
-
-      mxArray *mxType = mxCreateStructMatrix(1,1,2,typeFields);
-      mxSetField(mxType,0,"base",mxCreateDoubleScalar(10));
-      mxSetField(mxType,0,"fixpt",mxCreateDoubleMatrix(0,0,mxREAL));
-      mxSetField(mxData,7,"type",mxType);
-    }
-
-    mxSetField(mxData,7,"complexity",mxCreateDoubleScalar(0));
     mxSetField(mxAutoinheritanceInfo,0,"inputs",mxData);
   }
 
@@ -1375,7 +1353,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
            4,
            1,
            1,
-           10,
+           9,
            0,
            0,
            0,
@@ -1400,14 +1378,13 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
             0);
           _SFD_SET_DATA_PROPS(0,1,1,0,"org");
           _SFD_SET_DATA_PROPS(1,1,1,0,"t1");
-          _SFD_SET_DATA_PROPS(2,1,1,0,"ground_x");
-          _SFD_SET_DATA_PROPS(3,1,1,0,"ground_y");
-          _SFD_SET_DATA_PROPS(4,2,0,1,"impact");
-          _SFD_SET_DATA_PROPS(5,1,1,0,"t2");
-          _SFD_SET_DATA_PROPS(6,1,1,0,"l1");
-          _SFD_SET_DATA_PROPS(7,1,1,0,"l2");
-          _SFD_SET_DATA_PROPS(8,1,1,0,"y_prev");
-          _SFD_SET_DATA_PROPS(9,2,0,1,"y");
+          _SFD_SET_DATA_PROPS(2,1,1,0,"ground");
+          _SFD_SET_DATA_PROPS(3,2,0,1,"impact");
+          _SFD_SET_DATA_PROPS(4,1,1,0,"t2");
+          _SFD_SET_DATA_PROPS(5,1,1,0,"l1");
+          _SFD_SET_DATA_PROPS(6,1,1,0,"l2");
+          _SFD_SET_DATA_PROPS(7,1,1,0,"y_prev");
+          _SFD_SET_DATA_PROPS(8,2,0,1,"y");
           _SFD_STATE_INFO(0,0,2);
           _SFD_CH_SUBSTATE_COUNT(0);
           _SFD_CH_SUBSTATE_DECOMP(0);
@@ -1423,17 +1400,17 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,1,0,0,0,0,0,3,1);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,623);
-        _SFD_CV_INIT_EML_IF(0,1,0,550,595,-1,618);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,614);
+        _SFD_CV_INIT_EML_IF(0,1,0,541,586,-1,609);
 
         {
-          static int condStart[] = { 553, 568, 587 };
+          static int condStart[] = { 544, 559, 578 };
 
-          static int condEnd[] = { 564, 583, 595 };
+          static int condEnd[] = { 555, 574, 586 };
 
           static int pfixExpr[] = { 0, 1, -3, 2, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,0,553,595,3,0,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,0,544,586,3,0,&(condStart[0]),&(condEnd[0]),
                                 5,&(pfixExpr[0]));
         }
 
@@ -1457,21 +1434,17 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)NULL);
 
         {
-          unsigned int dimVector[1];
+          unsigned int dimVector[2];
           dimVector[0]= 5;
-          _SFD_SET_DATA_COMPILED_PROPS(2,SF_DOUBLE,1,&(dimVector[0]),0,0,0,0.0,
+          dimVector[1]= 2;
+          _SFD_SET_DATA_COMPILED_PROPS(2,SF_DOUBLE,2,&(dimVector[0]),0,0,0,0.0,
             1.0,0,0,(MexFcnForType)c4_c_sf_marshallOut,(MexInFcnForType)NULL);
         }
 
-        {
-          unsigned int dimVector[1];
-          dimVector[0]= 5;
-          _SFD_SET_DATA_COMPILED_PROPS(3,SF_DOUBLE,1,&(dimVector[0]),0,0,0,0.0,
-            1.0,0,0,(MexFcnForType)c4_c_sf_marshallOut,(MexInFcnForType)NULL);
-        }
-
-        _SFD_SET_DATA_COMPILED_PROPS(4,SF_UINT8,0,NULL,0,0,0,0.0,1.0,0,0,
+        _SFD_SET_DATA_COMPILED_PROPS(3,SF_UINT8,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c4_b_sf_marshallOut,(MexInFcnForType)c4_b_sf_marshallIn);
+        _SFD_SET_DATA_COMPILED_PROPS(4,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
+          (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(5,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(6,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
@@ -1479,8 +1452,6 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_SET_DATA_COMPILED_PROPS(7,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(8,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
-          (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)NULL);
-        _SFD_SET_DATA_COMPILED_PROPS(9,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c4_sf_marshallOut,(MexInFcnForType)c4_sf_marshallIn);
 
         {
@@ -1492,28 +1463,25 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           real_T *c4_y_prev;
           real_T *c4_y;
           real_T (*c4_org)[2];
-          real_T (*c4_ground_x)[5];
-          real_T (*c4_ground_y)[5];
+          real_T (*c4_ground)[10];
           c4_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
-          c4_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-          c4_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-          c4_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-          c4_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+          c4_y_prev = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+          c4_l2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+          c4_l1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+          c4_t2 = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
           c4_impact = (boolean_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-          c4_ground_y = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 3);
-          c4_ground_x = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 2);
+          c4_ground = (real_T (*)[10])ssGetInputPortSignal(chartInstance->S, 2);
           c4_t1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
           c4_org = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 0);
           _SFD_SET_DATA_VALUE_PTR(0U, *c4_org);
           _SFD_SET_DATA_VALUE_PTR(1U, c4_t1);
-          _SFD_SET_DATA_VALUE_PTR(2U, *c4_ground_x);
-          _SFD_SET_DATA_VALUE_PTR(3U, *c4_ground_y);
-          _SFD_SET_DATA_VALUE_PTR(4U, c4_impact);
-          _SFD_SET_DATA_VALUE_PTR(5U, c4_t2);
-          _SFD_SET_DATA_VALUE_PTR(6U, c4_l1);
-          _SFD_SET_DATA_VALUE_PTR(7U, c4_l2);
-          _SFD_SET_DATA_VALUE_PTR(8U, c4_y_prev);
-          _SFD_SET_DATA_VALUE_PTR(9U, c4_y);
+          _SFD_SET_DATA_VALUE_PTR(2U, *c4_ground);
+          _SFD_SET_DATA_VALUE_PTR(3U, c4_impact);
+          _SFD_SET_DATA_VALUE_PTR(4U, c4_t2);
+          _SFD_SET_DATA_VALUE_PTR(5U, c4_l1);
+          _SFD_SET_DATA_VALUE_PTR(6U, c4_l2);
+          _SFD_SET_DATA_VALUE_PTR(7U, c4_y_prev);
+          _SFD_SET_DATA_VALUE_PTR(8U, c4_y);
         }
       }
     } else {
@@ -1526,7 +1494,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "L37GpWp2Yntku1aSFWPrCG";
+  return "pVKMoqXz6WwuqMZlapphTE";
 }
 
 static void sf_opaque_initialize_c4_compassGaitSim(void *chartInstanceVar)
@@ -1678,9 +1646,8 @@ static void mdlSetWorkWidths_c4_compassGaitSim(SimStruct *S)
       ssSetInputPortOptimOpts(S, 4, SS_REUSABLE_AND_LOCAL);
       ssSetInputPortOptimOpts(S, 5, SS_REUSABLE_AND_LOCAL);
       ssSetInputPortOptimOpts(S, 6, SS_REUSABLE_AND_LOCAL);
-      ssSetInputPortOptimOpts(S, 7, SS_REUSABLE_AND_LOCAL);
       sf_mark_chart_expressionable_inputs(S,sf_get_instance_specialization(),
-        infoStruct,4,8);
+        infoStruct,4,7);
       sf_mark_chart_reusable_outputs(S,sf_get_instance_specialization(),
         infoStruct,4,2);
     }
@@ -1694,7 +1661,7 @@ static void mdlSetWorkWidths_c4_compassGaitSim(SimStruct *S)
 
     {
       unsigned int inPortIdx;
-      for (inPortIdx=0; inPortIdx < 8; ++inPortIdx) {
+      for (inPortIdx=0; inPortIdx < 7; ++inPortIdx) {
         ssSetInputPortOptimizeInIR(S, inPortIdx, 1U);
       }
     }
@@ -1705,10 +1672,10 @@ static void mdlSetWorkWidths_c4_compassGaitSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(3026186575U));
-  ssSetChecksum1(S,(1407375078U));
-  ssSetChecksum2(S,(3866819734U));
-  ssSetChecksum3(S,(3689027383U));
+  ssSetChecksum0(S,(2301749902U));
+  ssSetChecksum1(S,(2039177260U));
+  ssSetChecksum2(S,(4143055857U));
+  ssSetChecksum3(S,(987970065U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

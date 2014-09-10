@@ -127,6 +127,11 @@ Yildirim Hurmuzlu and Dan~B Marghitu.
 \newblock {\em The International Journal of Robotics Research}, 13(1):82--92,
   1994.
 
+\bibitem{isidori1995nonlinear}
+Alberto Isidori.
+\newblock {\em Nonlinear control systems}, volume~1.
+\newblock Springer, 1995.
+
 \bibitem{knuth1976analysis}
 Donald~E Knuth and Ronald~W Moore.
 \newblock An analysis of alpha-beta pruning.
@@ -251,6 +256,12 @@ Vojtech Vonasek, Martin Saska, Karel Kosnar, and Libor Preucil.
 Kenneth~J Waldron and Robert~B McGhee.
 \newblock The adaptive suspension vehicle.
 \newblock {\em IEEE Control Systems Magazine}, 6(6):7--12, 1986.
+
+\bibitem{westervelt2007feedback}
+Eric~R Westervelt, Jessy~W Grizzle, Christine Chevallereau, Jun-Ho Choi, and
+  Benjamin Morris.
+\newblock {\em Feedback Control of Dynamic Bipedal Robot Locomotion}.
+\newblock Taylor \& Francis/{CRC}, 2007.
 
 \bibitem{westervelt2003hybrid}
 Eric~R Westervelt, Jessy~W Grizzle, and Daniel~E Koditschek.

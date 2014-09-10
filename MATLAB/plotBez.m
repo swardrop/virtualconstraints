@@ -10,9 +10,7 @@ end
 
 t1 = t*(points(end,1) - points(1,1)) + points(1,1);
 
-
-h = plot([points(1,1) points(end,1)], ...
-    [points(1,2) points(end,2)], 'b--', ... % Straight line
+h = plot([0 4], [0 -8], 'b--', ... % Flat ground switching surface
     t1, t2, 'k', ... % Bezier curve
     points(:,1), points(:,2), 'rd', ...% Bezier control points
     points(:,1), points(:,2), 'r');
