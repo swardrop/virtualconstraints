@@ -22,7 +22,7 @@ function varargout = ConstrGui(varargin)
 
 % Edit the above text to modify the response to help ConstrGui
 
-% Last Modified by GUIDE v2.5 13-Aug-2014 21:27:25
+% Last Modified by GUIDE v2.5 14-Sep-2014 20:53:09
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,6 +54,7 @@ function ConstrGui_OpeningFcn(hObject, eventdata, handles, varargin)
 global points origPoints th1 th2;
 global constrData;
 global drag;
+global type;
 drag = 0;
 
 % Start and end points
@@ -77,6 +78,9 @@ axes(handles.axes3)
 set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 set(handles.uitable1, 'Data', points');
 refreshSidePlots(handles);
+
+contents = cellstr(get(handles.costmenu,'String'));
+type = contents{get(handles.costmenu,'Value')};
 
 % UIWAIT makes ConstrGui wait for user response (see UIRESUME)
 uiwait(handles.figure1);
@@ -367,4 +371,88 @@ if length(constrData) > 1
     orderings(constrData(2:end))
 else
     disp('Cannot open window for fewer than two constraints');
+end
+
+
+% --- Executes on button press in gridbutton.
+function gridbutton_Callback(hObject, eventdata, handles)
+% hObject    handle to gridbutton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global points type
+
+N = str2double(get(handles.editN, 'String'));
+sqthetadot_0 = str2double(get(handles.editvel, 'String'));
+
+gridTorques(points(end,:), N, sqthetadot_0, type);
+
+
+function editN_Callback(hObject, eventdata, handles)
+% hObject    handle to editN (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of editN as text
+%        str2double(get(hObject,'String')) returns contents of editN as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function editN_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to editN (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function editvel_Callback(hObject, eventdata, handles)
+% hObject    handle to editvel (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of editvel as text
+%        str2double(get(hObject,'String')) returns contents of editvel as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function editvel_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to editvel (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in costmenu.
+function costmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to costmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns costmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from costmenu
+
+global type
+contents = cellstr(get(hObject,'String'));
+type = contents{get(hObject,'Value')};
+
+% --- Executes during object creation, after setting all properties.
+function costmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to costmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
 end

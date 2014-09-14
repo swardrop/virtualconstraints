@@ -167,12 +167,12 @@ The invariance conditions introduced in Section \ref{sec:impact} place a restric
 	\end{bmatrix} \label{eqn:bezinvconfig} \\
 	\beta_1 &=& H_0R\Delta\omega_\alpha^-\frac{\theta_\beta^- - \theta_\beta^+}{M}(cR\Delta\omega_\alpha^-)^{-1} + \beta_0 \label{eqn:bezinvvel} \\
 	\omega_\alpha^- &=& H^{-1}\begin{bmatrix}
-		\frac{N}{\theta_\alpha^- - \theta\alpha^+}(\alpha_N - \alpha_{N-1}) \\ 1
+		\frac{N}{\theta_\alpha^- - \theta_\alpha^+}(\alpha_N - \alpha_{N-1}) \\ 1
 	\end{bmatrix}
 \end{eqnarray}
 
-Imposing the invariance conditions constrains the coefficients $\beta_0$ and $\beta_1$ to be functions of $\alpha_N$ and $\alpha_{N-1}$. In order for this to make sense in the context of continuous walking, this implies that the minimum degree of Bézier polynomial chosen to define the constraints must be no less than 3. Of course, higher degree polynomials allow for greater control over the shape of the curve. \\
+Imposing the invariance conditions constrains the coefficients $\beta_0$ and $\beta_1$ to be functions of $\alpha_N$ and $\alpha_{N-1}$. In order for this to make sense in the context of continuous walking, this implies that the minimum degree of Bézier polynomial chosen to define each constraint must be no less than 3. Of course, higher degree polynomials allow for greater control over the shape of the curve. \\
 
 Note that Equation \ref{eqn:bezinvconfig} corresponds to the configuration condition in Equation \ref{eqn:impactconfig}, while Equation \ref{eqn:bezinvvel} satisfies the velocity condition in Equation \ref{eqn:impactvel}. This makes intuitive sense, since the first and last coefficients in a Bézier polynomial define the start and end points, while the immediately following inner coefficients define the derivative of the polynomial at the start and end points. \\
 
-Theoretically, these curves should only be defined from the start to the endpoint of the continuous-phase which they specify. However, since the constraint is not guaranteed to be perfectly regulated, it is necessary to define the constraint over the full range of possible motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the control signal is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta_n]$, otherwise it is zero.\\
+Theoretically, these curves should only be defined from the start to the end point of the continuous phase which they specify. However, since the constraint is not guaranteed to be perfectly regulated, it is necessary to define the constraint over the full range of possible motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the control signal is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta_n]$, otherwise it is zero.\\

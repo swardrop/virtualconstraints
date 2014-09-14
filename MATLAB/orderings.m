@@ -22,7 +22,7 @@ function varargout = orderings(varargin)
 
 % Edit the above text to modify the response to help orderings
 
-% Last Modified by GUIDE v2.5 13-Aug-2014 20:51:25
+% Last Modified by GUIDE v2.5 14-Sep-2014 16:38:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,6 +56,11 @@ global Gamma_cs Psi_cs
 constrData = varargin{1};
 Gamma_cs = [constrData.Gamma_c];
 Psi_cs = [constrData.Psi_c];
+
+if nargin > 1
+    th_d_sq_0 = varargin{2};
+    set(handles.edit1, 'String', num2str(th_d_sq_0, '%.2f'))
+end
 updateDisplay(handles);
 
 % Choose default command line output for orderings
