@@ -2,7 +2,7 @@ function [q_, qd_, status] = ...
     impactDynamics(q, qd)
 
 % Position - simple impact map
-q_ = delq*q;
+q_ = delq(q);
 
 % Velocity:
 [delqd, delF2] = impactMatrices(q);

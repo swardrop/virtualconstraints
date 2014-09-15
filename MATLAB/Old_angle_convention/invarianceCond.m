@@ -1,4 +1,4 @@
-function [b0, b_th0, b1] = invarianceCond(th_a, al_a, b_thf, num_b, self)
+function [b0, b_th0, b1] = invarianceCond( constr_a, b_thf, num_b, self )
 %invarianceCond Produces the first two control pts (b0 and b1) of a Bezier
 % constraint, along with the corresponding theta value for b0, given:
 %   - the previous constraint (only the final two points, the start theta
@@ -11,23 +11,22 @@ if nargin == 3
     self = false;
 end
 
-c = [0 1];      % For compass-gait model
-H0 = [1 0];     % For compass-gait model
-H = [H0; c];
-
 % First condition - the initial configuration of the constraint must equal
 % the post-impact configuration of the preceding constraint.
-q_postimpact = H*(delq()/H)*[al_a(:,end); th_a(end)];
-b_th0 = q_postimpact(end);
-b0 = q_postimpact(1:end-1);
+q_postimpact = delq([constr_a(end,1); constr_a(end,2)]);
+b_th0 = q_postimpact(1);
+b0 = q_postimpact(2);
 if (self)
-    al_a(:,1) = b0;
+    constr_a(1,2) = b0;
 end
 % Second condition - the initial velocity of the constraint must equal the
 % post-impact velocity of the preceding constraint.
-omega_a = H\[1; length(th_a)/(th_a(end)-th_a(1)) ...
-            * (al_a(:,end) - al_a(:,end-1))];
-delqd = impactMatrices(bezConstraint(th_a, al_a, th_a(end)));
+c = [1 0];
+H0 = [0 1];
+H = [c; H0];
+omega_a = H\[1; size(constr_a,1)/(constr_a(end,1)-constr_a(1,1)) ...
+            * (constr_a(end,2) - constr_a(end-1,2))];
+delqd = impactMatrices([constr_a(end,1); constr_a(end,2)]);
 b1 = H0*delqd*omega_a*((b_thf-b_th0)/num_b)/(c*delqd*omega_a) + b0;
 end
 

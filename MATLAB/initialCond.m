@@ -1,8 +1,7 @@
-function [t1d_0, t2d_0, t1_0, t2_0] = initialCond(motionName)
+function [q, qd] = initialCond(motionName)
+% Initial conditions for the compass-gait
 
-t1d_0 = -1*pi;
-t2d_0 = -2*t1d_0;
-t1_0 = 7*pi/12;
-t2_0 = -2 * t1_0;
+q = [-pi/6; -2*pi/6];
+qd = [2*pi, pi];
 
 end

@@ -1,13 +1,14 @@
-function frames = visualise(q, isImpact, ground)
-% Visualise compass-gait robot
+function frames = visualise(theta1, theta2, isImpact, ground)
 
-[~, l] = getDynParams();
-X1 = zeros(2, size(q,2));
+[~, ls, ~, ~] = getDynParams();
+l1 = ls(1);
+l2 = ls(2);
+X1 = zeros(2, length(theta1));
 X2 = zeros(size(X1));
 C = [0;0]; % Pivot point of stance leg - centre of frame.
 frames(1:length(theta1)) = struct('cdata', [], 'colormap', []);
-fsize_x = 6*l;        % Frame window size (x)
-fsize_y = 3*l;        % (y)
+fsize_x = 6*l1;        % Frame window size (x)
+fsize_y = 3*l1;        % (y)
 
 % Draw the ground
 j = 2;
@@ -32,14 +33,18 @@ for i = 1 : length(theta1)
     if isImpact(i) && i > 1
         C = X2(:, i-1); % Maybe fix?
     end
-    q1 = q(1,i);
-    q2 = q(2,i);
+    t1 = theta1(i);
+    t2 = theta2(i);
     % Express coordinates of joint between links
-    X1(1, i) = C(1) + l * sin(q2);
-    X1(2, i) = C(2) + l * cos(q2);
+    x1 = C(1) + l1 * cos(t1);
+    y1 = C(2) + l1 * sin(t1);
+    X1(1, i) = x1;
+    X1(2, i) = y1;
     % Express coordinates of endpoint of second link
-    X2(1, i) = X1(1, i) + l * sin(q1-q2);
-    X2(2, i) = X1(2, i) - l * cos(q1-q2);
+    x2 = x1 + l2 * cos(t1 + t2);
+    y2 = y1 + l2 * sin(t1 + t2);
+    X2(1, i) = x2;
+    X2(2, i) = y2;
     
 %     delete(trace);
     delete(pts);
