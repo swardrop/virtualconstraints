@@ -1,4 +1,4 @@
-function [u, theta, G_c, P_c] = nomTorque(constrPts, theta_dot_sq_0)
+function [u, theta, G_c, P_c] = nomTorque(theta_p, alpha_p, theta_dot_sq_0)
 %NOMTORQUE Calculates the nominal torque required to maintain zero
 % dynamics of the compass-gait walker given initial theta-dot^2
 %   Output is a grid (for now) of theta values with corresponding torques.

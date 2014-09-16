@@ -1,26 +1,28 @@
-function inv_chk = invCndChk( constr_a, constr_b )
+function inv_chk = invCndChk(th_a, al_a, th_b, al_b )
 %invCndChk Returns true if the second constraint meets the criteria for
 % invariance w.r.t the first constraint, otherwise returns false.
 
+c = [0 1];      % For compass-gait model
+H0 = [1 0];     % For compass-gait model
+H = [H0; c];
+
 % First condition - the initial configuration of the constraint must equal
 % the post-impact configuration of the preceding constraint.
-q_postimpact = delq([constr_a(end,1); constr_a(end,2)]);
-if constr_b(1,:)' ~= q_postimpact
+q_postimpact = H*(delq()/H)*[al_a(:,end); th_a(end)];
+b_th0 = q_postimpact(end);
+b0 = q_postimpact(1:end-1);
+if th_b(1) ~= b_th0 || al_b(:,1) ~= b0
     inv_chk = false;
     return;
 end
 
 % Second condition - the initial velocity of the constraint must equal the
 % post-impact velocity of the preceding constraint.
-c = [1 0];
-H0 = [0 1];
-H = [c; H0];
-omega = H\[1; size(constr_a,1)/(constr_a(end,1)-constr_a(1,1)) ...
-            * (constr_a(end,2) - constr_a(end-1,2))];
-delqd = impactMatrices([constr_a(end,1); constr_a(end,2)]);
-b1 = H0*delqd*omega*((constr_b(end,1)-constr_b(1,1))/size(constr_b,1)) /...
-    (c*delqd*omega) + constr_b(1,2);
-if constr_b(2,2) ~= b1
+omega_a = H\[1; length(th_a)/(th_a(end)-th_a(1)) ...
+            * (al_a(:,end) - al_a(:,end-1))];
+delqd = impactMatrices(bezConstraint(th_a, al_a, th_a(end)));
+b1 = H0*delqd*omega_a*((b_thf-b_th0)/num_b)/(c*delqd*omega_a) + b0;
+if al_b(:,2) ~= b1
     inv_chk = false;
 else
     inv_chk = true;

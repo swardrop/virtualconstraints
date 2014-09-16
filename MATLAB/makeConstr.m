@@ -1,5 +1,4 @@
-% constrData = makeConstr(points)
-%
+function [constrData, Gamma, Psi, th_base] = makeConstr(theta_p, alpha_p)
 % Takes a set of Bezier control points which are specified in each row of
 % the points argument. Returns a structure containing the following fields:
 % step_l - length of step
@@ -9,16 +8,14 @@
 % theta_c - critical theta
 % Gamma_f - value of Gamma function just before impact
 % Psi_f - value of Psi function just before impact
-% points - Bezier control points (identical to supplied points)
-
-function [constrData, Gamma, Psi, th_base] = makeConstr(points)
+% alpha_p - Bezier coefficients (identical to supplied points)
+% theta_p - The start and end points of the phase variable
 
 % Calculate step length and height
-[~, ls] = getDynParams();
-[s_l, s_h] = calcStepGeom(ls, points);
+[s_l, s_h] = endSwingFoot(bezConstraint(theta_p, alpha_p, theta_p(end)));
 
 % Calculate partial solution
-[Gamma, Psi, th_base, th_c] = PartialSolZeroDyn(points);
+[Gamma, Psi, th_base, th_c] = PartialSolZeroDyn(theta_p, alpha_p);
 
 % Calculate Gamma and Psi at th_c.
 step_size = th_base(2)-th_base(1);
@@ -36,30 +33,7 @@ constrData.Psi_c = P_c;
 constrData.theta_c = th_c;
 constrData.Gamma_f = Gamma(end);
 constrData.Psi_f = Psi(end);
-constrData.points = points;
-
-end
-
-
-function [length, height] = calcStepGeom(l, points)
-
-x1 = getEndPoint(l, points(1,:), @cos);
-x2 = getEndPoint(l, points(end,:), @cos);
-length = x2 - x1;
-
-y1 = getEndPoint(l, points(1,:), @sin);
-y2 = getEndPoint(l, points(end,:), @sin);
-height = y2 - y1;
-
-end
-
-function endpoint = getEndPoint(l, angs, trigfun)
-
-endpoint = 0;
-angle = 0;
-for i = 1:length(l)
-    angle = angle + angs(i);
-    endpoint = endpoint + l(i)*trigfun(angle);
-end
+constrData.alpha_p = alpha_p;
+constrData.theta_p = theta_p;
 
 end
