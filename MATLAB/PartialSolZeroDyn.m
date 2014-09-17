@@ -1,37 +1,38 @@
+function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
+    Phi, d_Phi, dd_Phi] = PartialSolZeroDyn(theta_p, alpha_p)
 % Produces the partial closed-form solution for the square of the velocity
 % of the phase variable theta in terms of the two coefficient functions,
 % Gamma and Psi, where
 % theta_dot^2 = Gamma*theta_dot_0^2 + Psi;
 % Gamma and Psi both being functions of theta,
 % when the physical system is subject to the holonomic constraint defined
-% by the Bezier control points defined by the matrix constrPts.
+% by the Bezier control points defined by theta_p and alpha_p.
 
-function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
-    phi, d_phi, dd_phi] = PartialSolZeroDyn(constrPts)
-
-theta_f = constrPts(end,1);
-theta_0 = constrPts(1,1);
 num_points = 50;
+
+theta_f = theta_p(end);
+theta_0 = theta_p(1);
 th_base = linspace(theta_0,theta_f,num_points);
 step_size = (theta_f-theta_0)/num_points;
 
 alpha = zeros(size(th_base));
 beta = zeros(size(th_base));
 gamma = zeros(size(th_base));
-phi = zeros(size(th_base));
-d_phi = zeros(size(th_base));
-dd_phi = zeros(size(th_base));
+Phi = zeros([size(alpha_p,1)+1, length(th_base)]);
+d_Phi = zeros(size(Phi));
+dd_Phi = zeros(size(Phi));
 th_c = inf;
 
 for i = 1 : num_points
     % Calculate zero dynamics coefficients
-    [al, bet, gam, p, dp, ddp] = ZeroDynCompassGait(constrPts, th_base(i));
+    [al, bet, gam, P, dP, ddP] = ...
+        ZeroDynCompassGait(theta_p, alpha_p, th_base(i));
     alpha(i) = al;
     beta(i) = bet;
     gamma(i) = gam;
-    phi(i) = p;
-    d_phi(i) = dp;
-    dd_phi(i) = ddp;
+    Phi(:,i) = P;
+    d_Phi(:,i) = dP;
+    dd_Phi(:,i) = ddP;
     
     % Find th_c
     if i == 1

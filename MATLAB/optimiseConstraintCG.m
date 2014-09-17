@@ -1,4 +1,4 @@
-function constrPts = optimiseConstraintCG(targetKE, start, fin)
+function [theta_p, alpha_p] = optimiseConstraintCG(targetKE, start, fin)
 % optimiseConstraint Produces the optimal constraint given the target final
 % kinetic energy subject to the start and end conditions for the
 % compass-gait walker
@@ -30,6 +30,8 @@ cvx_begin
         % Maybe have some limit on the values of the control points for
         % feasibility
 cvx_end
+
+% Or maybe use Newton's method with some barrier functions?
 
 end
 

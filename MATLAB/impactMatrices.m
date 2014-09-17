@@ -2,9 +2,9 @@ function [delqd, delF2] = impactMatrices(q)
 
 % Impact dynamics for compass-gait.
 
-[I, l, m] = getDynParams();
+[I, l, m] = dynParams();
 
-A = m*l^2/8*[1, cos(q(1))-1; cos(q(1))-1, 2*(1-cos(q1))] + I*[1 -1; -1 2];
+A = m*l^2/8*[1, cos(q(1))-1; cos(q(1))-1, 2*(1-cos(q(1)))] + I*[1 -1; -1 2];
 M_e = [A, zeros(2); zeros(2), 2*m*eye(2)];
 
 E2 = [0.75*l*cos(q(1)-q(2)), 0.25*l*(cos(q(2)) - 3*cos(q(1)-q(2))), 1, 0;

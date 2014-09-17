@@ -1,21 +1,19 @@
-function [t1, t2, h] = plotBez(points)
+function [h, theta, q] = plotBez(theta_p, alpha_p)
 
-t2 = 0;
-t = (0:0.01:1)';
-n = size(points,1) - 1;
+s = 0:0.01:1;
 
-for i = 0 : n
-    t2 = t2 + nchoosek(n,i) * (1-t).^(n-i) .* t.^i .* points(i+1,2);
-end
+theta = s*(theta_p(end) - theta_p(1)) + theta_p(1);
+q = bezConstraint(theta_p, alpha_p, theta);
 
-t1 = t*(points(end,1) - points(1,1)) + points(1,1);
+h = plot([-4 4], [-8 8], 'b--', ... % Flat ground switching surface
+    theta, actuated(q), 'k', ... % Bezier curve
+    theta_p, alpha_p, 'rd-'); % Bezier control points
 
-h = plot([0 4], [0 -8], 'b--', ... % Flat ground switching surface
-    t1, t2, 'k', ... % Bezier curve
-    points(:,1), points(:,2), 'rd', ...% Bezier control points
-    points(:,1), points(:,2), 'r');
-
-axis([pi/4 3/4*pi -3/2*pi -pi/2])
+min_w = pi/4;
+min_h = pi/2;
+minscale = 1.2;
+ax_w = max(min_w, minscale*theta_p(end));
+ax_h = max(min_h, minscale*max(max(alpha_p)));
+axis([-ax_w ax_w -ax_h ax_h])
 grid on
-
 end

@@ -1,21 +1,23 @@
 function [alpha2, alpha3, cost] = ...
-    gridTorques(final_point, N, thd_0_sq, type)
+    gridTorques(th_end, al_end, N, thd_sq_0, type)
 %gridTorques Takes a final control point of a Bezier curve constraint
 % and produces a NxN grid of the 2-norm of the torque resuling from the
 % gridded alpha2 and alpha3 values.
 
+% Only relevant for a degree-5 constraint on the compass-gait robot
+
 % Set up constraint values
+al_p(:,5) = al_end;
+th_p(5) = th_end;
+[b0, b_th0, b1] = invarianceCond(th_p, al_p, th_end, 5, true);
+th_p(1) = b_th0;
+al_p(:,1) = b0;
+al_p(:,2) = b1;
 
-constr(5,:) = final_point;
-[b0, b_th0, b1] = invarianceCond(constr, final_point(1), 5, true);
-constr(1,1) = b_th0;
-constr(1,2) = b0;
-constr(2,2) = b1;
-
-cen2 = 2*2/4*(final_point(1)-b_th0) + b_th0;
+cen2 = 2/4*(al_end-b0)+b0;
 min2 = cen2 - pi/2;
 max2 = cen2 + pi/2;
-cen3 = 2*3/4*(final_point(1)-b_th0) + b_th0;
+cen3 = 3/4*(al_end-b0)+b0;
 min3 = cen3 - pi/2;
 max3 = cen3 + pi/2;
 
@@ -24,15 +26,12 @@ alpha2 = repmat(alpha2, N, 1);
 alpha3 = linspace(min3, max3, N)';
 alpha3 = repmat(alpha3, 1, N);
 
-for i = 2 : 4
-    constr(i,1) = (i-1)*(constr(5,1)-constr(1,1))/(5-1) + constr(1,1);
-end
-
 for i = 1 : size(alpha2, 1)
     for j = 1 : size(alpha2, 2)
-        constr(3,2) = alpha2(i,j);
-        constr(4,2) = alpha3(i,j);
-        [u,~,G_c,P_c] = nomTorque(constr, thd_0_sq);
+        al_p(:,3) = alpha2(i,j);
+        al_p(:,4) = alpha3(i,j);
+        cd = makeConstr(th_p, al_p);
+        u = nomTorque(cd, thd_sq_0);
         switch type
             case {'Integral', '1-norm'}
                 cost(i,j) = sum(abs(u));
@@ -41,8 +40,8 @@ for i = 1 : size(alpha2, 1)
             case {'Max', 'Inf-norm'}
                 cost(i,j) = max(u);
         end
-        constrData(i,j).Gamma_c = G_c;
-        constrData(i,j).Psi_c = P_c;
+        constrData(i,j).Gamma_c = cd.Gamma_c;
+        constrData(i,j).Psi_c = cd.Psi_c;
     end
 end
 
@@ -61,7 +60,7 @@ xlabel('\alpha_2 (rad)');
 ylabel('\alpha_3 (rad)');
 zlabel('Cost');
 
-orderings(constrData, thd_0_sq);
+orderings(constrData, thd_sq_0);
 
 end
 

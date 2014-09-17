@@ -1,11 +1,11 @@
 function frames = visualise(q, isImpact, ground)
 % Visualise compass-gait robot
 
-[~, l] = getDynParams();
+[~, l] = dynParams();
 X1 = zeros(2, size(q,2));
 X2 = zeros(size(X1));
 C = [0;0]; % Pivot point of stance leg - centre of frame.
-frames(1:length(theta1)) = struct('cdata', [], 'colormap', []);
+frames(1:length(isImpact)) = struct('cdata', [], 'colormap', []);
 fsize_x = 6*l;        % Frame window size (x)
 fsize_y = 3*l;        % (y)
 
@@ -27,7 +27,7 @@ pts = plot(0,0);
 links = plot(0,0);
 
 % Generate a frame for each data point in time
-for i = 1 : length(theta1)
+for i = 1 : length(isImpact)
     % Check for an impact - if so, shift centre to endpoint of swing leg
     if isImpact(i) && i > 1
         C = X2(:, i-1); % Maybe fix?
@@ -37,10 +37,13 @@ for i = 1 : length(theta1)
     % Express coordinates of joint between links
     X1(1, i) = C(1) + l * sin(q2);
     X1(2, i) = C(2) + l * cos(q2);
+    x1 = X1(1,i);
+    y1 = X1(2,i);
     % Express coordinates of endpoint of second link
     X2(1, i) = X1(1, i) + l * sin(q1-q2);
     X2(2, i) = X1(2, i) - l * cos(q1-q2);
-    
+    x2 = X2(1,i);
+    y2 = X2(2,i);
 %     delete(trace);
     delete(pts);
     delete(links);
