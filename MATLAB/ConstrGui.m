@@ -67,7 +67,8 @@ constr.alpha_p(:,1) = -pi/6;
 constr.alpha_p(:,N) = pi/6;
 updatePoints; % Set appropriate th_1 vals according to endpoints
 % Set th_2 values such that the constraint is initially a straight line.
-constr.alpha_p(:,3:end-1) = 2*constr.theta_p(3:end-1);
+constr.alpha_p(:,2:end-1) = 2*constr.theta_p(2:end-1);
+updatePoints; % Impose invariance condition
 orig_th = constr.theta_p;
 orig_al = constr.alpha_p;
 constr = makeConstr(constr.theta_p, constr.alpha_p);
