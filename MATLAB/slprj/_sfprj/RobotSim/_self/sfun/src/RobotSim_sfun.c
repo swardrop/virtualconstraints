@@ -3,6 +3,7 @@
 #include "RobotSim_sfun.h"
 #include "RobotSim_sfun_debug_macros.h"
 #include "c2_RobotSim.h"
+#include "c4_RobotSim.h"
 #include "c5_RobotSim.h"
 #include "c6_RobotSim.h"
 #include "c7_RobotSim.h"
@@ -34,6 +35,11 @@ unsigned int sf_RobotSim_method_dispatcher(SimStruct *simstructPtr, unsigned int
 {
   if (chartFileNumber==2) {
     c2_RobotSim_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
+  if (chartFileNumber==4) {
+    c4_RobotSim_method_dispatcher(simstructPtr, method, data);
     return 1;
   }
 
@@ -85,10 +91,10 @@ unsigned int sf_RobotSim_process_check_sum_call( int nlhs, mxArray * plhs[], int
       ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0U);
     } else if (!strcmp(commandName,"makefile")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(240951114U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4189782331U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(671092342U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1861625040U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1709487349U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1180211943U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2697715833U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1594465925U);
     } else if (nrhs==3 && !strcmp(commandName,"chart")) {
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
@@ -97,6 +103,13 @@ unsigned int sf_RobotSim_process_check_sum_call( int nlhs, mxArray * plhs[], int
         {
           extern void sf_c2_RobotSim_get_check_sum(mxArray *plhs[]);
           sf_c2_RobotSim_get_check_sum(plhs);
+          break;
+        }
+
+       case 4:
+        {
+          extern void sf_c4_RobotSim_get_check_sum(mxArray *plhs[]);
+          sf_c4_RobotSim_get_check_sum(plhs);
           break;
         }
 
@@ -136,10 +149,10 @@ unsigned int sf_RobotSim_process_check_sum_call( int nlhs, mxArray * plhs[], int
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1208115691U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1829048932U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(4012352971U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2078073583U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3031998372U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(98465687U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1609665488U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3766374933U);
   }
 
   return 1;
@@ -187,6 +200,18 @@ unsigned int sf_RobotSim_autoinheritance_info( int nlhs, mxArray * plhs[], int
         break;
       }
 
+     case 4:
+      {
+        if (strcmp(aiChksum, "QoZOCHK7Umk7ZwQM4qmOi") == 0) {
+          extern mxArray *sf_c4_RobotSim_get_autoinheritance_info(void);
+          plhs[0] = sf_c4_RobotSim_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
      case 5:
       {
         if (strcmp(aiChksum, "2wPULTJ8RFWc4RyvNDjVx") == 0) {
@@ -201,7 +226,7 @@ unsigned int sf_RobotSim_autoinheritance_info( int nlhs, mxArray * plhs[], int
 
      case 6:
       {
-        if (strcmp(aiChksum, "HDdwBkFhg85ove1V0DM7FH") == 0) {
+        if (strcmp(aiChksum, "P7nI9SMXP7pmQVioToRzyF") == 0) {
           extern mxArray *sf_c6_RobotSim_get_autoinheritance_info(void);
           plhs[0] = sf_c6_RobotSim_get_autoinheritance_info();
           break;
@@ -213,7 +238,7 @@ unsigned int sf_RobotSim_autoinheritance_info( int nlhs, mxArray * plhs[], int
 
      case 7:
       {
-        if (strcmp(aiChksum, "AkFr78uRJxOSghJe4T99xD") == 0) {
+        if (strcmp(aiChksum, "FLdlTXFzb9FNGaYQN2FIpE") == 0) {
           extern mxArray *sf_c7_RobotSim_get_autoinheritance_info(void);
           plhs[0] = sf_c7_RobotSim_get_autoinheritance_info();
           break;
@@ -264,6 +289,17 @@ unsigned int sf_RobotSim_get_eml_resolved_functions_info( int nlhs, mxArray *
           (void);
         mxArray *persistentMxArray = (mxArray *)
           sf_c2_RobotSim_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
+     case 4:
+      {
+        extern const mxArray *sf_c4_RobotSim_get_eml_resolved_functions_info
+          (void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c4_RobotSim_get_eml_resolved_functions_info();
         plhs[0] = mxDuplicateArray(persistentMxArray);
         mxDestroyArray(persistentMxArray);
         break;
@@ -346,6 +382,15 @@ unsigned int sf_RobotSim_third_party_uses_info( int nlhs, mxArray * plhs[], int
         }
       }
 
+     case 4:
+      {
+        if (strcmp(tpChksum, "6pjtgVUaXVwsVQcQq4IOdB") == 0) {
+          extern mxArray *sf_c4_RobotSim_third_party_uses_info(void);
+          plhs[0] = sf_c4_RobotSim_third_party_uses_info();
+          break;
+        }
+      }
+
      case 5:
       {
         if (strcmp(tpChksum, "fdbuUYnHIdbVJzafpRfLDG") == 0) {
@@ -357,7 +402,7 @@ unsigned int sf_RobotSim_third_party_uses_info( int nlhs, mxArray * plhs[], int
 
      case 6:
       {
-        if (strcmp(tpChksum, "ZJh9l7iHVGcety8SsqO4y") == 0) {
+        if (strcmp(tpChksum, "FJIHPk08zCS1HrSHV7uWwC") == 0) {
           extern mxArray *sf_c6_RobotSim_third_party_uses_info(void);
           plhs[0] = sf_c6_RobotSim_third_party_uses_info();
           break;
@@ -366,7 +411,7 @@ unsigned int sf_RobotSim_third_party_uses_info( int nlhs, mxArray * plhs[], int
 
      case 7:
       {
-        if (strcmp(tpChksum, "hOKVJMcblS8OCPUqsNvvVG") == 0) {
+        if (strcmp(tpChksum, "YpH97dIRWeMXNPkWssbUE") == 0) {
           extern mxArray *sf_c7_RobotSim_third_party_uses_info(void);
           plhs[0] = sf_c7_RobotSim_third_party_uses_info();
           break;
@@ -384,7 +429,7 @@ unsigned int sf_RobotSim_third_party_uses_info( int nlhs, mxArray * plhs[], int
 void RobotSim_debug_initialize(struct SfDebugInstanceStruct* debugInstance)
 {
   _RobotSimMachineNumber_ = sf_debug_initialize_machine(debugInstance,"RobotSim",
-    "sfun",0,4,0,0,0);
+    "sfun",0,5,0,0,0);
   sf_debug_set_machine_event_thresholds(debugInstance,_RobotSimMachineNumber_,0,
     0);
   sf_debug_set_machine_data_thresholds(debugInstance,_RobotSimMachineNumber_,0);

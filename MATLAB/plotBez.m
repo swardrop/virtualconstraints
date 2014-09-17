@@ -12,8 +12,8 @@ h = plot([-4 4], [-8 8], 'b--', ... % Flat ground switching surface
 min_w = pi/4;
 min_h = pi/2;
 minscale = 1.2;
-ax_w = max(min_w, minscale*theta_p(end));
-ax_h = max(min_h, minscale*max(max(alpha_p)));
+ax_w = max(min_w);%, minscale*theta_p(end));
+ax_h = max(min_h);%, minscale*max(max(alpha_p)));
 axis([-ax_w ax_w -ax_h ax_h])
 grid on
 end

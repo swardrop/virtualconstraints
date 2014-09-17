@@ -40,7 +40,10 @@ G_c = (Gamma(idx_before+1)-Gamma(idx_before))/step_size * ...
 P_c = (Psi(idx_before+1)-Psi(idx_before))/step_size * ...
     (th_c - th_base(idx_before)) + Psi(idx_before);
 
+
 constrData = struct;
+constrData.theta_p = theta_p;
+constrData.alpha_p = alpha_p;
 constrData.step_l = p2(1);
 constrData.step_h = p2(2);
 constrData.Gamma_c = G_c;
@@ -48,8 +51,6 @@ constrData.Psi_c = P_c;
 constrData.theta_c = th_c;
 constrData.Gamma_f = Gamma(end);
 constrData.Psi_f = Psi(end);
-constrData.theta_p = theta_p;
-constrData.alpha_p = alpha_p;
 
 constrData.Gamma = Gamma;
 constrData.Psi = Psi;

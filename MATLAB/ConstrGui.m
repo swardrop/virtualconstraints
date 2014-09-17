@@ -147,6 +147,10 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global constrData
+if length(constrData) < 2
+    saveButton_Callback(hObject, eventdata, handles)
+end
 uiresume(handles.figure1);
 delete(handles.figure1);
 
@@ -306,11 +310,13 @@ function uitable1_CellEditCallback(hObject, eventdata, handles)
 %	Error: error string when failed to convert EditData to appropriate value for Data
 % handles    structure with handles and user data (see GUIDATA)
 global constr;
-points = get(handles.uitable1, 'Data')';
-constr.alpha_p = points(:,1:end-1);
-constr.theta_p = points(:,end);
+points = get(handles.uitable1, 'Data');
+constr.alpha_p = points(1:end-1,:);
+constr.theta_p = points(end,:);
 updatePoints;
-refreshBezDisplay(handles);
+constr = makeConstr(constr.theta_p, constr.alpha_p);
+h = refreshBezDisplay(handles);
+set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 refreshSidePlots(handles);
 
 

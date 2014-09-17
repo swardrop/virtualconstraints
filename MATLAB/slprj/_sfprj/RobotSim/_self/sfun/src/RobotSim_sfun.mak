@@ -7,7 +7,7 @@ CPU = AMD64
 
 MACHINE     = RobotSim
 TARGET      = sfun
-CHART_SRCS 	= c2_RobotSim.c c5_RobotSim.c c6_RobotSim.c c7_RobotSim.c
+CHART_SRCS 	= c2_RobotSim.c c4_RobotSim.c c5_RobotSim.c c6_RobotSim.c c7_RobotSim.c
 MACHINE_SRC	= RobotSim_sfun.c
 MACHINE_REG = RobotSim_sfun_registry.c
 MAKEFILE    = RobotSim_sfun.mak

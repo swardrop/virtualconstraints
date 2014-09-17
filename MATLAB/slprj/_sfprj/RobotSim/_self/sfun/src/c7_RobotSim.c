@@ -170,7 +170,7 @@ static void sf_c7_RobotSim(SFc7_RobotSimInstanceStruct *chartInstance)
   c7_errdot = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c7_err = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 3U, chartInstance->c7_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 4U, chartInstance->c7_sfEvent);
   _SFD_DATA_RANGE_CHECK(*c7_err, 0U);
   _SFD_DATA_RANGE_CHECK(*c7_errdot, 1U);
   for (c7_i0 = 0; c7_i0 < 100; c7_i0++) {
@@ -249,7 +249,7 @@ static void c7_chartstep_c7_RobotSim(SFc7_RobotSimInstanceStruct *chartInstance)
   c7_b_nom_torque = (real_T (*)[100])ssGetInputPortSignal(chartInstance->S, 2);
   c7_b_errdot = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c7_b_err = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 3U, chartInstance->c7_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 4U, chartInstance->c7_sfEvent);
   c7_hoistedGlobal = *c7_b_err;
   c7_b_hoistedGlobal = *c7_b_errdot;
   c7_c_hoistedGlobal = *c7_b_theta;
@@ -368,22 +368,20 @@ static void c7_chartstep_c7_RobotSim(SFc7_RobotSimInstanceStruct *chartInstance)
     }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 19);
-  c7_u = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 23);
+  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 22);
   c7_K_p = 1000.0;
-  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 24);
+  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 23);
   c7_K_d = 100.0;
-  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 26);
+  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, 25);
   c7_b_b = c7_err;
   c7_e_y = 1000.0 * c7_b_b;
   c7_c_b = c7_errdot;
   c7_f_y = 100.0 * c7_c_b;
-  c7_u = c7_e_y + c7_f_y;
-  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, -26);
+  c7_u = (c7_u + c7_e_y) + c7_f_y;
+  _SFD_EML_CALL(0U, chartInstance->c7_sfEvent, -25);
   _SFD_SYMBOL_SCOPE_POP();
   *c7_b_u = c7_u;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 3U, chartInstance->c7_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 4U, chartInstance->c7_sfEvent);
 }
 
 static void initSimStructsc7_RobotSim(SFc7_RobotSimInstanceStruct *chartInstance)
@@ -1002,10 +1000,10 @@ extern void utFree(void*);
 
 void sf_c7_RobotSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(451915789U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(223678804U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1931130197U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1213839455U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1875978480U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1532829874U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(518770723U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4112611518U);
 }
 
 mxArray *sf_c7_RobotSim_get_autoinheritance_info(void)
@@ -1017,7 +1015,7 @@ mxArray *sf_c7_RobotSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("AkFr78uRJxOSghJe4T99xD");
+    mxArray *mxChecksum = mxCreateString("FLdlTXFzb9FNGaYQN2FIpE");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -1225,7 +1223,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,2,0,0,0,0,0,0,0);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,642);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,635);
         _SFD_CV_INIT_EML_IF(0,1,0,193,206,233,478);
         _SFD_CV_INIT_EML_IF(0,1,1,257,282,432,474);
         _SFD_TRANS_COV_WTS(0,0,0,1,0);
@@ -1284,7 +1282,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "hOKVJMcblS8OCPUqsNvvVG";
+  return "YpH97dIRWeMXNPkWssbUE";
 }
 
 static void sf_opaque_initialize_c7_RobotSim(void *chartInstanceVar)
@@ -1453,10 +1451,10 @@ static void mdlSetWorkWidths_c7_RobotSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(3097494989U));
-  ssSetChecksum1(S,(3119990425U));
-  ssSetChecksum2(S,(4246176976U));
-  ssSetChecksum3(S,(1372100205U));
+  ssSetChecksum0(S,(3095062907U));
+  ssSetChecksum1(S,(3765291147U));
+  ssSetChecksum2(S,(1882053315U));
+  ssSetChecksum3(S,(2645983025U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

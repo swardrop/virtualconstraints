@@ -19,7 +19,7 @@
 
 /* Variable Definitions */
 static const char * c6_debug_family_names[8] = { "q_des", "nargin", "nargout",
-  "alpha_p", "theta_p", "q", "theta", "err" };
+  "theta_p", "alpha_p", "q", "theta", "err" };
 
 static const char * c6_b_debug_family_names[10] = { "s", "q_dep", "n", "i",
   "nargin", "nargout", "theta_p", "alpha_p", "theta", "q" };
@@ -174,9 +174,9 @@ static void sf_c6_RobotSim(SFc6_RobotSimInstanceStruct *chartInstance)
   int32_T c6_i2;
   real_T c6_hoistedGlobal;
   int32_T c6_i3;
-  real_T c6_alpha_p[5];
-  int32_T c6_i4;
   real_T c6_theta_p[5];
+  int32_T c6_i4;
+  real_T c6_alpha_p[5];
   int32_T c6_i5;
   real_T c6_q[2];
   real_T c6_theta;
@@ -244,21 +244,21 @@ static void sf_c6_RobotSim(SFc6_RobotSimInstanceStruct *chartInstance)
   real_T *c6_b_theta;
   real_T *c6_b_err;
   real_T (*c6_c_q)[2];
-  real_T (*c6_c_theta_p)[5];
   real_T (*c6_c_alpha_p)[5];
+  real_T (*c6_c_theta_p)[5];
   c6_b_err = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
   c6_b_theta = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
   c6_c_q = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 2);
-  c6_c_theta_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 1);
-  c6_c_alpha_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 0);
+  c6_c_alpha_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 1);
+  c6_c_theta_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 2U, chartInstance->c6_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 3U, chartInstance->c6_sfEvent);
   for (c6_i0 = 0; c6_i0 < 5; c6_i0++) {
-    _SFD_DATA_RANGE_CHECK((*c6_c_alpha_p)[c6_i0], 0U);
+    _SFD_DATA_RANGE_CHECK((*c6_c_theta_p)[c6_i0], 0U);
   }
 
   for (c6_i1 = 0; c6_i1 < 5; c6_i1++) {
-    _SFD_DATA_RANGE_CHECK((*c6_c_theta_p)[c6_i1], 1U);
+    _SFD_DATA_RANGE_CHECK((*c6_c_alpha_p)[c6_i1], 1U);
   }
 
   for (c6_i2 = 0; c6_i2 < 2; c6_i2++) {
@@ -268,14 +268,14 @@ static void sf_c6_RobotSim(SFc6_RobotSimInstanceStruct *chartInstance)
   _SFD_DATA_RANGE_CHECK(*c6_b_theta, 3U);
   _SFD_DATA_RANGE_CHECK(*c6_b_err, 4U);
   chartInstance->c6_sfEvent = CALL_EVENT;
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 2U, chartInstance->c6_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 3U, chartInstance->c6_sfEvent);
   c6_hoistedGlobal = *c6_b_theta;
   for (c6_i3 = 0; c6_i3 < 5; c6_i3++) {
-    c6_alpha_p[c6_i3] = (*c6_c_alpha_p)[c6_i3];
+    c6_theta_p[c6_i3] = (*c6_c_theta_p)[c6_i3];
   }
 
   for (c6_i4 = 0; c6_i4 < 5; c6_i4++) {
-    c6_theta_p[c6_i4] = (*c6_c_theta_p)[c6_i4];
+    c6_alpha_p[c6_i4] = (*c6_c_alpha_p)[c6_i4];
   }
 
   for (c6_i5 = 0; c6_i5 < 2; c6_i5++) {
@@ -291,8 +291,8 @@ static void sf_c6_RobotSim(SFc6_RobotSimInstanceStruct *chartInstance)
     c6_sf_marshallIn);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c6_nargout, 2U, c6_sf_marshallOut,
     c6_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML(c6_alpha_p, 3U, c6_c_sf_marshallOut);
-  _SFD_SYMBOL_SCOPE_ADD_EML(c6_theta_p, 4U, c6_c_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(c6_theta_p, 3U, c6_c_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(c6_alpha_p, 4U, c6_c_sf_marshallOut);
   _SFD_SYMBOL_SCOPE_ADD_EML(c6_q, 5U, c6_b_sf_marshallOut);
   _SFD_SYMBOL_SCOPE_ADD_EML(&c6_theta, 6U, c6_sf_marshallOut);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c6_err, 7U, c6_sf_marshallOut,
@@ -428,7 +428,7 @@ static void sf_c6_RobotSim(SFc6_RobotSimInstanceStruct *chartInstance)
   _SFD_EML_CALL(0U, chartInstance->c6_sfEvent, -13);
   _SFD_SYMBOL_SCOPE_POP();
   *c6_b_err = c6_err;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 2U, chartInstance->c6_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 3U, chartInstance->c6_sfEvent);
   _SFD_CHECK_FOR_STATE_INCONSISTENCY(_RobotSimMachineNumber_,
     chartInstance->chartNumber, chartInstance->instanceNumber);
 }
@@ -1638,10 +1638,10 @@ extern void utFree(void*);
 
 void sf_c6_RobotSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(4139579345U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1208483496U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3652980781U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2810907536U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1675933881U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2249325385U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1973581209U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1727523466U);
 }
 
 mxArray *sf_c6_RobotSim_get_autoinheritance_info(void)
@@ -1653,7 +1653,7 @@ mxArray *sf_c6_RobotSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("HDdwBkFhg85ove1V0DM7FH");
+    mxArray *mxChecksum = mxCreateString("P7nI9SMXP7pmQVioToRzyF");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -1841,8 +1841,8 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
             0,
             0,
             0);
-          _SFD_SET_DATA_PROPS(0,1,1,0,"alpha_p");
-          _SFD_SET_DATA_PROPS(1,1,1,0,"theta_p");
+          _SFD_SET_DATA_PROPS(0,1,1,0,"theta_p");
+          _SFD_SET_DATA_PROPS(1,1,1,0,"alpha_p");
           _SFD_SET_DATA_PROPS(2,1,1,0,"q");
           _SFD_SET_DATA_PROPS(3,1,1,0,"theta");
           _SFD_SET_DATA_PROPS(4,2,0,1,"err");
@@ -1907,16 +1907,16 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         {
           real_T *c6_theta;
           real_T *c6_err;
-          real_T (*c6_alpha_p)[5];
           real_T (*c6_theta_p)[5];
+          real_T (*c6_alpha_p)[5];
           real_T (*c6_q)[2];
           c6_err = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
           c6_theta = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
           c6_q = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 2);
-          c6_theta_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 1);
-          c6_alpha_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 0);
-          _SFD_SET_DATA_VALUE_PTR(0U, *c6_alpha_p);
-          _SFD_SET_DATA_VALUE_PTR(1U, *c6_theta_p);
+          c6_alpha_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 1);
+          c6_theta_p = (real_T (*)[5])ssGetInputPortSignal(chartInstance->S, 0);
+          _SFD_SET_DATA_VALUE_PTR(0U, *c6_theta_p);
+          _SFD_SET_DATA_VALUE_PTR(1U, *c6_alpha_p);
           _SFD_SET_DATA_VALUE_PTR(2U, *c6_q);
           _SFD_SET_DATA_VALUE_PTR(3U, c6_theta);
           _SFD_SET_DATA_VALUE_PTR(4U, c6_err);
@@ -1932,7 +1932,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "ZJh9l7iHVGcety8SsqO4y";
+  return "FJIHPk08zCS1HrSHV7uWwC";
 }
 
 static void sf_opaque_initialize_c6_RobotSim(void *chartInstanceVar)
@@ -2101,10 +2101,10 @@ static void mdlSetWorkWidths_c6_RobotSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(3986774813U));
-  ssSetChecksum1(S,(2043600402U));
-  ssSetChecksum2(S,(1408059331U));
-  ssSetChecksum3(S,(146791338U));
+  ssSetChecksum0(S,(702377102U));
+  ssSetChecksum1(S,(4152130544U));
+  ssSetChecksum2(S,(3902899615U));
+  ssSetChecksum3(S,(4055793210U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);
