@@ -1,4 +1,7 @@
 function theta = phasevar(q)
-% Compass gait: theta = q2.
-theta = q(2);
+[~,~,c] = constrMatrices;
+theta = zeros(size(q,2));
+for jj = length(theta):-1:1
+    theta(jj) = c*q(:,jj);
+end
 end

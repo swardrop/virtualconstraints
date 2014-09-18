@@ -30,8 +30,8 @@ alpha_p = constrData(1).alpha_p;
 
 % Set initial conditions
 q_0 = bezConstraint(theta_p, alpha_p, theta_p(1));
-qd_0 = periodic_qd0(theta_p, alpha_p);
-theta_dot_sq_0 = phasevar(qd_0)^2;
+theta_dot_sq_0 = thdsq_per(constrData);
+qd_0 = constrData.Phi(:,1)*theta_dot_sq_0;
 last_t = 0;
 while (timeleft > dur_tol)
     

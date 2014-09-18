@@ -2,9 +2,7 @@ function inv_chk = invCndChk(th_a, al_a, th_b, al_b )
 %invCndChk Returns true if the second constraint meets the criteria for
 % invariance w.r.t the first constraint, otherwise returns false.
 
-c = [0 1];      % For compass-gait model
-H0 = [1 0];     % For compass-gait model
-H = [H0; c];
+[H, H0, c] = constrMatrices;
 
 % First condition - the initial configuration of the constraint must equal
 % the post-impact configuration of the preceding constraint.

@@ -1,0 +1,29 @@
+The utility of a library of motion primitives is dependent on the suitability of the gaits which may be produced by the composition of elements of the library to the terrain over which the robot must locomote. Furthermore, in order for an algorithm which chooses between the constraints within the library to realise the benefits of motion planning with primitives as discussed in Section \ref{sec:primplanning}, the constraints must be stored in a manner which enables the algorithm to intelligently discriminate between them. To comply with these conditions, the virtual constraint library must satisfy requirements which may be broadly classed as \textit{algorithmic} and \textit{physical}.
+
+\subsection{Physical requirements}
+Feasible walking (single constraint)
+- Collision-free paths
+- Dynamic feasibility
+
+Physical realisability (single constraint)
+- torque limits
+- Friction cone
+
+Library requirements
+- Sufficient coverage of motions
+- Compatibility between constraints (invariance)
+
+\subsection{Algorithmic requirements}
+- Psi, Gamma at useful points
+- Identification of start and end configuration
+- Means for testing or ensuring that the physical requirements are satisfied
+- Some kind of ordering
+
+\subsection{Practical considerations}
+A library satisfying the above requirements is sufficient to ensure that walking motions are in principle able to be generated for the set of terrains over the applicable set of terrains, however there are additional considerations for a system to be useful in practice.
+
+- Optimality
+- Degree of constraints
+- Uncertainty
+- Space vs on-line computation efficiency
+- Number of constraints in library - Too many and search becomes cumbersome/library is wasteful, too few and the library does not present adequate coverage.

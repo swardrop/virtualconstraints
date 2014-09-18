@@ -12,9 +12,9 @@ for i = 0 : n
     q_dep = q_dep + nchoosek(n,i).*(1-s).^(n-i) .* s.^i .* alpha_p(:,i+1);
 end
 
-
-% FOR COMPASS-GAIT - phase variable is q2.
-q = [q_dep; theta];
-
-% In general:
-% q = [Ho; c]*[q_dep; theta]
+H = constrMatrices;
+% q = zeros(size(alpha_p,1)+1, length(theta));
+% for jj = length(theta):-1:1
+%     q(:,jj) = H*[q_dep(:,jj); theta(:,jj)];
+% end
+q = H*[q_dep;theta];

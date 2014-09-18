@@ -11,9 +11,7 @@ if nargin == 3
     self = false;
 end
 
-c = [0 1];      % For compass-gait model
-H0 = [1 0];     % For compass-gait model
-H = [H0; c];
+[H, H0, c] = constrMatrices;
 
 % First condition - the initial configuration of the constraint must equal
 % the post-impact configuration of the preceding constraint.

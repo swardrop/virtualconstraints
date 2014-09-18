@@ -83,16 +83,20 @@ static void c4_f_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId, real_T c4_y[2]);
 static void c4_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c4_mxArrayInData, const char_T *c4_varName, void *c4_outData);
+static void c4_g_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId, real_T c4_y[2]);
+static void c4_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
+  *c4_mxArrayInData, const char_T *c4_varName, void *c4_outData);
 static void c4_info_helper(c4_ResolvedFunctionInfo c4_info[35]);
 static const mxArray *c4_g_sf_marshallOut(void *chartInstanceVoid, void
   *c4_inData);
-static int32_T c4_g_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+static int32_T c4_h_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId);
-static void c4_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
+static void c4_f_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c4_mxArrayInData, const char_T *c4_varName, void *c4_outData);
-static uint8_T c4_h_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
-  const mxArray *c4_b_is_active_c4_RobotSim, const char_T *c4_identifier);
 static uint8_T c4_i_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c4_b_is_active_c4_RobotSim, const char_T *c4_identifier);
+static uint8_T c4_j_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId);
 static void init_dsm_address_info(SFc4_RobotSimInstanceStruct *chartInstance);
 
@@ -179,7 +183,7 @@ static void set_sim_state_c4_RobotSim(SFc4_RobotSimInstanceStruct *chartInstance
     (c4_u, 0)), "impact");
   *c4_y = c4_emlrt_marshallIn(chartInstance, sf_mex_dup(sf_mex_getcell(c4_u, 1)),
     "y");
-  chartInstance->c4_is_active_c4_RobotSim = c4_h_emlrt_marshallIn(chartInstance,
+  chartInstance->c4_is_active_c4_RobotSim = c4_i_emlrt_marshallIn(chartInstance,
     sf_mex_dup(sf_mex_getcell(c4_u, 2)), "is_active_c4_RobotSim");
   sf_mex_destroy(&c4_u);
   c4_update_debugger_state_c4_RobotSim(chartInstance);
@@ -382,8 +386,8 @@ static void c4_chartstep_c4_RobotSim(SFc4_RobotSimInstanceStruct *chartInstance)
     c4_sf_marshallIn);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c4_b_q, 3U, c4_d_sf_marshallOut,
     c4_d_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c4_b_org, 4U, c4_d_sf_marshallOut,
-    c4_d_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c4_b_org, 4U, c4_e_sf_marshallOut,
+    c4_e_sf_marshallIn);
   _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c4_p2, 5U, c4_d_sf_marshallOut,
     c4_d_sf_marshallIn);
   CV_SCRIPT_FCN(0, 0);
@@ -780,7 +784,7 @@ static const mxArray *c4_e_sf_marshallOut(void *chartInstanceVoid, void
   }
 
   c4_y = NULL;
-  sf_mex_assign(&c4_y, sf_mex_create("y", c4_u, 0, 0U, 1U, 0U, 2, 2, 1), FALSE);
+  sf_mex_assign(&c4_y, sf_mex_create("y", c4_u, 0, 0U, 1U, 0U, 2, 1, 2), FALSE);
   sf_mex_assign(&c4_mxArrayOutData, c4_y, FALSE);
   return c4_mxArrayOutData;
 }
@@ -912,38 +916,74 @@ static void c4_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   sf_mex_destroy(&c4_mxArrayInData);
 }
 
+static void c4_g_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId, real_T c4_y[2])
+{
+  real_T c4_dv1[2];
+  int32_T c4_i29;
+  sf_mex_import(c4_parentId, sf_mex_dup(c4_u), c4_dv1, 1, 0, 0U, 1, 0U, 2, 1, 2);
+  for (c4_i29 = 0; c4_i29 < 2; c4_i29++) {
+    c4_y[c4_i29] = c4_dv1[c4_i29];
+  }
+
+  sf_mex_destroy(&c4_u);
+}
+
+static void c4_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
+  *c4_mxArrayInData, const char_T *c4_varName, void *c4_outData)
+{
+  const mxArray *c4_org;
+  const char_T *c4_identifier;
+  emlrtMsgIdentifier c4_thisId;
+  real_T c4_y[2];
+  int32_T c4_i30;
+  SFc4_RobotSimInstanceStruct *chartInstance;
+  chartInstance = (SFc4_RobotSimInstanceStruct *)chartInstanceVoid;
+  c4_org = sf_mex_dup(c4_mxArrayInData);
+  c4_identifier = c4_varName;
+  c4_thisId.fIdentifier = c4_identifier;
+  c4_thisId.fParent = NULL;
+  c4_g_emlrt_marshallIn(chartInstance, sf_mex_dup(c4_org), &c4_thisId, c4_y);
+  sf_mex_destroy(&c4_org);
+  for (c4_i30 = 0; c4_i30 < 2; c4_i30++) {
+    (*(real_T (*)[2])c4_outData)[c4_i30] = c4_y[c4_i30];
+  }
+
+  sf_mex_destroy(&c4_mxArrayInData);
+}
+
 const mxArray *sf_c4_RobotSim_get_eml_resolved_functions_info(void)
 {
   const mxArray *c4_nameCaptureInfo;
   c4_ResolvedFunctionInfo c4_info[35];
   const mxArray *c4_m0 = NULL;
-  int32_T c4_i29;
+  int32_T c4_i31;
   c4_ResolvedFunctionInfo *c4_r0;
   c4_nameCaptureInfo = NULL;
   c4_nameCaptureInfo = NULL;
   c4_info_helper(c4_info);
   sf_mex_assign(&c4_m0, sf_mex_createstruct("nameCaptureInfo", 1, 35), FALSE);
-  for (c4_i29 = 0; c4_i29 < 35; c4_i29++) {
-    c4_r0 = &c4_info[c4_i29];
+  for (c4_i31 = 0; c4_i31 < 35; c4_i31++) {
+    c4_r0 = &c4_info[c4_i31];
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->context, 15,
       0U, 0U, 0U, 2, 1, strlen(c4_r0->context)), "context", "nameCaptureInfo",
-                    c4_i29);
+                    c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->name, 15, 0U,
-      0U, 0U, 2, 1, strlen(c4_r0->name)), "name", "nameCaptureInfo", c4_i29);
+      0U, 0U, 2, 1, strlen(c4_r0->name)), "name", "nameCaptureInfo", c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->dominantType,
       15, 0U, 0U, 0U, 2, 1, strlen(c4_r0->dominantType)), "dominantType",
-                    "nameCaptureInfo", c4_i29);
+                    "nameCaptureInfo", c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", c4_r0->resolved, 15,
       0U, 0U, 0U, 2, 1, strlen(c4_r0->resolved)), "resolved", "nameCaptureInfo",
-                    c4_i29);
+                    c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->fileTimeLo,
-      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c4_i29);
+      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->fileTimeHi,
-      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c4_i29);
+      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->mFileTimeLo,
-      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c4_i29);
+      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c4_i31);
     sf_mex_addfield(c4_m0, sf_mex_create("nameCaptureInfo", &c4_r0->mFileTimeHi,
-      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c4_i29);
+      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c4_i31);
   }
 
   sf_mex_assign(&c4_nameCaptureInfo, c4_m0, FALSE);
@@ -1308,18 +1348,18 @@ static const mxArray *c4_g_sf_marshallOut(void *chartInstanceVoid, void
   return c4_mxArrayOutData;
 }
 
-static int32_T c4_g_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+static int32_T c4_h_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId)
 {
   int32_T c4_y;
-  int32_T c4_i30;
-  sf_mex_import(c4_parentId, sf_mex_dup(c4_u), &c4_i30, 1, 6, 0U, 0, 0U, 0);
-  c4_y = c4_i30;
+  int32_T c4_i32;
+  sf_mex_import(c4_parentId, sf_mex_dup(c4_u), &c4_i32, 1, 6, 0U, 0, 0U, 0);
+  c4_y = c4_i32;
   sf_mex_destroy(&c4_u);
   return c4_y;
 }
 
-static void c4_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
+static void c4_f_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c4_mxArrayInData, const char_T *c4_varName, void *c4_outData)
 {
   const mxArray *c4_b_sfEvent;
@@ -1332,27 +1372,27 @@ static void c4_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
   c4_identifier = c4_varName;
   c4_thisId.fIdentifier = c4_identifier;
   c4_thisId.fParent = NULL;
-  c4_y = c4_g_emlrt_marshallIn(chartInstance, sf_mex_dup(c4_b_sfEvent),
+  c4_y = c4_h_emlrt_marshallIn(chartInstance, sf_mex_dup(c4_b_sfEvent),
     &c4_thisId);
   sf_mex_destroy(&c4_b_sfEvent);
   *(int32_T *)c4_outData = c4_y;
   sf_mex_destroy(&c4_mxArrayInData);
 }
 
-static uint8_T c4_h_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+static uint8_T c4_i_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_b_is_active_c4_RobotSim, const char_T *c4_identifier)
 {
   uint8_T c4_y;
   emlrtMsgIdentifier c4_thisId;
   c4_thisId.fIdentifier = c4_identifier;
   c4_thisId.fParent = NULL;
-  c4_y = c4_i_emlrt_marshallIn(chartInstance, sf_mex_dup
+  c4_y = c4_j_emlrt_marshallIn(chartInstance, sf_mex_dup
     (c4_b_is_active_c4_RobotSim), &c4_thisId);
   sf_mex_destroy(&c4_b_is_active_c4_RobotSim);
   return c4_y;
 }
 
-static uint8_T c4_i_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
+static uint8_T c4_j_emlrt_marshallIn(SFc4_RobotSimInstanceStruct *chartInstance,
   const mxArray *c4_u, const emlrtMsgIdentifier *c4_parentId)
 {
   uint8_T c4_y;
@@ -1390,10 +1430,10 @@ extern void utFree(void*);
 
 void sf_c4_RobotSim_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1475187985U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(933384091U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2972802949U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4053135698U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(186257537U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2760215682U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1156314796U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1683105684U);
 }
 
 mxArray *sf_c4_RobotSim_get_autoinheritance_info(void)
@@ -1405,7 +1445,7 @@ mxArray *sf_c4_RobotSim_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("QoZOCHK7Umk7ZwQM4qmOi");
+    mxArray *mxChecksum = mxCreateString("E0EA44JEdzVqZX2y7zpMJH");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -1417,8 +1457,8 @@ mxArray *sf_c4_RobotSim_get_autoinheritance_info(void)
     {
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
       double *pr = mxGetPr(mxSize);
-      pr[0] = (double)(2);
-      pr[1] = (double)(1);
+      pr[0] = (double)(1);
+      pr[1] = (double)(2);
       mxSetField(mxData,0,"size",mxSize);
     }
 
@@ -1664,8 +1704,8 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         {
           unsigned int dimVector[2];
-          dimVector[0]= 2;
-          dimVector[1]= 1;
+          dimVector[0]= 1;
+          dimVector[1]= 2;
           _SFD_SET_DATA_COMPILED_PROPS(0,SF_DOUBLE,2,&(dimVector[0]),0,0,0,0.0,
             1.0,0,0,(MexFcnForType)c4_e_sf_marshallOut,(MexInFcnForType)NULL);
         }
@@ -1723,7 +1763,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "6pjtgVUaXVwsVQcQq4IOdB";
+  return "rwMBkkk72m7uCtEvIYHKG";
 }
 
 static void sf_opaque_initialize_c4_RobotSim(void *chartInstanceVar)
@@ -1892,10 +1932,10 @@ static void mdlSetWorkWidths_c4_RobotSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(393546490U));
-  ssSetChecksum1(S,(1838835320U));
-  ssSetChecksum2(S,(2620272073U));
-  ssSetChecksum3(S,(737927476U));
+  ssSetChecksum0(S,(5806941U));
+  ssSetChecksum1(S,(106817137U));
+  ssSetChecksum2(S,(3526482639U));
+  ssSetChecksum3(S,(3986956755U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

@@ -150,11 +150,12 @@ This formulation removes our ability to arbitrarily define the phase variable co
 
 The use of Bézier polynomials in this manner to define constraints trivially generalises to arbitrary dimensions. We define the output function to be:
 
-\begin{equation} \label{eqn:outputfun}
-	h(q) := H_0 q - B \circ \theta(q)
-\end{equation}
+\begin{eqnarray} 
+	h(q) &:=& H_0 q - B \circ \theta(q) \label{eqn:outputfun} \\
+	\theta(q) &=& cq
+\end{eqnarray}
 
-Where $\theta(q) = cq$ ($c$ is a $1\times n$ vector) is the phase variable, each row of $B\circ\theta(q)$ is a Bézier polynomial of the form above and $H_0$ is a $(n-1)\times n$ matrix. This avails a convenient and compact method to encapsulate the parameters of the virtual constraints -- since each row of Equation \ref{eqn:outputfun} relates to the phase variable in the same manner, only with differing coefficients $\alpha_i^k$, and each row has a Bézier polynomial of the same degree, the coefficients may be all stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$. \\
+Where $\theta(q)$ is the phase variable, each row of $B\circ\theta(q)$ is a Bézier polynomial of the form above, $c$ is a $1\times n$ vector and $H_0$ is a $(n-1)\times n$ matrix. This avails a convenient and compact method to encapsulate the parameters of the virtual constraints -- since each row of Equation \ref{eqn:outputfun} relates to the phase variable in the same manner, only with differing coefficients $\alpha_i^k$, and each row has a Bézier polynomial of the same degree, the coefficients may be all stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$. \\
 
 The invariance conditions introduced in Section \ref{sec:impact} place a restriction on the first and second control points as well as $\theta_0$. If we label $\alpha_0, \alpha_1, \ldots, \alpha_N$ as the columns and $\theta_\alpha^+, \theta_\alpha^-$ to be $\theta_0$ and $\theta_N$ respectively in the preceding constraint, and similarly with $\beta$ (with degree $M$) in the next constraint, and with $H = [H_0; c]$, the invariance conditions can be written in closed form \cite{westervelt2007feedback}:
 

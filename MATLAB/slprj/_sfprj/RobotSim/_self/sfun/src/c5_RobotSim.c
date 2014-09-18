@@ -20,8 +20,11 @@
 static const char * c5_debug_family_names[4] = { "nargin", "nargout", "q",
   "theta" };
 
-static const char * c5_b_debug_family_names[4] = { "nargin", "nargout", "q",
-  "theta" };
+static const char * c5_b_debug_family_names[5] = { "c", "H0", "H", "nargin",
+  "nargout" };
+
+static const char * c5_c_debug_family_names[6] = { "c", "jj", "nargin",
+  "nargout", "q", "theta" };
 
 /* Function Declarations */
 static void initialize_c5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance);
@@ -40,6 +43,8 @@ static void sf_c5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance);
 static void initSimStructsc5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance);
 static void registerMessagesc5_RobotSim(SFc5_RobotSimInstanceStruct
   *chartInstance);
+static real_T c5_phasevar(SFc5_RobotSimInstanceStruct *chartInstance, real_T
+  c5_q[2]);
 static void init_script_number_translation(uint32_T c5_machineNumber, uint32_T
   c5_chartNumber);
 static const mxArray *c5_sf_marshallOut(void *chartInstanceVoid, void *c5_inData);
@@ -51,19 +56,29 @@ static void c5_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData);
 static const mxArray *c5_b_sf_marshallOut(void *chartInstanceVoid, void
   *c5_inData);
-static void c5_c_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
-  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[2]);
-static void c5_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
-  *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData);
 static const mxArray *c5_c_sf_marshallOut(void *chartInstanceVoid, void
   *c5_inData);
-static int32_T c5_d_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
-  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId);
+static void c5_c_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[4]);
+static void c5_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
+  *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData);
+static const mxArray *c5_d_sf_marshallOut(void *chartInstanceVoid, void
+  *c5_inData);
+static void c5_d_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[2]);
 static void c5_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData);
-static uint8_T c5_e_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
-  const mxArray *c5_b_is_active_c5_RobotSim, const char_T *c5_identifier);
+static void c5_info_helper(c5_ResolvedFunctionInfo c5_info[23]);
+static void c5_eml_scalar_eg(SFc5_RobotSimInstanceStruct *chartInstance);
+static const mxArray *c5_e_sf_marshallOut(void *chartInstanceVoid, void
+  *c5_inData);
+static int32_T c5_e_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId);
+static void c5_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
+  *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData);
 static uint8_T c5_f_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_b_is_active_c5_RobotSim, const char_T *c5_identifier);
+static uint8_T c5_g_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
   const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId);
 static void init_dsm_address_info(SFc5_RobotSimInstanceStruct *chartInstance);
 
@@ -136,7 +151,7 @@ static void set_sim_state_c5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance
   c5_u = sf_mex_dup(c5_st);
   *c5_theta = c5_emlrt_marshallIn(chartInstance, sf_mex_dup(sf_mex_getcell(c5_u,
     0)), "theta");
-  chartInstance->c5_is_active_c5_RobotSim = c5_e_emlrt_marshallIn(chartInstance,
+  chartInstance->c5_is_active_c5_RobotSim = c5_f_emlrt_marshallIn(chartInstance,
     sf_mex_dup(sf_mex_getcell(c5_u, 1)), "is_active_c5_RobotSim");
   sf_mex_destroy(&c5_u);
   c5_update_debugger_state_c5_RobotSim(chartInstance);
@@ -158,21 +173,19 @@ static void sf_c5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance)
   real_T c5_theta;
   int32_T c5_i2;
   real_T c5_b_q[2];
-  real_T c5_b_nargin = 1.0;
-  real_T c5_b_nargout = 1.0;
   real_T *c5_b_theta;
   real_T (*c5_c_q)[2];
   c5_c_q = (real_T (*)[2])ssGetInputPortSignal(chartInstance->S, 0);
   c5_b_theta = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 1U, chartInstance->c5_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 2U, chartInstance->c5_sfEvent);
   _SFD_DATA_RANGE_CHECK(*c5_b_theta, 0U);
   for (c5_i0 = 0; c5_i0 < 2; c5_i0++) {
     _SFD_DATA_RANGE_CHECK((*c5_c_q)[c5_i0], 1U);
   }
 
   chartInstance->c5_sfEvent = CALL_EVENT;
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, chartInstance->c5_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 2U, chartInstance->c5_sfEvent);
   for (c5_i1 = 0; c5_i1 < 2; c5_i1++) {
     c5_q[c5_i1] = (*c5_c_q)[c5_i1];
   }
@@ -192,25 +205,11 @@ static void sf_c5_RobotSim(SFc5_RobotSimInstanceStruct *chartInstance)
     c5_b_q[c5_i2] = c5_q[c5_i2];
   }
 
-  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 4U, 4U, c5_b_debug_family_names,
-    c5_debug_family_var_map);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_b_nargin, 0U, c5_sf_marshallOut,
-    c5_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_b_nargout, 1U, c5_sf_marshallOut,
-    c5_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c5_b_q, 2U, c5_b_sf_marshallOut,
-    c5_b_sf_marshallIn);
-  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_theta, 3U, c5_sf_marshallOut,
-    c5_sf_marshallIn);
-  CV_SCRIPT_FCN(0, 0);
-  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 3);
-  c5_theta = c5_b_q[1];
-  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, -3);
-  _SFD_SYMBOL_SCOPE_POP();
+  c5_theta = c5_phasevar(chartInstance, c5_b_q);
   _SFD_EML_CALL(0U, chartInstance->c5_sfEvent, -4);
   _SFD_SYMBOL_SCOPE_POP();
   *c5_b_theta = c5_theta;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c5_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 2U, chartInstance->c5_sfEvent);
   _SFD_CHECK_FOR_STATE_INCONSISTENCY(_RobotSimMachineNumber_,
     chartInstance->chartNumber, chartInstance->instanceNumber);
 }
@@ -224,11 +223,113 @@ static void registerMessagesc5_RobotSim(SFc5_RobotSimInstanceStruct
 {
 }
 
+static real_T c5_phasevar(SFc5_RobotSimInstanceStruct *chartInstance, real_T
+  c5_q[2])
+{
+  real_T c5_theta;
+  uint32_T c5_debug_family_var_map[6];
+  real_T c5_c[2];
+  real_T c5_jj;
+  real_T c5_nargin = 1.0;
+  real_T c5_nargout = 1.0;
+  uint32_T c5_b_debug_family_var_map[5];
+  real_T c5_b_c[2];
+  real_T c5_H0[2];
+  real_T c5_H[4];
+  real_T c5_b_nargin = 0.0;
+  real_T c5_b_nargout = 3.0;
+  int32_T c5_i3;
+  int32_T c5_i4;
+  int32_T c5_i5;
+  static real_T c5_unusedU0[4] = { 1.0, 0.0, 0.0, 1.0 };
+
+  int32_T c5_i6;
+  int32_T c5_i7;
+  real_T c5_b[2];
+  int32_T c5_k;
+  int32_T c5_b_k;
+  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 6U, 6U, c5_c_debug_family_names,
+    c5_debug_family_var_map);
+  _SFD_SYMBOL_SCOPE_ADD_EML(c5_c, 0U, c5_d_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(&c5_jj, 1U, c5_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_nargin, 2U, c5_sf_marshallOut,
+    c5_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_nargout, 3U, c5_sf_marshallOut,
+    c5_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c5_q, 4U, c5_b_sf_marshallOut,
+    c5_c_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_theta, 5U, c5_sf_marshallOut,
+    c5_sf_marshallIn);
+  CV_SCRIPT_FCN(0, 0);
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 2);
+  _SFD_SYMBOL_SCOPE_PUSH_EML(0U, 5U, 5U, c5_b_debug_family_names,
+    c5_b_debug_family_var_map);
+  _SFD_SYMBOL_SCOPE_ADD_EML(c5_b_c, 0U, c5_d_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML(c5_H0, 1U, c5_d_sf_marshallOut);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(c5_H, 2U, c5_c_sf_marshallOut,
+    c5_b_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_b_nargin, 3U, c5_sf_marshallOut,
+    c5_sf_marshallIn);
+  _SFD_SYMBOL_SCOPE_ADD_EML_IMPORTABLE(&c5_b_nargout, 4U, c5_sf_marshallOut,
+    c5_sf_marshallIn);
+  CV_SCRIPT_FCN(1, 0);
+  _SFD_SCRIPT_CALL(1U, chartInstance->c5_sfEvent, 4);
+  for (c5_i3 = 0; c5_i3 < 2; c5_i3++) {
+    c5_H0[c5_i3] = 1.0 - (real_T)c5_i3;
+  }
+
+  _SFD_SCRIPT_CALL(1U, chartInstance->c5_sfEvent, 5);
+  for (c5_i4 = 0; c5_i4 < 2; c5_i4++) {
+    c5_b_c[c5_i4] = (real_T)c5_i4;
+  }
+
+  _SFD_SCRIPT_CALL(1U, chartInstance->c5_sfEvent, 6);
+  for (c5_i5 = 0; c5_i5 < 4; c5_i5++) {
+    c5_H[c5_i5] = c5_unusedU0[c5_i5];
+  }
+
+  _SFD_SCRIPT_CALL(1U, chartInstance->c5_sfEvent, -6);
+  _SFD_SYMBOL_SCOPE_POP();
+  for (c5_i6 = 0; c5_i6 < 2; c5_i6++) {
+    c5_c[c5_i6] = (real_T)c5_i6;
+  }
+
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 2);
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 2);
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 3);
+  c5_theta = 0.0;
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 4);
+  c5_jj = 1.0;
+  CV_SCRIPT_FOR(0, 0, 1);
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, 5);
+  for (c5_i7 = 0; c5_i7 < 2; c5_i7++) {
+    c5_b[c5_i7] = c5_q[c5_i7];
+  }
+
+  c5_eml_scalar_eg(chartInstance);
+  c5_eml_scalar_eg(chartInstance);
+  c5_theta = 0.0;
+  for (c5_k = 1; c5_k < 3; c5_k++) {
+    c5_b_k = c5_k;
+    c5_theta += (real_T)(_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)
+      _SFD_INTEGER_CHECK("", (real_T)c5_b_k), 1, 2, 1, 0) - 1) *
+      c5_b[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)_SFD_INTEGER_CHECK("",
+      (real_T)c5_b_k), 1, 2, 1, 0) - 1];
+  }
+
+  CV_SCRIPT_FOR(0, 0, 0);
+  _SFD_SCRIPT_CALL(0U, chartInstance->c5_sfEvent, -5);
+  _SFD_SYMBOL_SCOPE_POP();
+  return c5_theta;
+}
+
 static void init_script_number_translation(uint32_T c5_machineNumber, uint32_T
   c5_chartNumber)
 {
   _SFD_SCRIPT_TRANSLATION(c5_chartNumber, 0U, sf_debug_get_script_id(
     "C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m"));
+  _SFD_SCRIPT_TRANSLATION(c5_chartNumber, 1U, sf_debug_get_script_id(
+    "C:/Users/yak/My Documents/GitHub/thesis/MATLAB/constrMatrices.m"));
 }
 
 static const mxArray *c5_sf_marshallOut(void *chartInstanceVoid, void *c5_inData)
@@ -292,20 +393,20 @@ static const mxArray *c5_b_sf_marshallOut(void *chartInstanceVoid, void
   *c5_inData)
 {
   const mxArray *c5_mxArrayOutData = NULL;
-  int32_T c5_i3;
+  int32_T c5_i8;
   real_T c5_b_inData[2];
-  int32_T c5_i4;
+  int32_T c5_i9;
   real_T c5_u[2];
   const mxArray *c5_y = NULL;
   SFc5_RobotSimInstanceStruct *chartInstance;
   chartInstance = (SFc5_RobotSimInstanceStruct *)chartInstanceVoid;
   c5_mxArrayOutData = NULL;
-  for (c5_i3 = 0; c5_i3 < 2; c5_i3++) {
-    c5_b_inData[c5_i3] = (*(real_T (*)[2])c5_inData)[c5_i3];
+  for (c5_i8 = 0; c5_i8 < 2; c5_i8++) {
+    c5_b_inData[c5_i8] = (*(real_T (*)[2])c5_inData)[c5_i8];
   }
 
-  for (c5_i4 = 0; c5_i4 < 2; c5_i4++) {
-    c5_u[c5_i4] = c5_b_inData[c5_i4];
+  for (c5_i9 = 0; c5_i9 < 2; c5_i9++) {
+    c5_u[c5_i9] = c5_b_inData[c5_i9];
   }
 
   c5_y = NULL;
@@ -314,14 +415,54 @@ static const mxArray *c5_b_sf_marshallOut(void *chartInstanceVoid, void
   return c5_mxArrayOutData;
 }
 
-static void c5_c_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
-  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[2])
+static const mxArray *c5_c_sf_marshallOut(void *chartInstanceVoid, void
+  *c5_inData)
 {
-  real_T c5_dv0[2];
-  int32_T c5_i5;
-  sf_mex_import(c5_parentId, sf_mex_dup(c5_u), c5_dv0, 1, 0, 0U, 1, 0U, 1, 2);
-  for (c5_i5 = 0; c5_i5 < 2; c5_i5++) {
-    c5_y[c5_i5] = c5_dv0[c5_i5];
+  const mxArray *c5_mxArrayOutData = NULL;
+  int32_T c5_i10;
+  int32_T c5_i11;
+  int32_T c5_i12;
+  real_T c5_b_inData[4];
+  int32_T c5_i13;
+  int32_T c5_i14;
+  int32_T c5_i15;
+  real_T c5_u[4];
+  const mxArray *c5_y = NULL;
+  SFc5_RobotSimInstanceStruct *chartInstance;
+  chartInstance = (SFc5_RobotSimInstanceStruct *)chartInstanceVoid;
+  c5_mxArrayOutData = NULL;
+  c5_i10 = 0;
+  for (c5_i11 = 0; c5_i11 < 2; c5_i11++) {
+    for (c5_i12 = 0; c5_i12 < 2; c5_i12++) {
+      c5_b_inData[c5_i12 + c5_i10] = (*(real_T (*)[4])c5_inData)[c5_i12 + c5_i10];
+    }
+
+    c5_i10 += 2;
+  }
+
+  c5_i13 = 0;
+  for (c5_i14 = 0; c5_i14 < 2; c5_i14++) {
+    for (c5_i15 = 0; c5_i15 < 2; c5_i15++) {
+      c5_u[c5_i15 + c5_i13] = c5_b_inData[c5_i15 + c5_i13];
+    }
+
+    c5_i13 += 2;
+  }
+
+  c5_y = NULL;
+  sf_mex_assign(&c5_y, sf_mex_create("y", c5_u, 0, 0U, 1U, 0U, 2, 2, 2), FALSE);
+  sf_mex_assign(&c5_mxArrayOutData, c5_y, FALSE);
+  return c5_mxArrayOutData;
+}
+
+static void c5_c_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[4])
+{
+  real_T c5_dv0[4];
+  int32_T c5_i16;
+  sf_mex_import(c5_parentId, sf_mex_dup(c5_u), c5_dv0, 1, 0, 0U, 1, 0U, 2, 2, 2);
+  for (c5_i16 = 0; c5_i16 < 4; c5_i16++) {
+    c5_y[c5_i16] = c5_dv0[c5_i16];
   }
 
   sf_mex_destroy(&c5_u);
@@ -330,21 +471,90 @@ static void c5_c_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
 static void c5_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData)
 {
+  const mxArray *c5_H;
+  const char_T *c5_identifier;
+  emlrtMsgIdentifier c5_thisId;
+  real_T c5_y[4];
+  int32_T c5_i17;
+  int32_T c5_i18;
+  int32_T c5_i19;
+  SFc5_RobotSimInstanceStruct *chartInstance;
+  chartInstance = (SFc5_RobotSimInstanceStruct *)chartInstanceVoid;
+  c5_H = sf_mex_dup(c5_mxArrayInData);
+  c5_identifier = c5_varName;
+  c5_thisId.fIdentifier = c5_identifier;
+  c5_thisId.fParent = NULL;
+  c5_c_emlrt_marshallIn(chartInstance, sf_mex_dup(c5_H), &c5_thisId, c5_y);
+  sf_mex_destroy(&c5_H);
+  c5_i17 = 0;
+  for (c5_i18 = 0; c5_i18 < 2; c5_i18++) {
+    for (c5_i19 = 0; c5_i19 < 2; c5_i19++) {
+      (*(real_T (*)[4])c5_outData)[c5_i19 + c5_i17] = c5_y[c5_i19 + c5_i17];
+    }
+
+    c5_i17 += 2;
+  }
+
+  sf_mex_destroy(&c5_mxArrayInData);
+}
+
+static const mxArray *c5_d_sf_marshallOut(void *chartInstanceVoid, void
+  *c5_inData)
+{
+  const mxArray *c5_mxArrayOutData = NULL;
+  int32_T c5_i20;
+  real_T c5_b_inData[2];
+  int32_T c5_i21;
+  real_T c5_u[2];
+  const mxArray *c5_y = NULL;
+  SFc5_RobotSimInstanceStruct *chartInstance;
+  chartInstance = (SFc5_RobotSimInstanceStruct *)chartInstanceVoid;
+  c5_mxArrayOutData = NULL;
+  for (c5_i20 = 0; c5_i20 < 2; c5_i20++) {
+    c5_b_inData[c5_i20] = (*(real_T (*)[2])c5_inData)[c5_i20];
+  }
+
+  for (c5_i21 = 0; c5_i21 < 2; c5_i21++) {
+    c5_u[c5_i21] = c5_b_inData[c5_i21];
+  }
+
+  c5_y = NULL;
+  sf_mex_assign(&c5_y, sf_mex_create("y", c5_u, 0, 0U, 1U, 0U, 2, 1, 2), FALSE);
+  sf_mex_assign(&c5_mxArrayOutData, c5_y, FALSE);
+  return c5_mxArrayOutData;
+}
+
+static void c5_d_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+  const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId, real_T c5_y[2])
+{
+  real_T c5_dv1[2];
+  int32_T c5_i22;
+  sf_mex_import(c5_parentId, sf_mex_dup(c5_u), c5_dv1, 1, 0, 0U, 1, 0U, 1, 2);
+  for (c5_i22 = 0; c5_i22 < 2; c5_i22++) {
+    c5_y[c5_i22] = c5_dv1[c5_i22];
+  }
+
+  sf_mex_destroy(&c5_u);
+}
+
+static void c5_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
+  *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData)
+{
   const mxArray *c5_q;
   const char_T *c5_identifier;
   emlrtMsgIdentifier c5_thisId;
   real_T c5_y[2];
-  int32_T c5_i6;
+  int32_T c5_i23;
   SFc5_RobotSimInstanceStruct *chartInstance;
   chartInstance = (SFc5_RobotSimInstanceStruct *)chartInstanceVoid;
   c5_q = sf_mex_dup(c5_mxArrayInData);
   c5_identifier = c5_varName;
   c5_thisId.fIdentifier = c5_identifier;
   c5_thisId.fParent = NULL;
-  c5_c_emlrt_marshallIn(chartInstance, sf_mex_dup(c5_q), &c5_thisId, c5_y);
+  c5_d_emlrt_marshallIn(chartInstance, sf_mex_dup(c5_q), &c5_thisId, c5_y);
   sf_mex_destroy(&c5_q);
-  for (c5_i6 = 0; c5_i6 < 2; c5_i6++) {
-    (*(real_T (*)[2])c5_outData)[c5_i6] = c5_y[c5_i6];
+  for (c5_i23 = 0; c5_i23 < 2; c5_i23++) {
+    (*(real_T (*)[2])c5_outData)[c5_i23] = c5_y[c5_i23];
   }
 
   sf_mex_destroy(&c5_mxArrayInData);
@@ -353,45 +563,35 @@ static void c5_b_sf_marshallIn(void *chartInstanceVoid, const mxArray
 const mxArray *sf_c5_RobotSim_get_eml_resolved_functions_info(void)
 {
   const mxArray *c5_nameCaptureInfo;
-  c5_ResolvedFunctionInfo c5_info[1];
-  c5_ResolvedFunctionInfo (*c5_b_info)[1];
+  c5_ResolvedFunctionInfo c5_info[23];
   const mxArray *c5_m0 = NULL;
-  int32_T c5_i7;
+  int32_T c5_i24;
   c5_ResolvedFunctionInfo *c5_r0;
   c5_nameCaptureInfo = NULL;
   c5_nameCaptureInfo = NULL;
-  c5_b_info = (c5_ResolvedFunctionInfo (*)[1])c5_info;
-  (*c5_b_info)[0].context = "";
-  (*c5_b_info)[0].name = "phasevar";
-  (*c5_b_info)[0].dominantType = "double";
-  (*c5_b_info)[0].resolved =
-    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m";
-  (*c5_b_info)[0].fileTimeLo = 1410854068U;
-  (*c5_b_info)[0].fileTimeHi = 0U;
-  (*c5_b_info)[0].mFileTimeLo = 0U;
-  (*c5_b_info)[0].mFileTimeHi = 0U;
-  sf_mex_assign(&c5_m0, sf_mex_createstruct("nameCaptureInfo", 1, 1), FALSE);
-  for (c5_i7 = 0; c5_i7 < 1; c5_i7++) {
-    c5_r0 = &c5_info[c5_i7];
+  c5_info_helper(c5_info);
+  sf_mex_assign(&c5_m0, sf_mex_createstruct("nameCaptureInfo", 1, 23), FALSE);
+  for (c5_i24 = 0; c5_i24 < 23; c5_i24++) {
+    c5_r0 = &c5_info[c5_i24];
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", c5_r0->context, 15,
       0U, 0U, 0U, 2, 1, strlen(c5_r0->context)), "context", "nameCaptureInfo",
-                    c5_i7);
+                    c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", c5_r0->name, 15, 0U,
-      0U, 0U, 2, 1, strlen(c5_r0->name)), "name", "nameCaptureInfo", c5_i7);
+      0U, 0U, 2, 1, strlen(c5_r0->name)), "name", "nameCaptureInfo", c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", c5_r0->dominantType,
       15, 0U, 0U, 0U, 2, 1, strlen(c5_r0->dominantType)), "dominantType",
-                    "nameCaptureInfo", c5_i7);
+                    "nameCaptureInfo", c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", c5_r0->resolved, 15,
       0U, 0U, 0U, 2, 1, strlen(c5_r0->resolved)), "resolved", "nameCaptureInfo",
-                    c5_i7);
+                    c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", &c5_r0->fileTimeLo,
-      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c5_i7);
+      7, 0U, 0U, 0U, 0), "fileTimeLo", "nameCaptureInfo", c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", &c5_r0->fileTimeHi,
-      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c5_i7);
+      7, 0U, 0U, 0U, 0), "fileTimeHi", "nameCaptureInfo", c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", &c5_r0->mFileTimeLo,
-      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c5_i7);
+      7, 0U, 0U, 0U, 0), "mFileTimeLo", "nameCaptureInfo", c5_i24);
     sf_mex_addfield(c5_m0, sf_mex_create("nameCaptureInfo", &c5_r0->mFileTimeHi,
-      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c5_i7);
+      7, 0U, 0U, 0U, 0), "mFileTimeHi", "nameCaptureInfo", c5_i24);
   }
 
   sf_mex_assign(&c5_nameCaptureInfo, c5_m0, FALSE);
@@ -399,7 +599,240 @@ const mxArray *sf_c5_RobotSim_get_eml_resolved_functions_info(void)
   return c5_nameCaptureInfo;
 }
 
-static const mxArray *c5_c_sf_marshallOut(void *chartInstanceVoid, void
+static void c5_info_helper(c5_ResolvedFunctionInfo c5_info[23])
+{
+  c5_info[0].context = "";
+  c5_info[0].name = "phasevar";
+  c5_info[0].dominantType = "double";
+  c5_info[0].resolved =
+    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m";
+  c5_info[0].fileTimeLo = 1411048616U;
+  c5_info[0].fileTimeHi = 0U;
+  c5_info[0].mFileTimeLo = 0U;
+  c5_info[0].mFileTimeHi = 0U;
+  c5_info[1].context =
+    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m";
+  c5_info[1].name = "constrMatrices";
+  c5_info[1].dominantType = "";
+  c5_info[1].resolved =
+    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/constrMatrices.m";
+  c5_info[1].fileTimeLo = 1411047847U;
+  c5_info[1].fileTimeHi = 0U;
+  c5_info[1].mFileTimeLo = 0U;
+  c5_info[1].mFileTimeHi = 0U;
+  c5_info[2].context =
+    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m";
+  c5_info[2].name = "length";
+  c5_info[2].dominantType = "double";
+  c5_info[2].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elmat/length.m";
+  c5_info[2].fileTimeLo = 1303117406U;
+  c5_info[2].fileTimeHi = 0U;
+  c5_info[2].mFileTimeLo = 0U;
+  c5_info[2].mFileTimeHi = 0U;
+  c5_info[3].context =
+    "[E]C:/Users/yak/My Documents/GitHub/thesis/MATLAB/phasevar.m";
+  c5_info[3].name = "mtimes";
+  c5_info[3].dominantType = "double";
+  c5_info[3].resolved = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mtimes.m";
+  c5_info[3].fileTimeLo = 1289483692U;
+  c5_info[3].fileTimeHi = 0U;
+  c5_info[3].mFileTimeLo = 0U;
+  c5_info[3].mFileTimeHi = 0U;
+  c5_info[4].context = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mtimes.m";
+  c5_info[4].name = "eml_index_class";
+  c5_info[4].dominantType = "";
+  c5_info[4].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[4].fileTimeLo = 1323134578U;
+  c5_info[4].fileTimeHi = 0U;
+  c5_info[4].mFileTimeLo = 0U;
+  c5_info[4].mFileTimeHi = 0U;
+  c5_info[5].context = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mtimes.m";
+  c5_info[5].name = "eml_scalar_eg";
+  c5_info[5].dominantType = "double";
+  c5_info[5].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalar_eg.m";
+  c5_info[5].fileTimeLo = 1286786396U;
+  c5_info[5].fileTimeHi = 0U;
+  c5_info[5].mFileTimeLo = 0U;
+  c5_info[5].mFileTimeHi = 0U;
+  c5_info[6].context = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mtimes.m";
+  c5_info[6].name = "eml_xdotu";
+  c5_info[6].dominantType = "double";
+  c5_info[6].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xdotu.m";
+  c5_info[6].fileTimeLo = 1299040772U;
+  c5_info[6].fileTimeHi = 0U;
+  c5_info[6].mFileTimeLo = 0U;
+  c5_info[6].mFileTimeHi = 0U;
+  c5_info[7].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xdotu.m";
+  c5_info[7].name = "eml_blas_inline";
+  c5_info[7].dominantType = "";
+  c5_info[7].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_blas_inline.m";
+  c5_info[7].fileTimeLo = 1299040768U;
+  c5_info[7].fileTimeHi = 0U;
+  c5_info[7].mFileTimeLo = 0U;
+  c5_info[7].mFileTimeHi = 0U;
+  c5_info[8].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xdotu.m";
+  c5_info[8].name = "eml_xdot";
+  c5_info[8].dominantType = "double";
+  c5_info[8].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xdot.m";
+  c5_info[8].fileTimeLo = 1299040772U;
+  c5_info[8].fileTimeHi = 0U;
+  c5_info[8].mFileTimeLo = 0U;
+  c5_info[8].mFileTimeHi = 0U;
+  c5_info[9].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_xdot.m";
+  c5_info[9].name = "eml_blas_inline";
+  c5_info[9].dominantType = "";
+  c5_info[9].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/eml_blas_inline.m";
+  c5_info[9].fileTimeLo = 1299040768U;
+  c5_info[9].fileTimeHi = 0U;
+  c5_info[9].mFileTimeLo = 0U;
+  c5_info[9].mFileTimeHi = 0U;
+  c5_info[10].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/external/eml_blas_xdot.m";
+  c5_info[10].name = "eml_index_class";
+  c5_info[10].dominantType = "";
+  c5_info[10].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[10].fileTimeLo = 1323134578U;
+  c5_info[10].fileTimeHi = 0U;
+  c5_info[10].mFileTimeLo = 0U;
+  c5_info[10].mFileTimeHi = 0U;
+  c5_info[11].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/external/eml_blas_xdot.m";
+  c5_info[11].name = "eml_refblas_xdot";
+  c5_info[11].dominantType = "double";
+  c5_info[11].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdot.m";
+  c5_info[11].fileTimeLo = 1299040772U;
+  c5_info[11].fileTimeHi = 0U;
+  c5_info[11].mFileTimeLo = 0U;
+  c5_info[11].mFileTimeHi = 0U;
+  c5_info[12].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdot.m";
+  c5_info[12].name = "eml_refblas_xdotx";
+  c5_info[12].dominantType = "char";
+  c5_info[12].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[12].fileTimeLo = 1299040774U;
+  c5_info[12].fileTimeHi = 0U;
+  c5_info[12].mFileTimeLo = 0U;
+  c5_info[12].mFileTimeHi = 0U;
+  c5_info[13].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[13].name = "eml_scalar_eg";
+  c5_info[13].dominantType = "double";
+  c5_info[13].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalar_eg.m";
+  c5_info[13].fileTimeLo = 1286786396U;
+  c5_info[13].fileTimeHi = 0U;
+  c5_info[13].mFileTimeLo = 0U;
+  c5_info[13].mFileTimeHi = 0U;
+  c5_info[14].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[14].name = "eml_index_class";
+  c5_info[14].dominantType = "";
+  c5_info[14].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[14].fileTimeLo = 1323134578U;
+  c5_info[14].fileTimeHi = 0U;
+  c5_info[14].mFileTimeLo = 0U;
+  c5_info[14].mFileTimeHi = 0U;
+  c5_info[15].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[15].name = "eml_index_minus";
+  c5_info[15].dominantType = "double";
+  c5_info[15].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_minus.m";
+  c5_info[15].fileTimeLo = 1286786378U;
+  c5_info[15].fileTimeHi = 0U;
+  c5_info[15].mFileTimeLo = 0U;
+  c5_info[15].mFileTimeHi = 0U;
+  c5_info[16].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_minus.m";
+  c5_info[16].name = "eml_index_class";
+  c5_info[16].dominantType = "";
+  c5_info[16].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[16].fileTimeLo = 1323134578U;
+  c5_info[16].fileTimeHi = 0U;
+  c5_info[16].mFileTimeLo = 0U;
+  c5_info[16].mFileTimeHi = 0U;
+  c5_info[17].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[17].name = "eml_index_times";
+  c5_info[17].dominantType = "coder.internal.indexInt";
+  c5_info[17].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_times.m";
+  c5_info[17].fileTimeLo = 1286786380U;
+  c5_info[17].fileTimeHi = 0U;
+  c5_info[17].mFileTimeLo = 0U;
+  c5_info[17].mFileTimeHi = 0U;
+  c5_info[18].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_times.m";
+  c5_info[18].name = "eml_index_class";
+  c5_info[18].dominantType = "";
+  c5_info[18].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[18].fileTimeLo = 1323134578U;
+  c5_info[18].fileTimeHi = 0U;
+  c5_info[18].mFileTimeLo = 0U;
+  c5_info[18].mFileTimeHi = 0U;
+  c5_info[19].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[19].name = "eml_index_plus";
+  c5_info[19].dominantType = "coder.internal.indexInt";
+  c5_info[19].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_plus.m";
+  c5_info[19].fileTimeLo = 1286786378U;
+  c5_info[19].fileTimeHi = 0U;
+  c5_info[19].mFileTimeLo = 0U;
+  c5_info[19].mFileTimeHi = 0U;
+  c5_info[20].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_plus.m";
+  c5_info[20].name = "eml_index_class";
+  c5_info[20].dominantType = "";
+  c5_info[20].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_index_class.m";
+  c5_info[20].fileTimeLo = 1323134578U;
+  c5_info[20].fileTimeHi = 0U;
+  c5_info[20].mFileTimeLo = 0U;
+  c5_info[20].mFileTimeHi = 0U;
+  c5_info[21].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/blas/refblas/eml_refblas_xdotx.m";
+  c5_info[21].name = "eml_int_forloop_overflow_check";
+  c5_info[21].dominantType = "";
+  c5_info[21].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_int_forloop_overflow_check.m";
+  c5_info[21].fileTimeLo = 1346481540U;
+  c5_info[21].fileTimeHi = 0U;
+  c5_info[21].mFileTimeLo = 0U;
+  c5_info[21].mFileTimeHi = 0U;
+  c5_info[22].context =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_int_forloop_overflow_check.m!eml_int_forloop_overflow_check_helper";
+  c5_info[22].name = "intmax";
+  c5_info[22].dominantType = "char";
+  c5_info[22].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elmat/intmax.m";
+  c5_info[22].fileTimeLo = 1311226516U;
+  c5_info[22].fileTimeHi = 0U;
+  c5_info[22].mFileTimeLo = 0U;
+  c5_info[22].mFileTimeHi = 0U;
+}
+
+static void c5_eml_scalar_eg(SFc5_RobotSimInstanceStruct *chartInstance)
+{
+}
+
+static const mxArray *c5_e_sf_marshallOut(void *chartInstanceVoid, void
   *c5_inData)
 {
   const mxArray *c5_mxArrayOutData = NULL;
@@ -415,18 +848,18 @@ static const mxArray *c5_c_sf_marshallOut(void *chartInstanceVoid, void
   return c5_mxArrayOutData;
 }
 
-static int32_T c5_d_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+static int32_T c5_e_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
   const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId)
 {
   int32_T c5_y;
-  int32_T c5_i8;
-  sf_mex_import(c5_parentId, sf_mex_dup(c5_u), &c5_i8, 1, 6, 0U, 0, 0U, 0);
-  c5_y = c5_i8;
+  int32_T c5_i25;
+  sf_mex_import(c5_parentId, sf_mex_dup(c5_u), &c5_i25, 1, 6, 0U, 0, 0U, 0);
+  c5_y = c5_i25;
   sf_mex_destroy(&c5_u);
   return c5_y;
 }
 
-static void c5_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
+static void c5_d_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c5_mxArrayInData, const char_T *c5_varName, void *c5_outData)
 {
   const mxArray *c5_b_sfEvent;
@@ -439,27 +872,27 @@ static void c5_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   c5_identifier = c5_varName;
   c5_thisId.fIdentifier = c5_identifier;
   c5_thisId.fParent = NULL;
-  c5_y = c5_d_emlrt_marshallIn(chartInstance, sf_mex_dup(c5_b_sfEvent),
+  c5_y = c5_e_emlrt_marshallIn(chartInstance, sf_mex_dup(c5_b_sfEvent),
     &c5_thisId);
   sf_mex_destroy(&c5_b_sfEvent);
   *(int32_T *)c5_outData = c5_y;
   sf_mex_destroy(&c5_mxArrayInData);
 }
 
-static uint8_T c5_e_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+static uint8_T c5_f_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
   const mxArray *c5_b_is_active_c5_RobotSim, const char_T *c5_identifier)
 {
   uint8_T c5_y;
   emlrtMsgIdentifier c5_thisId;
   c5_thisId.fIdentifier = c5_identifier;
   c5_thisId.fParent = NULL;
-  c5_y = c5_f_emlrt_marshallIn(chartInstance, sf_mex_dup
+  c5_y = c5_g_emlrt_marshallIn(chartInstance, sf_mex_dup
     (c5_b_is_active_c5_RobotSim), &c5_thisId);
   sf_mex_destroy(&c5_b_is_active_c5_RobotSim);
   return c5_y;
 }
 
-static uint8_T c5_f_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
+static uint8_T c5_g_emlrt_marshallIn(SFc5_RobotSimInstanceStruct *chartInstance,
   const mxArray *c5_u, const emlrtMsgIdentifier *c5_parentId)
 {
   uint8_T c5_y;
@@ -625,7 +1058,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
            0,
            0,
            0,
-           1,
+           2,
            &(chartInstance->chartNumber),
            &(chartInstance->instanceNumber),
            ssGetPath(S),
@@ -661,8 +1094,11 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,0,0,0,0,0,0,0,0);
         _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,69);
-        _SFD_CV_INIT_SCRIPT(0,1,0,0,0,0,0,0,0,0);
-        _SFD_CV_INIT_SCRIPT_FCN(0,0,"phasevar",0,-1,74);
+        _SFD_CV_INIT_SCRIPT(0,1,0,0,0,0,1,0,0,0);
+        _SFD_CV_INIT_SCRIPT_FCN(0,0,"phasevar",0,-1,143);
+        _SFD_CV_INIT_SCRIPT_FOR(0,0,81,109,139);
+        _SFD_CV_INIT_SCRIPT(1,1,0,0,0,0,0,0,0,0);
+        _SFD_CV_INIT_SCRIPT_FCN(1,0,"constrMatrices",0,-1,92);
         _SFD_TRANS_COV_WTS(0,0,0,1,0);
         if (chartAlreadyPresent==0) {
           _SFD_TRANS_COV_MAPS(0,
@@ -867,10 +1303,10 @@ static void mdlSetWorkWidths_c5_RobotSim(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(2982782485U));
-  ssSetChecksum1(S,(3697234219U));
-  ssSetChecksum2(S,(3856809446U));
-  ssSetChecksum3(S,(3606053236U));
+  ssSetChecksum0(S,(4001973405U));
+  ssSetChecksum1(S,(1980369135U));
+  ssSetChecksum2(S,(134433160U));
+  ssSetChecksum3(S,(2049607881U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);
