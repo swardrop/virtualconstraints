@@ -2,7 +2,7 @@ clear
 close all
 duration = 5;
 dur_tol = 1e-8;
-org = [0, 0];
+org = [0; 0];
 
 % Set up simulation outputs
 timeleft = duration;
@@ -15,13 +15,13 @@ err = [];
 impact = [];
 
 % Set up terrain (stored as set of heights with zero-order hold)
-%ground = [-realmax,0];                    % Flat ground
+ground = [-realmax,0];                    % Flat ground
 %ground = [-realmax, 0; 1 -0.05];          % Step up 0.05m at 1m
-ground = [-realmax, 0;
-            1       -0.05
-            2       0
-            3       0.05
-            3.5     0.1];
+% ground = [-realmax, 0;
+%             1       -0.05
+%             2       0
+%             3       0.05
+%             3.5     0.1];
 
 % Define holonomic constraint (Bezier curve)
 constrData = ConstrGui;
@@ -30,8 +30,8 @@ alpha_p = constrData(1).alpha_p;
 
 % Set initial conditions
 q_0 = bezConstraint(theta_p, alpha_p, theta_p(1));
-theta_dot_sq_0 = thdsq_per(constrData);
-qd_0 = constrData.Phi(:,1)*theta_dot_sq_0;
+theta_dot_sq_0 = thdsq_nom(constrData);
+qd_0 = constrData.d_Phi(:,1)*sqrt(theta_dot_sq_0);
 last_t = 0;
 while (timeleft > dur_tol)
     
@@ -70,7 +70,6 @@ while (timeleft > dur_tol)
         % Enact change of coordinates and velocities at impact
         [q_0, qd_0, error] = ...
             impactDynamics(q(:,end), qd(:,end));
-        q_0 = q_0'; qd_0 = qd_0';
         theta_dot_sq_0 = phasevar(qd_0)^2;
         % Set origin in (x,y) for new swing phase
         org = endSwingFoot(q(:,end),org);

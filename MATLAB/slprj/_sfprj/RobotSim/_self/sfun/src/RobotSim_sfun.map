@@ -1,6 +1,6 @@
  RobotSim_sfun
 
- Timestamp is 541ae790 (Fri Sep 19 00:09:20 2014)
+ Timestamp is 541d4a4f (Sat Sep 20 19:35:11 2014)
 
  Preferred load address is 0000000180000000
 
@@ -24,14 +24,14 @@
  0002:000099c8 000004c0H .idata$4                DATA
  0002:00009e88 00000b2eH .idata$6                DATA
  0002:0000a9c0 00000053H .edata                  DATA
- 0003:00000000 0000b8b8H .data                   DATA
- 0003:0000b8c0 00002478H .bss                    DATA
- 0004:00000000 00003990H .pdata                  DATA
+ 0003:00000000 0000b618H .data                   DATA
+ 0003:0000b620 00002478H .bss                    DATA
+ 0004:00000000 0000399cH .pdata                  DATA
 
   Address         Publics by Value              Rva+Base               Lib:Object
 
- 0000:00000000       ___safe_se_handler_count   0000000000000000     <absolute>
  0000:00000000       ___safe_se_handler_table   0000000000000000     <absolute>
+ 0000:00000000       ___safe_se_handler_count   0000000000000000     <absolute>
  0000:00000000       __ImageBase                0000000180000000     <linker-defined>
  0001:00000000       sf_c2_RobotSim_get_eml_resolved_functions_info 0000000180001000 f   c2_RobotSim.obj
  0001:00001ad0       sf_c2_RobotSim_get_check_sum 0000000180002ad0 f   c2_RobotSim.obj
@@ -41,12 +41,12 @@
  0001:000025b0       sf_internal_set_sim_state_c2_RobotSim 00000001800035b0 f   c2_RobotSim.obj
  0001:00002a20       c2_RobotSim_method_dispatcher 0000000180003a20 f   c2_RobotSim.obj
  0001:000077d0       sf_c4_RobotSim_get_eml_resolved_functions_info 00000001800087d0 f   c4_RobotSim.obj
- 0001:00008e80       sf_c4_RobotSim_get_check_sum 0000000180009e80 f   c4_RobotSim.obj
- 0001:00008f00       sf_c4_RobotSim_get_autoinheritance_info 0000000180009f00 f   c4_RobotSim.obj
- 0001:00009840       sf_c4_RobotSim_third_party_uses_info 000000018000a840 f   c4_RobotSim.obj
- 0001:00009870       sf_internal_get_sim_state_c4_RobotSim 000000018000a870 f   c4_RobotSim.obj
- 0001:00009c80       sf_internal_set_sim_state_c4_RobotSim 000000018000ac80 f   c4_RobotSim.obj
- 0001:0000a1b0       c4_RobotSim_method_dispatcher 000000018000b1b0 f   c4_RobotSim.obj
+ 0001:00008c60       sf_c4_RobotSim_get_check_sum 0000000180009c60 f   c4_RobotSim.obj
+ 0001:00008ce0       sf_c4_RobotSim_get_autoinheritance_info 0000000180009ce0 f   c4_RobotSim.obj
+ 0001:00009620       sf_c4_RobotSim_third_party_uses_info 000000018000a620 f   c4_RobotSim.obj
+ 0001:00009650       sf_internal_get_sim_state_c4_RobotSim 000000018000a650 f   c4_RobotSim.obj
+ 0001:00009a60       sf_internal_set_sim_state_c4_RobotSim 000000018000aa60 f   c4_RobotSim.obj
+ 0001:00009f90       c4_RobotSim_method_dispatcher 000000018000af90 f   c4_RobotSim.obj
  0001:0000f130       sf_c5_RobotSim_get_eml_resolved_functions_info 0000000180010130 f   c5_RobotSim.obj
  0001:000101d0       sf_c5_RobotSim_get_check_sum 00000001800111d0 f   c5_RobotSim.obj
  0001:00010250       sf_c5_RobotSim_get_autoinheritance_info 0000000180011250 f   c5_RobotSim.obj
@@ -988,19 +988,19 @@
  0002:00000580       __real@3fa999999999999a    0000000180057580     c2_RobotSim.obj
  0002:00000588       __real@3fe0000000000000    0000000180057588     c2_RobotSim.obj
  0002:00000590       __real@4010000000000000    0000000180057590     c2_RobotSim.obj
- 0002:00000598       __real@41d91489e5000000    0000000180057598     c4_RobotSim.obj
- 0002:000005a0       __real@41d13afdab000000    00000001800575a0     c4_RobotSim.obj
- 0002:000005a8       __real@41e490b190400000    00000001800575a8     c4_RobotSim.obj
- 0002:000005b0       __real@41a6342102000000    00000001800575b0     c4_RobotSim.obj
- 0002:000005b8       __real@4014000000000000    00000001800575b8     c4_RobotSim.obj
- 0002:000005c0       __real@41d72566cd800000    00000001800575c0     c5_RobotSim.obj
- 0002:000005c8       __real@41ed3d8680c00000    00000001800575c8     c5_RobotSim.obj
- 0002:000005d0       __real@41e751794a800000    00000001800575d0     c5_RobotSim.obj
- 0002:000005d8       __real@41c19fc6d1000000    00000001800575d8     c5_RobotSim.obj
- 0002:000005e0       __real@41d9bdfaa2800000    00000001800575e0     c6_RobotSim.obj
- 0002:000005e8       __real@41dd689d66400000    00000001800575e8     c6_RobotSim.obj
- 0002:000005f0       __real@41e0c23f69200000    00000001800575f0     c6_RobotSim.obj
- 0002:000005f8       __real@41d8f92e2e400000    00000001800575f8     c6_RobotSim.obj
+ 0002:00000598       __real@41eb1d215d800000    0000000180057598     c4_RobotSim.obj
+ 0002:000005a0       __real@41e1578f93800000    00000001800575a0     c4_RobotSim.obj
+ 0002:000005a8       __real@41e41a4e5ca00000    00000001800575a8     c4_RobotSim.obj
+ 0002:000005b0       __real@41ed2e41ae400000    00000001800575b0     c4_RobotSim.obj
+ 0002:000005b8       __real@41d72566cd800000    00000001800575b8     c5_RobotSim.obj
+ 0002:000005c0       __real@41ed3d8680c00000    00000001800575c0     c5_RobotSim.obj
+ 0002:000005c8       __real@41e751794a800000    00000001800575c8     c5_RobotSim.obj
+ 0002:000005d0       __real@41c19fc6d1000000    00000001800575d0     c5_RobotSim.obj
+ 0002:000005d8       __real@41d9bdfaa2800000    00000001800575d8     c6_RobotSim.obj
+ 0002:000005e0       __real@41dd689d66400000    00000001800575e0     c6_RobotSim.obj
+ 0002:000005e8       __real@41e0c23f69200000    00000001800575e8     c6_RobotSim.obj
+ 0002:000005f0       __real@41d8f92e2e400000    00000001800575f0     c6_RobotSim.obj
+ 0002:000005f8       __real@4014000000000000    00000001800575f8     c6_RobotSim.obj
  0002:00000600       __real@c00921fb54442d18    0000000180057600     c6_RobotSim.obj
  0002:00000608       __real@400921fb54442d18    0000000180057608     c6_RobotSim.obj
  0002:00000610       __real@3cb0000000000000    0000000180057610     c6_RobotSim.obj
@@ -1021,10 +1021,10 @@
  0002:00000b00       _ssBadLevel2ZeroDirectFeedMsg2 0000000180057b00     RobotSim_sfun_registry.obj
  0002:00000be8       __real@bff0000000000000    0000000180057be8     RobotSim_sfun_registry.obj
  0002:00000bf0       __real@41602cbca0000000    0000000180057bf0     RobotSim_sfun_registry.obj
- 0002:00000bf8       __real@41e5885f8be00000    0000000180057bf8     RobotSim_sfun.obj
- 0002:00000c00       __real@41de8ad899400000    0000000180057c00     RobotSim_sfun.obj
- 0002:00000c08       __real@41e27e251a000000    0000000180057c08     RobotSim_sfun.obj
- 0002:00000c10       __real@41b7a580d5000000    0000000180057c10     RobotSim_sfun.obj
+ 0002:00000bf8       __real@41d0f086a4000000    0000000180057bf8     RobotSim_sfun.obj
+ 0002:00000c00       __real@41ec7b6f03200000    0000000180057c00     RobotSim_sfun.obj
+ 0002:00000c08       __real@41eecfd800a00000    0000000180057c08     RobotSim_sfun.obj
+ 0002:00000c10       __real@41e93547f8c00000    0000000180057c10     RobotSim_sfun.obj
  0002:00000c18       __real@41ed08af7be00000    0000000180057c18     RobotSim_sfun.obj
  0002:00000c20       __real@41d03fc151000000    0000000180057c20     RobotSim_sfun.obj
  0002:00000c28       __real@41c439d4aa000000    0000000180057c28     RobotSim_sfun.obj
@@ -1540,8 +1540,8 @@
  0002:00005060       ??_C@_0EC@MGCLADPL@?$CIinstance?9?$DOcycleDetection?4transi@ 000000018005c060     sfc_debug:sfdb_cycle_detection.obj
  0002:000050a8       ??_C@_0BH@ELCAAKDD@sfdb_cycle_detection?4c?$AA@ 000000018005c0a8     sfc_debug:sfdb_cycle_detection.obj
  0002:000050c0       ??_C@_0O@PICIAFIK@newNode?$CB?$DNNULL?$AA@ 000000018005c0c0     sfc_debug:sfdb_cycle_detection.obj
- 0002:000050d0       _pRawDllMain               000000018005c0d0     MSVCRT:crtdll.obj
  0002:000050d0       _pDefaultRawDllMain        000000018005c0d0     MSVCRT:crtdll.obj
+ 0002:000050d0       _pRawDllMain               000000018005c0d0     MSVCRT:crtdll.obj
  0002:000050e8       ?ProcessDetach@NativeDll@<CrtImplementationDetails>@@0IB 000000018005c0e8     MSVCRT:tncleanup.obj
  0002:000050ec       ?ProcessAttach@NativeDll@<CrtImplementationDetails>@@0IB 000000018005c0ec     MSVCRT:tncleanup.obj
  0002:000050f0       ?ThreadAttach@NativeDll@<CrtImplementationDetails>@@0IB 000000018005c0f0     MSVCRT:tncleanup.obj
@@ -1560,26 +1560,26 @@
  0002:0000998c       __IMPORT_DESCRIPTOR_MSVCR100 000000018006098c     MSVCRT:MSVCR100.dll
  0002:000099a0       __IMPORT_DESCRIPTOR_KERNEL32 00000001800609a0     kernel32:KERNEL32.dll
  0002:000099b4       __NULL_IMPORT_DESCRIPTOR   00000001800609b4     libmx:libmx.dll
- 0003:0000aa20       DYNAMIC_DIMENSION          000000018006ca20     RobotSim_sfun_registry.obj
- 0003:0000b7f0       emlrtContextGlobal         000000018006d7f0     sfc_mex:sfc_mex.obj
- 0003:0000b890       __security_cookie          000000018006d890     MSVCRT:gs_cookie.obj
- 0003:0000b898       __security_cookie_complement 000000018006d898     MSVCRT:gs_cookie.obj
- 0003:0000b8a0       _fltused                   000000018006d8a0     MSVCRT:dllsupp.obj
- 0003:0000b8b0       __native_dllmain_reason    000000018006d8b0     MSVCRT:natstart.obj
- 0003:0000b8b4       __native_vcclrit_reason    000000018006d8b4     MSVCRT:natstart.obj
- 0003:0000b9e8       sfGlobalDebugInstanceStruct 000000018006d9e8     RobotSim_sfun_registry.obj
- 0003:0000cb30       emlrtRootTLSGlobal         000000018006eb30     sfc_mex:sfc_mex.obj
- 0003:0000dc30       ?__type_info_root_node@@3U__type_info_node@@A 000000018006fc30     MSVCRT:tncleanup.obj
- 0003:0000dc40       _sfTime_                   000000018006fc40     <common>
- 0003:0000dc48       _RobotSimMachineNumber_    000000018006fc48     <common>
- 0003:0000dc60       gSfComplexDataTypeOffsets  000000018006fc60     <common>
- 0003:0000dcc0       gSfDataTypeOffsets         000000018006fcc0     <common>
- 0003:0000dd08       gMaskBits                  000000018006fd08     <common>
- 0003:0000dd10       __native_startup_state     000000018006fd10     <common>
- 0003:0000dd18       __native_startup_lock      000000018006fd18     <common>
- 0003:0000dd20       __onexitend                000000018006fd20     <common>
- 0003:0000dd28       __onexitbegin              000000018006fd28     <common>
- 0003:0000dd30       __dyn_tls_init_callback    000000018006fd30     <common>
+ 0003:0000a780       DYNAMIC_DIMENSION          000000018006c780     RobotSim_sfun_registry.obj
+ 0003:0000b550       emlrtContextGlobal         000000018006d550     sfc_mex:sfc_mex.obj
+ 0003:0000b5f0       __security_cookie          000000018006d5f0     MSVCRT:gs_cookie.obj
+ 0003:0000b5f8       __security_cookie_complement 000000018006d5f8     MSVCRT:gs_cookie.obj
+ 0003:0000b600       _fltused                   000000018006d600     MSVCRT:dllsupp.obj
+ 0003:0000b610       __native_dllmain_reason    000000018006d610     MSVCRT:natstart.obj
+ 0003:0000b614       __native_vcclrit_reason    000000018006d614     MSVCRT:natstart.obj
+ 0003:0000b748       sfGlobalDebugInstanceStruct 000000018006d748     RobotSim_sfun_registry.obj
+ 0003:0000c890       emlrtRootTLSGlobal         000000018006e890     sfc_mex:sfc_mex.obj
+ 0003:0000d990       ?__type_info_root_node@@3U__type_info_node@@A 000000018006f990     MSVCRT:tncleanup.obj
+ 0003:0000d9a0       _sfTime_                   000000018006f9a0     <common>
+ 0003:0000d9a8       _RobotSimMachineNumber_    000000018006f9a8     <common>
+ 0003:0000d9c0       gSfComplexDataTypeOffsets  000000018006f9c0     <common>
+ 0003:0000da20       gSfDataTypeOffsets         000000018006fa20     <common>
+ 0003:0000da68       gMaskBits                  000000018006fa68     <common>
+ 0003:0000da70       __native_startup_state     000000018006fa70     <common>
+ 0003:0000da78       __native_startup_lock      000000018006fa78     <common>
+ 0003:0000da80       __onexitend                000000018006fa80     <common>
+ 0003:0000da88       __onexitbegin              000000018006fa88     <common>
+ 0003:0000da90       __dyn_tls_init_callback    000000018006fa90     <common>
 
  entry point at        0001:00055948
 
@@ -1633,47 +1633,48 @@
  0001:00007780       initSimStructsc2_RobotSim  0000000180008780 f   c2_RobotSim.obj
  0001:00007790       mdlRTW_c2_RobotSim         0000000180008790 f   c2_RobotSim.obj
  0001:00007c10       c4_info_helper             0000000180008c10 f   c4_RobotSim.obj
- 0001:00009960       get_sim_state_c4_RobotSim  000000018000a960 f   c4_RobotSim.obj
- 0001:00009bc0       sf_get_sim_state_info_c4_RobotSim 000000018000abc0 f   c4_RobotSim.obj
- 0001:00009da0       set_sim_state_c4_RobotSim  000000018000ada0 f   c4_RobotSim.obj
- 0001:00009ec0       c4_update_debugger_state_c4_RobotSim 000000018000aec0 f   c4_RobotSim.obj
- 0001:00009ed0       c4_emlrt_marshallIn        000000018000aed0 f   c4_RobotSim.obj
- 0001:00009f40       c4_b_emlrt_marshallIn      000000018000af40 f   c4_RobotSim.obj
- 0001:00009fd0       c4_c_emlrt_marshallIn      000000018000afd0 f   c4_RobotSim.obj
- 0001:0000a030       c4_d_emlrt_marshallIn      000000018000b030 f   c4_RobotSim.obj
- 0001:0000a0c0       c4_i_emlrt_marshallIn      000000018000b0c0 f   c4_RobotSim.obj
- 0001:0000a120       c4_j_emlrt_marshallIn      000000018000b120 f   c4_RobotSim.obj
- 0001:0000a220       mdlProcessParameters_c4_RobotSim 000000018000b220 f   c4_RobotSim.obj
- 0001:0000a2e0       initialize_params_c4_RobotSim 000000018000b2e0 f   c4_RobotSim.obj
- 0001:0000a2f0       mdlSetWorkWidths_c4_RobotSim 000000018000b2f0 f   c4_RobotSim.obj
- 0001:0000a870       sf_get_instance_specialization 000000018000b870 f   c4_RobotSim.obj
- 0001:0000a880       mdlStart_c4_RobotSim       000000018000b880 f   c4_RobotSim.obj
- 0001:0000aa80       init_dsm_address_info      000000018000ba80 f   c4_RobotSim.obj
- 0001:0000aa90       chart_debug_initialization 000000018000ba90 f   c4_RobotSim.obj
- 0001:0000bc00       init_script_number_translation 000000018000cc00 f   c4_RobotSim.obj
- 0001:0000bca0       c4_sf_marshallOut          000000018000cca0 f   c4_RobotSim.obj
- 0001:0000bd50       c4_sf_marshallIn           000000018000cd50 f   c4_RobotSim.obj
- 0001:0000bdf0       c4_b_sf_marshallOut        000000018000cdf0 f   c4_RobotSim.obj
- 0001:0000bea0       c4_b_sf_marshallIn         000000018000cea0 f   c4_RobotSim.obj
- 0001:0000bf40       c4_c_sf_marshallOut        000000018000cf40 f   c4_RobotSim.obj
- 0001:0000c190       c4_d_sf_marshallOut        000000018000d190 f   c4_RobotSim.obj
- 0001:0000c2b0       c4_e_sf_marshallOut        000000018000d2b0 f   c4_RobotSim.obj
- 0001:0000c3f0       sf_opaque_initialize_c4_RobotSim 000000018000d3f0 f   c4_RobotSim.obj
- 0001:0000c430       initialize_c4_RobotSim     000000018000d430 f   c4_RobotSim.obj
- 0001:0000c480       sf_opaque_enable_c4_RobotSim 000000018000d480 f   c4_RobotSim.obj
- 0001:0000c4a0       enable_c4_RobotSim         000000018000d4a0 f   c4_RobotSim.obj
- 0001:0000c4d0       sf_opaque_disable_c4_RobotSim 000000018000d4d0 f   c4_RobotSim.obj
- 0001:0000c4f0       disable_c4_RobotSim        000000018000d4f0 f   c4_RobotSim.obj
- 0001:0000c520       sf_opaque_gateway_c4_RobotSim 000000018000d520 f   c4_RobotSim.obj
- 0001:0000c540       sf_c4_RobotSim             000000018000d540 f   c4_RobotSim.obj
- 0001:0000c950       c4_chartstep_c4_RobotSim   000000018000d950 f   c4_RobotSim.obj
- 0001:0000e910       c4_f_sf_marshallOut        000000018000f910 f   c4_RobotSim.obj
- 0001:0000ea80       c4_c_sf_marshallIn         000000018000fa80 f   c4_RobotSim.obj
- 0001:0000eb80       c4_e_emlrt_marshallIn      000000018000fb80 f   c4_RobotSim.obj
- 0001:0000ec90       c4_d_sf_marshallIn         000000018000fc90 f   c4_RobotSim.obj
- 0001:0000ed60       c4_f_emlrt_marshallIn      000000018000fd60 f   c4_RobotSim.obj
- 0001:0000ee30       c4_e_sf_marshallIn         000000018000fe30 f   c4_RobotSim.obj
- 0001:0000ef00       c4_g_emlrt_marshallIn      000000018000ff00 f   c4_RobotSim.obj
+ 0001:00009740       get_sim_state_c4_RobotSim  000000018000a740 f   c4_RobotSim.obj
+ 0001:000099a0       sf_get_sim_state_info_c4_RobotSim 000000018000a9a0 f   c4_RobotSim.obj
+ 0001:00009b80       set_sim_state_c4_RobotSim  000000018000ab80 f   c4_RobotSim.obj
+ 0001:00009ca0       c4_update_debugger_state_c4_RobotSim 000000018000aca0 f   c4_RobotSim.obj
+ 0001:00009cb0       c4_emlrt_marshallIn        000000018000acb0 f   c4_RobotSim.obj
+ 0001:00009d20       c4_b_emlrt_marshallIn      000000018000ad20 f   c4_RobotSim.obj
+ 0001:00009db0       c4_c_emlrt_marshallIn      000000018000adb0 f   c4_RobotSim.obj
+ 0001:00009e10       c4_d_emlrt_marshallIn      000000018000ae10 f   c4_RobotSim.obj
+ 0001:00009ea0       c4_i_emlrt_marshallIn      000000018000aea0 f   c4_RobotSim.obj
+ 0001:00009f00       c4_j_emlrt_marshallIn      000000018000af00 f   c4_RobotSim.obj
+ 0001:0000a000       mdlProcessParameters_c4_RobotSim 000000018000b000 f   c4_RobotSim.obj
+ 0001:0000a0c0       initialize_params_c4_RobotSim 000000018000b0c0 f   c4_RobotSim.obj
+ 0001:0000a0d0       mdlSetWorkWidths_c4_RobotSim 000000018000b0d0 f   c4_RobotSim.obj
+ 0001:0000a650       sf_get_instance_specialization 000000018000b650 f   c4_RobotSim.obj
+ 0001:0000a660       mdlStart_c4_RobotSim       000000018000b660 f   c4_RobotSim.obj
+ 0001:0000a860       init_dsm_address_info      000000018000b860 f   c4_RobotSim.obj
+ 0001:0000a870       chart_debug_initialization 000000018000b870 f   c4_RobotSim.obj
+ 0001:0000b9e0       init_script_number_translation 000000018000c9e0 f   c4_RobotSim.obj
+ 0001:0000ba80       c4_sf_marshallOut          000000018000ca80 f   c4_RobotSim.obj
+ 0001:0000bb30       c4_sf_marshallIn           000000018000cb30 f   c4_RobotSim.obj
+ 0001:0000bbd0       c4_b_sf_marshallOut        000000018000cbd0 f   c4_RobotSim.obj
+ 0001:0000bc80       c4_b_sf_marshallIn         000000018000cc80 f   c4_RobotSim.obj
+ 0001:0000bd20       c4_c_sf_marshallOut        000000018000cd20 f   c4_RobotSim.obj
+ 0001:0000be60       c4_d_sf_marshallOut        000000018000ce60 f   c4_RobotSim.obj
+ 0001:0000bf80       c4_e_sf_marshallOut        000000018000cf80 f   c4_RobotSim.obj
+ 0001:0000c0c0       sf_opaque_initialize_c4_RobotSim 000000018000d0c0 f   c4_RobotSim.obj
+ 0001:0000c100       initialize_c4_RobotSim     000000018000d100 f   c4_RobotSim.obj
+ 0001:0000c150       sf_opaque_enable_c4_RobotSim 000000018000d150 f   c4_RobotSim.obj
+ 0001:0000c170       enable_c4_RobotSim         000000018000d170 f   c4_RobotSim.obj
+ 0001:0000c1a0       sf_opaque_disable_c4_RobotSim 000000018000d1a0 f   c4_RobotSim.obj
+ 0001:0000c1c0       disable_c4_RobotSim        000000018000d1c0 f   c4_RobotSim.obj
+ 0001:0000c1f0       sf_opaque_gateway_c4_RobotSim 000000018000d1f0 f   c4_RobotSim.obj
+ 0001:0000c210       sf_c4_RobotSim             000000018000d210 f   c4_RobotSim.obj
+ 0001:0000c620       c4_chartstep_c4_RobotSim   000000018000d620 f   c4_RobotSim.obj
+ 0001:0000e540       c4_f_sf_marshallOut        000000018000f540 f   c4_RobotSim.obj
+ 0001:0000e6b0       c4_c_sf_marshallIn         000000018000f6b0 f   c4_RobotSim.obj
+ 0001:0000e7b0       c4_e_emlrt_marshallIn      000000018000f7b0 f   c4_RobotSim.obj
+ 0001:0000e8c0       c4_g_sf_marshallOut        000000018000f8c0 f   c4_RobotSim.obj
+ 0001:0000eb20       c4_d_sf_marshallIn         000000018000fb20 f   c4_RobotSim.obj
+ 0001:0000ec80       c4_f_emlrt_marshallIn      000000018000fc80 f   c4_RobotSim.obj
+ 0001:0000ee40       c4_e_sf_marshallIn         000000018000fe40 f   c4_RobotSim.obj
+ 0001:0000ef10       c4_g_emlrt_marshallIn      000000018000ff10 f   c4_RobotSim.obj
  0001:0000efe0       sf_opaque_get_sim_state_c4_RobotSim 000000018000ffe0 f   c4_RobotSim.obj
  0001:0000f000       sf_opaque_set_sim_state_c4_RobotSim 0000000180010000 f   c4_RobotSim.obj
  0001:0000f030       sf_opaque_terminate_c4_RobotSim 0000000180010030 f   c4_RobotSim.obj

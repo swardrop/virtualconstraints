@@ -1,0 +1,28 @@
+\section{Design of simulator}
+All simulation presented in this thesis was implemented using MATLAB \& Simulink Version 8.1 (R2013a). The dynamics of the walking robots in conjunction with the controller and path planner were simulated through executing a Simulink model within a MATLAB script. The Simulink model is designed to be flexible such that any robot satisfying the following predicates is able to be simulated:
+\begin{enumerate}
+	\item The dynamics of the robot are expressible in the form of Equation \ref{??}.
+	\item The robot has two legs for each of which there exists a single, identifiable point which defines its end.
+	\item The robot stands in a gravitational potential field with a well-defined ground.
+	\item The robot is subject to a virtual constraint defined in the form of Equation \ref{??}.
+\end{enumerate}
+
+This flexibility is achieved by deferring all constants (including dynamics matrices) to for definition within the MATLAB workspace which runs the model. \\
+
+The simulator is capable of producing the evolution of the states of the robot over time, as well as the torques used and the extent to which each virtual constraint has been maintained. It is designed for saggital-plane simulations, though it could with little effort be extended to three dimensions. \\
+
+The Simulink model is used to produce the data corresponding to the swing phase of the robot. Each time an impact event occurs, the simulation stops. Therefore, to simulate continuous walking, the executing script contains a loop which re-initialises the simulation after each step. This is convenient, since the impact events represent a discontinuity in the states, which is much easier to handle outside the model. It also presents a programmatic separation between the dynamics of the robot and the planning, therefore availing simpler means of evaluating the performance of the planning algorithm. \\
+
+The behaviour of the simulation is presented in the following {\color{red}state transition diagram}:
+
+Design of simulation, limitations, outputs
+
+\section{Simulink Model}
+<Block diagrams and explanatory text>
+<Table of required constants>
+
+\section{Compass-Gait (2-link) walker}
+Perhaps provide specific inputs to Simulink since this is a fairly simple case
+
+\section{5-link walker}
+Describe how the matrices were generated \cite{westervelt2007feedback}?

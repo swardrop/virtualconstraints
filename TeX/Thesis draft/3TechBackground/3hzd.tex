@@ -81,10 +81,17 @@ Substituting Equation~\ref{eqn:zerodyn} into this expression, we arrive at a fir
 		\dot{\theta}(\theta)^2 - 2\frac{\gamma(\theta)}{\alpha(\theta)}
 \end{equation}
 If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta_0, \theta_n]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta_0, \theta_n]$, which yields an affine solution, i.e.
-\begin{equation}
+\begin{equation} \label{eqn:affinesoln}
 	\dot{\theta}(\theta)^2 = \Gamma(\theta, \theta_0)\dot{\theta}_0^2 + \Psi(\theta, \theta_0)
 \end{equation}
-From this, we may also derive the total mechanical energy of the system. For general systems with dynamics as expressed in Equation~\ref{eqn:dynamics}, the mechanical energy has the form:
+
+For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote this point the \textit{critical velocity}, $\theta_c$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
+\begin{equation} \label{eqn:critvel}
+	\Gamma(\theta_c)\dot{\theta}_{0,c}^2 + \Psi(\theta_c) = 0
+\end{equation}
+For any initial velocity less than $\dot{\theta}_{0,c}$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta_c$; the robot will fall back rather than complete the footstep.
+
+Following from Equation \ref{eqn:affinesoln}, we may also derive the total mechanical energy of the system. For general systems with dynamics as expressed in Equation~\ref{eqn:dynamics}, the mechanical energy has the form:
 \begin{equation}
 	H\left(q,\dot{q}\right) = \dot{q}^TM(q)\dot{q} + V(q)
 \end{equation}
@@ -111,11 +118,15 @@ These equations apply conditions on the design of admissible virtual constraints
 
 More precisely, in order to satisfy invariance of the zero dynamics, a virtual constraint must satisfy two conditions. Consider $\alpha$ to denote the previous constraint and $\beta$ the next:
 \begin{itemize}
-	\item $q_{\beta_0} = Rq_{\alpha_f}$ -- The initial value of the constraint matches the output of the impact map for the final value of the previous constraint.
-	\item $\dot{q}_{\beta_0} = R\Delta\left(q_{\alpha_f}\right)\dot{q}_{\alpha_f}$ -- The post-impact velocity matches the velocity under the new constraint.
+	\item $q_{\beta_0} = Rq_{\alpha_f}$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint.
+	\item $\dot{q}_{\beta_0} = R\Delta\left(q_{\alpha_f}\right)\dot{q}_{\alpha_f}$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. Note that while virtual constraints set the configuration path, the impact map is linear in the velocity, thus the invariance of constraints is velocity-independent
 \end{itemize}
 
-Furthermore, impact events must lie within the static friction cone. Any constraint which terminates in an impact event that does not satisfy this requirement will result in slipping, which violates the assumptions made when deriving the swing phase zero dynamics.
+Furthermore, impact events must lie within the static friction cone. Any constraint which terminates in an impact event that does not satisfy this requirement will result in slipping, which violates the assumptions made when deriving the swing phase zero dynamics. It is possible to write the force at impact in the following manner, with $F = [F_T;F_N]$ \cite{westervelt2007feedback}:
+\begin{equation}
+	F = \Delta_{F}(q)\dot{q}^-
+\end{equation}
+Therefore, as with the invariance conditions, the force at impact is linear in velocity but set by the configuration and is therefore fixed by any particular virtual constraint.
 
 \subsection{B{\'e}zier curves as virtual constraints}
 Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $n+1$ points, where $n$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients. Furthermore, as demonstrated in \cite{westervelt2007feedback}, the use of Bézier polynomials to describe the virtual constraint leads to a closed form of the invariance conditions described in Section \ref{sec:impact}. \\
