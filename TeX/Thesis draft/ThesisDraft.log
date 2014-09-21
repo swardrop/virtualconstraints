@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  20 SEP 2014 23:15
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  22 SEP 2014 00:52
 entering extended mode
 **ThesisDraft.tex
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.tex"
@@ -1214,58 +1214,74 @@ Package tocbibind Info: The document has chapter divisions on input line 50.
 
 Package tocbibind Note: Using chapter style headings, unless overridden.
 
-) ("C:\Program Files\MiKTeX 2.9\tex\latex\draftwatermark\draftwatermark.sty"
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\enumitem\enumitem.sty"
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip82
+\enit@outerparindent=\dimen267
+\enit@toks=\toks38
+\enit@inbox=\box84
+\enitdp@description=\count184
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\changepage\changepage.sty"
+Package: changepage 2009/10/20 v1.0c check page and change page layout
+\c@cp@cntr=\count185
+\cp@tempcnt=\count186
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\parskip.sty"
+Package: parskip 2001/04/09 non-zero parskip adjustments
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\draftwatermark\draftwatermark.sty"
 Package: draftwatermark 2006/06/30 1.0 Put a gray textual watermark on document
  pages
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\everypage\everypage.sty"
 Package: everypage 2007/06/20 1.1 Hooks to run on every page
 )
-\sc@wm@fontsize=\skip82
+\sc@wm@fontsize=\skip83
 )
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 65.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 77.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 65.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
+LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 77.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count184
-\scratchdimen=\dimen267
-\scratchbox=\box84
-\nofMPsegments=\count185
-\nofMParguments=\count186
-\everyMPshowfont=\toks38
-\MPscratchCnt=\count187
-\MPscratchDim=\dimen268
-\MPnumerator=\count188
-\makeMPintoPDFobject=\count189
-\everyMPtoPDFconversion=\toks39
+\scratchcounter=\count187
+\scratchdimen=\dimen268
+\scratchbox=\box85
+\nofMPsegments=\count188
+\nofMParguments=\count189
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count190
+\MPscratchDim=\dimen269
+\MPnumerator=\count191
+\makeMPintoPDFobject=\count192
+\everyMPtoPDFconversion=\toks40
 )
-\c@lstlisting=\count190
-\AtBeginShipoutBox=\box85
+\c@lstlisting=\count193
+\AtBeginShipoutBox=\box86
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1280,12 +1296,12 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
 * \textwidth=426.79135pt
-* \textheight=607.33032pt
+* \textheight=609.56804pt
 * \oddsidemargin=13.08827pt
 * \evensidemargin=13.08827pt
 * \topmargin=13.08827pt
 * \headheight=12.0pt
-* \headsep=25.0pt
+* \headsep=22.76228pt
 * \topskip=12.0pt
 * \footskip=30.0pt
 * \marginparwidth=85.0pt
@@ -1301,18 +1317,18 @@ File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 65.
+Package hyperref Info: Link coloring OFF on input line 77.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count191
+\c@section@level=\count194
 )
-LaTeX Info: Redefining \ref on input line 65.
-LaTeX Info: Redefining \pageref on input line 65.
-LaTeX Info: Redefining \nameref on input line 65.
+LaTeX Info: Redefining \ref on input line 77.
+LaTeX Info: Redefining \pageref on input line 77.
+LaTeX Info: Redefining \nameref on input line 77.
 
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.out")
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.out")
@@ -1327,36 +1343,12 @@ Package pdftex.def Info: Images/usyd.jpg used on input line 9.
 
 [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
- <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/Images/usyd.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
-
- []
-
-[2]
+ <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/Images/usyd.jpg>] [2]
 LaTeX Font Info:    Try loading font information for TS1+lmr on input line 50.
- ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-
-LaTeX Warning: Citation `westervelt2007feedback' on page iii undefined on input
- line 51.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 58--59
 
  []
@@ -1381,112 +1373,89 @@ Underfull \hbox (badness 10000) in paragraph at lines 60--61
 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 74--75
-
- []
-
-[4]
-
-Package hyperref Warning: old toc file detected, not used; run LaTeX again.
-
-\tf@toc=\write4
-[5
-
-]
-
-Package hyperref Warning: old lof file detected, not used; run LaTeX again.
-
-\tf@lof=\write5
-[6
-
-]
-
-Package hyperref Warning: old lot file detected, not used; run LaTeX again.
-
-\tf@lot=\write6
-[7
-
-])
-Chapter 1.
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\1Introduction.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
 
  []
 
 
-Underfull \vbox (badness 4805) has occurred while \output is active []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.4 
-     [1
-
-
-]
-
-LaTeX Warning: Citation `manchester13planning' on page 2 undefined on input lin
-e 5.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
+Overfull \hbox (1.00232pt too wide) in paragraph at lines 64--65
+[]\T1/lmr/m/n/12 _______________ (stu-dent)   _______________ (su-per-vi-sor) 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 7--9
-
- []
-
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 10.
-("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
+[3] [4] ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.toc
+"
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 3.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 10.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 10.
-
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 10.
-
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 10.
+(Font)              <12> on input line 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 10.
+(Font)              <8> on input line 3.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 10.
-LaTeX Font Info:    Try loading font information for U+msa on input line 10.
+(Font)              <6> on input line 3.
+LaTeX Font Info:    Try loading font information for U+msa on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 10.
+LaTeX Font Info:    Try loading font information for U+msb on input line 3.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+) [5
+
+])
+\tf@toc=\write4
+ [6]
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.lof")
+\tf@lof=\write5
+
+[7
+
+] ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.lot")
+\tf@lot=\write6
+
+[8
+
+])
+Chapter 1.
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\1Introduction.tex"pdfTe
+X warning (ext4): destination with the same identifier (name{page.1}) has been 
+already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.6 
+     [1
+
+
+])
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1504,48 +1473,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Chapter 2.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/1Background.
-tex"
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
+tex" [4
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
- []
-
-[4
-
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-)
+])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/2WalkingRobo
 ts.tex"
+Underfull \vbox (badness 1430) has occurred while \output is active []
 
-LaTeX Warning: Citation `russell1983odex' on page 5 undefined on input line 1.
-
-
-LaTeX Warning: Citation `waldron1986adaptive' on page 5 undefined on input line
- 1.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-
- []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1555,64 +1489,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [5]
 
-LaTeX Warning: Citation `martinpredicting' on page 6 undefined on input line 3.
-
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
-
- []
-
-
-LaTeX Warning: Citation `chestnutt2005footstep' on page 6 undefined on input li
-ne 8.
-
-
-LaTeX Warning: Citation `chestnutt2007locomotion' on page 6 undefined on input 
-line 8.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [6]
-
-LaTeX Warning: Citation `mcgeer1990passive' on page 7 undefined on input line 1
-0.
-
-
-LaTeX Warning: Citation `asano2007dynamic' on page 7 undefined on input line 10
-.
-
-
-LaTeX Warning: Citation `byl2008approximate' on page 7 undefined on input line 
-10.
-
-
-LaTeX Warning: Citation `mcgeer1990passive' on page 7 undefined on input line 1
-3.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 13--14
-
- []
-
-
-LaTeX Warning: Citation `collins2001three' on page 7 undefined on input line 15
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1621,116 +1503,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [7]
 
-LaTeX Warning: Citation `mcgeer1990passive' on page 8 undefined on input line 2
-0.
-
-
-LaTeX Warning: Citation `collins2001three' on page 8 undefined on input line 20
-.
-
-
-LaTeX Warning: Citation `tedrake2004actuating' on page 8 undefined on input lin
-e 20.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--21
-
- []
-
-
-LaTeX Warning: Citation `collins2005bipedal' on page 8 undefined on input line 
-22.
-
-
-LaTeX Warning: Citation `tedrake2004actuating' on page 8 undefined on input lin
-e 24.
-
-
-LaTeX Warning: Citation `collins2005bipedal' on page 8 undefined on input line 
-24.
-
-
-LaTeX Warning: Citation `grizzle2001asymptotically' on page 8 undefined on inpu
-t line 24.
-
-
-LaTeX Warning: Citation `shiriaev2005constructive' on page 8 undefined on input
- line 24.
-
-
-LaTeX Warning: Citation `sreenath2011compliant' on page 8 undefined on input li
-ne 24.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 24--25
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [8]
+Underfull \vbox (badness 2689) has occurred while \output is active []
 
-LaTeX Warning: Citation `byl2008approximate' on page 9 undefined on input line 
-26.
-
-
-LaTeX Warning: Citation `sutton1998introduction' on page 9 undefined on input l
-ine 26.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 26--27
-
- []
-
-
-LaTeX Warning: Citation `tedrake2004actuating' on page 9 undefined on input lin
-e 28.
-
-
-LaTeX Warning: Citation `byl2008approximate' on page 9 undefined on input line 
-28.
-
-
-LaTeX Warning: Citation `manchester2011stable' on page 9 undefined on input lin
-e 28.
-
-
-LaTeX Warning: Citation `franken2008analysis' on page 9 undefined on input line
- 28.
-
-
-LaTeX Warning: Citation `asano2007dynamic' on page 9 undefined on input line 28
-.
-
-
-LaTeX Warning: Citation `martin2014design' on page 9 undefined on input line 28
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--29
-
- []
-
-
-LaTeX Warning: Citation `byl2008approximate' on page 9 undefined on input line 
-30.
-
-
-LaTeX Warning: Citation `westervelt2003hybrid' on page 9 undefined on input lin
-e 30.
-
-
-LaTeX Warning: Citation `tedrake2004actuating' on page 9 undefined on input lin
-e 30.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 30--31
-
- []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1738,21 +1518,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[9]
-
-LaTeX Warning: Citation `westervelt2003hybrid' on page 10 undefined on input li
-ne 32.
-
-
-LaTeX Warning: Reference `sec:underactuatedMaths' on page 10 undefined on input
- line 32.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
-
- []
-
-)
+[9])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/3Feedback.te
 x"
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
@@ -1765,59 +1531,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[10]
-
-LaTeX Warning: Citation `aastrom2001future' on page 11 undefined on input line 
-3.
-
-
-LaTeX Warning: Citation `rivera1986internal' on page 11 undefined on input line
- 3.
+[10])
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/4MotionPlann
+ing.tex"
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-
- []
-
-
-LaTeX Warning: Reference `sec:virtconstraint' on page 11 undefined on input lin
-e 5.
-
-
-LaTeX Warning: Citation `sreenath2011compliant' on page 11 undefined on input l
-ine 5.
-
-
-LaTeX Warning: Citation `martin2014design' on page 11 undefined on input line 5
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
- []
-
-
-LaTeX Warning: Citation `manchester2011stable' on page 11 undefined on input li
-ne 7.
-
-
-LaTeX Warning: Citation `martin2014design' on page 11 undefined on input line 7
-.
-
-
-LaTeX Warning: Citation `sreenath2011compliant' on page 11 undefined on input l
-ine 7.
-
-
-LaTeX Warning: Citation `raibert2008bigdog' on page 11 undefined on input line 
-7.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
-
- []
-
-)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1825,20 +1544,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [11]
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/4MotionPlann
-ing.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 2--3
-
- []
-
-
-LaTeX Warning: Reference `sec:feedback' on page 12 undefined on input line 4.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--5
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1847,103 +1552,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [12]
 
-LaTeX Warning: Citation `shakey1968' on page 13 undefined on input line 6.
-
-
-LaTeX Warning: Citation `vere1983planning' on page 13 undefined on input line 6
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 6--7
-
- []
-
-
-LaTeX Warning: Citation `brooks1986robust' on page 13 undefined on input line 8
-.
-
-
-LaTeX Warning: Citation `georgeff1987reactive' on page 13 undefined on input li
-ne 8.
-
-
-LaTeX Warning: Citation `gat1992integrating' on page 13 undefined on input line
- 8.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 17--18
-
- []
-
-
-LaTeX Warning: Citation `boor1999gaussian' on page 14 undefined on input line 1
-9.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 19--20
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[14]
+[14])
+Underfull \vbox (badness 2689) has occurred while \output is active []
 
-LaTeX Warning: Citation `tassa2012synthesis' on page 15 undefined on input line
- 21.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 21--22
-
- []
-
-
-LaTeX Warning: Citation `lavalle2001randomized' on page 15 undefined on input l
-ine 23.
-
-
-LaTeX Warning: Citation `frazzoli2002real' on page 15 undefined on input line 2
-3.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
-
- []
-
-
-LaTeX Warning: Citation `cohen2011planning' on page 15 undefined on input line 
-25.
-
-
-LaTeX Warning: Citation `frazzoli2005maneuver' on page 15 undefined on input li
-ne 25.
-
-
-LaTeX Warning: Citation `vonasek2013global' on page 15 undefined on input line 
-25.
-
-
-LaTeX Warning: Citation `shkolnik2011bounding' on page 15 undefined on input li
-ne 25.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--26
-
- []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1952,43 +1575,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [15]
-
-LaTeX Warning: Citation `manchester13planning' on page 16 undefined on input li
-ne 27.
-
-
-LaTeX Warning: Reference `sec:virtconstraint' on page 16 undefined on input lin
-e 27.
-
-)
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/5VirtHolonom
 ic.tex"
-
-LaTeX Warning: Citation `shiriaev2005constructive' on page 16 undefined on inpu
-t line 1.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-
- []
-
-
-LaTeX Warning: Citation `freidovich2009passive' on page 16 undefined on input l
-ine 3.
-
-
-LaTeX Warning: Citation `freidovich2008periodic' on page 16 undefined on input 
-line 3.
-
-
-LaTeX Warning: Citation `canudas2004concept' on page 16 undefined on input line
- 3.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1997,79 +1585,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [16]
 
-LaTeX Warning: Citation `manchester2011stable' on page 17 undefined on input li
-ne 5.
-
-
-LaTeX Warning: Citation `manchester13planning' on page 17 undefined on input li
-ne 5.
-
-
-LaTeX Warning: Reference `sec:selection' on page 17 undefined on input line 5.
-
-
-LaTeX Warning: Citation `grizzle2001asymptotically' on page 17 undefined on inp
-ut line 8.
-
-
-LaTeX Warning: Citation `westervelt2003hybrid' on page 17 undefined on input li
-ne 8.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--9
-
- []
-
-
-LaTeX Warning: Citation `sreenath2011compliant' on page 17 undefined on input l
-ine 10.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[17]
-
-LaTeX Warning: Citation `sreenath2011compliant' on page 18 undefined on input l
-ine 12.
-
-
-LaTeX Warning: Citation `westervelt2007feedback' on page 18 undefined on input 
-line 12.
+[17])
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/6Conclusion.
+tex"
+Underfull \vbox (badness 1609) has occurred while \output is active []
 
 
-LaTeX Warning: Citation `manchester13planning' on page 18 undefined on input li
-ne 15.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
-
- []
-
-
-LaTeX Warning: Citation `knuth1976analysis' on page 18 undefined on input line 
-17.
-
-
-LaTeX Warning: Citation `steinbiss1994improvements' on page 18 undefined on inp
-ut line 17.
-
-
-LaTeX Warning: Citation `goldfeld1966maximization' on page 18 undefined on inpu
-t line 17.
-
-
-LaTeX Warning: Citation `manchester13planning' on page 18 undefined on input li
-ne 17.
-
-)
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -2077,139 +1603,51 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [18]
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\2LitReview/6Conclusion.
-tex"
-Underfull \hbox (badness 10000) in paragraph at lines 2--3
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--5
-
- []
-
-
-LaTeX Warning: Citation `manchester13planning' on page 19 undefined on input li
-ne 9.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 11--12
-
- []
-
-
-LaTeX Warning: Citation `manchester13planning' on page 20 undefined on input li
-ne 13.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 13--14
-
- []
-
-
-LaTeX Warning: Citation `manchester13planning' on page 20 undefined on input li
-ne 16.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 16--17
-
- []
-
+[19]))
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[20]))
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[21]
+[20]
 Chapter 3.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/1Actuat
-ion.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 4--6
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 12--13
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--19
-
- []
-
-[22
-
+ion.tex")
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/2Opt.te
+x" [21
 
 ])
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/2Opt.te
-x")
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/3hzd.te
-x"
-
-LaTeX Warning: Citation `isidori1995nonlinear' on page 23 undefined on input li
-ne 1.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 10--12
+[22]
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/3hzd.te
+x"
 
- []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
+[23
 
-LaTeX Warning: Citation `hurmuzlu1994rigid' on page 24 undefined on input line 
-13.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 17--18
-
- []
-
-
-LaTeX Warning: Reference `fig:relabelimpact' on page 24 undefined on input line
- 19.
-
-<3TechBackground/impact.png, id=384, 196.735pt x 172.645pt>
+] <3TechBackground/impact.png, id=579, 557.08125pt x 828.09375pt>
 File: 3TechBackground/impact.png Graphic file (type png)
 
 <use 3TechBackground/impact.png>
-Package pdftex.def Info: 3TechBackground/impact.png used on input line 23.
-(pdftex.def)             Requested size: 196.7345pt x 172.64456pt.
+Package pdftex.def Info: 3TechBackground/impact.png used on input line 35.
+(pdftex.def)             Requested size: 134.43776pt x 199.83322pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -2221,72 +1659,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 51--52
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[25 <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/3TechBackground/impa
-ct.png>]
-
-LaTeX Warning: Reference `eqn:dynamics' on page 26 undefined on input line 53.
-
-
-LaTeX Warning: Reference `eqn:zerodyn' on page 26 undefined on input line 78.
-
-
-LaTeX Warning: Citation `manchester13planning' on page 26 undefined on input li
-ne 83.
-
-
-LaTeX Warning: Reference `eqn:zerodynDE' on page 26 undefined on input line 83.
-
-
-
-Underfull \vbox (badness 1348) has occurred while \output is active []
-
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 14.49998pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[26]
-
-LaTeX Warning: Reference `eqn:affinesoln' on page 27 undefined on input line 88
-.
-
-
-LaTeX Warning: Reference `eqn:affinesoln' on page 27 undefined on input line 92
-.
-
-
-LaTeX Warning: Reference `eqn:affinesoln' on page 27 undefined on input line 94
-.
-
-
-LaTeX Warning: Reference `eqn:dynamics' on page 27 undefined on input line 94.
-
-
-LaTeX Warning: Reference `eqn:impactconfig' on page 27 undefined on input line 
-115.
-
-
-LaTeX Warning: Reference `eqn:impactvel' on page 27 undefined on input line 115
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 115--116
-
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -2296,14 +1668,45 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 117--118
-
+[25 <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/3TechBackground/impa
+ct.png>]
+Overfull \hbox (13.2546pt too wide) in paragraph at lines 97--97
+ |[]\T1/lmr/bx/n/14.4 Partial closed-form so-lu-tions for ve-loc-ity and en-erg
+y| 
  []
 
 
-LaTeX Warning: Citation `westervelt2007feedback' on page 28 undefined on input 
-line 125.
+Underfull \vbox (badness 5036) has occurred while \output is active []
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[26pdfTeX warning (ext4): destination with the same identifier (name{equation.3
+.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.112 \end{equation}
+                    ]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 14.49998pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[27]
+Overfull \hbox (2.4648pt too wide) in paragraph at lines 143--144
+[]$[] \OT1/lmr/m/n/12 = \OML/lmm/m/it/12 R\OT1/lmr/m/n/12  [] []$ \T1/lmr/m/n/
+12 -- The ini-tial ve-loc-ity un-der the con-straint matches
+ []
+
+
+Underfull \vbox (badness 2376) has occurred while \output is active []
+
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2312,20 +1715,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [28]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: Citation `westervelt2007feedback' on page 29 undefined on input 
-line 132.
-
-
-LaTeX Warning: Reference `sec:impact' on page 29 undefined on input line 132.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 132--133
-
- []
-
-
-LaTeX Warning: Reference `eqn:genBez' on page 29 undefined on input line 156.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2335,59 +1726,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [29]
 
-LaTeX Warning: Reference `eqn:outputfun' on page 30 undefined on input line 169
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 169--170
-
- []
-
-
-LaTeX Warning: Reference `sec:impact' on page 30 undefined on input line 171.
-
-
-LaTeX Warning: Citation `westervelt2007feedback' on page 30 undefined on input 
-line 171.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 186--187
-
- []
-
-
-LaTeX Warning: Reference `eqn:bezinvconfig' on page 30 undefined on input line 
-188.
-
-
-LaTeX Warning: Reference `eqn:impactconfig' on page 30 undefined on input line 
-188.
-
-
-LaTeX Warning: Reference `eqn:bezinvvel' on page 30 undefined on input line 188
-.
-
-
-LaTeX Warning: Reference `eqn:impactvel' on page 30 undefined on input line 188
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [30])
-Underfull \hbox (badness 10000) in paragraph at lines 190--9
-
- []
-
-
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/4Planni
 ng.tex"))
 
@@ -2400,16 +1744,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Chapter 4.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/1reqs.tex
-"
-
-LaTeX Warning: Reference `sec:primplanning' on page 32 undefined on input line 
-1.
-
-
-LaTeX Warning: Reference `eqn:critvel' on page 32 undefined on input line 6.
-
-[32
-
+" [32
 
 ])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/2Data.tex
@@ -2418,46 +1753,18 @@ LaTeX Warning: Reference `eqn:critvel' on page 32 undefined on input line 6.
 )
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/4autogen.
 tex"
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 7--8
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[33]
-
-LaTeX Warning: Reference `fig:manualgen' on page 34 undefined on input line 11.
-
-
-<4VirtConstLib/manualgen.png, id=457, 822.82407pt x 316.18124pt>
+[33] <4VirtConstLib/manualgen.png, id=702, 822.82407pt x 316.18124pt>
 File: 4VirtConstLib/manualgen.png Graphic file (type png)
 
 <use 4VirtConstLib/manualgen.png>
 Package pdftex.def Info: 4VirtConstLib/manualgen.png used on input line 15.
 (pdftex.def)             Requested size: 384.1096pt x 147.59686pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 24--25
-
- []
 
 
 LaTeX Warning: Reference `eqn:??' on page 34 undefined on input line 26.
@@ -2472,17 +1779,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [34 <C:/Users/yak/Documents/GitHub/thesis/TeX/Thesis draft/4VirtConstLib/manual
-gen.png (PNG copy)>])
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
+gen.png (PNG copy)>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[35]
+[35])
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\4VirtConstLib/5order.te
 x"))
 
@@ -2496,7 +1800,6 @@ Chapter 5.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\5AlgDesign.tex")
 [37
 
-
 ]
 Chapter 6.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\6Sim.tex"
@@ -2506,30 +1809,9 @@ LaTeX Warning: Reference `??' on page 38 undefined on input line 4.
 
 LaTeX Warning: Reference `??' on page 38 undefined on input line 7.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 12--13
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 14--15
-
- []
-
 [38
 
-
-]
-
-LaTeX Warning: Citation `westervelt2007feedback' on page 39 undefined on input 
-line 28.
-
-)
+])
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -2540,17 +1822,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Chapter 7.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\7Results.tex") [40
 
-
 ]
 Chapter 8.
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\8Disc.tex") [41
-
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\8Disc.tex")
+("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.bbl"
+[41
 
 ]
-("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.bbl"
 Chapter 9.
 [42
-
 
 ]
 
@@ -2560,6 +1840,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [43]
+Underfull \hbox (badness 1152) in paragraph at lines 177--181
+[]\T1/lmr/m/n/12 N. J. Nils-son, C. A. Rosen, B. Raphael, G. Forsen, L. Chaitin
+, and
+ []
+
+
+Underfull \vbox (badness 2334) has occurred while \output is active []
+
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -2567,11 +1856,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [44]
-Underfull \hbox (badness 1152) in paragraph at lines 177--181
-[]\T1/lmr/m/n/12 N. J. Nils-son, C. A. Rosen, B. Raphael, G. Forsen, L. Chaitin
-, and
- []
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -2592,22 +1876,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Appendix A.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/1CompassGait/1Cont
-Phase.tex" [48
+Phase.tex"
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [48
 
 ]
-
-LaTeX Warning: Reference `eqn:x2dot' on page 49 undefined on input line 22.
-
-
-LaTeX Warning: Reference `eqn:y2dot' on page 49 undefined on input line 22.
-
-
-LaTeX Warning: Reference `eqn:V_2' on page 49 undefined on input line 31.
-
-
-LaTeX Warning: Reference `eqn:KE' on page 49 undefined on input line 31.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -2618,13 +1892,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [49]
-
-LaTeX Warning: Reference `eqn:T_i' on page 50 undefined on input line 39.
-
-
-LaTeX Warning: Reference `eqn:L' on page 50 undefined on input line 39.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -2682,12 +1949,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [53]
 Appendix B.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\9App/2NumInt.tex"
-
-LaTeX Warning: Citation `manchester13planning' on page 54 undefined on input li
-ne 1.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 3701) has occurred while \output is active []
 
  [54
 
@@ -2700,29 +1962,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [55])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 143.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 143.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
  ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 143.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 143.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
 Package rerunfilecheck Info: File `ThesisDraft.out' has not changed.
-(rerunfilecheck)             Checksum: 9A7A9B99894AD4A550FA1829F7E96E3A;4381.
+(rerunfilecheck)             Checksum: 91A34DB4ED849F3F4066BE5DFF619193;4342.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 143.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 17193 strings out of 493921
- 269852 string characters out of 3147288
- 350635 words of memory out of 3000000
- 19822 multiletter control sequences out of 15000+200000
+ 17568 strings out of 493921
+ 276305 string characters out of 3147288
+ 361701 words of memory out of 3000000
+ 20157 multiletter control sequences out of 15000+200000
  54656 words of font info for 47 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,14n,45p,1519b,730s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,18n,47p,1516b,701s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Fil
 es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fon
 ts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ma
@@ -2739,9 +1998,9 @@ ts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/
 lmri12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy6.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/public/lm/lmsy8.pfb>
-Output written on ThesisDraft.pdf (62 pages, 792035 bytes).
+Output written on ThesisDraft.pdf (63 pages, 863955 bytes).
 PDF statistics:
- 721 PDF objects out of 1000 (max. 8388607)
- 218 named destinations out of 1000 (max. 500000)
+ 935 PDF objects out of 1000 (max. 8388607)
+ 242 named destinations out of 1000 (max. 500000)
  496 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -18,4 +18,16 @@ delqed = M_e\E2'*delF2 + [eye(2);dYe];
 R = delq();
 delqd = [R zeros(2)]*delqed;
 
+
+% % From Westervelt pg 65-66; lc = l/2
+% q1 = q(1);
+% den = I^2 + (5*l^4*m^2)/16 - (cos(q1)^2*l^4*m^2)/4 + (3*I*l^2*m)/2;
+% Dqd11 = ((l^2*m)/4 - I)*(I + (l^2*m)/4 - (cos(q1)*l^2*m)/2);
+% Dqd12 = -(l^2*m*(2*I - 2*I*cos(q1) - (l^2*m*cos(q1))/2 + ...
+%     (l^2*m*cos(2*q1))/2))/2;
+% Dqd21 = ((l^2*m)/4 - I)*((m*l^2)/4 + I);
+% Dqd22 = I^2 - (l^4*m^2)/16 + (l^4*m^2*cos(q1))/8 + ...
+%     (3*I*l^2*m*cos(q1))/2;
+% Dqd = 1/den*[Dqd11 Dqd12; Dqd21 Dqd22];
+% I have confirmed that this matches delqd!
 end

@@ -7,15 +7,18 @@ All simulation presented in this thesis was implemented using MATLAB \& Simulink
 	\item The robot is subject to a virtual constraint defined in the form of Equation \ref{??}.
 \end{enumerate}
 
-This flexibility is achieved by deferring all constants (including dynamics matrices) to for definition within the MATLAB workspace which runs the model. \\
+This flexibility is achieved by deferring all constants (including dynamics matrices) to for definition within the MATLAB workspace which runs the model.
 
-The simulator is capable of producing the evolution of the states of the robot over time, as well as the torques used and the extent to which each virtual constraint has been maintained. It is designed for saggital-plane simulations, though it could with little effort be extended to three dimensions. \\
+The simulator is capable of producing the evolution of the states of the robot over time, as well as the torques used and the extent to which each virtual constraint has been maintained. It is designed for saggital-plane simulations, though it could with some effort be extended to three dimensions. Another current limitation of the simulator is that it is only applicable to piecewise flat ground.
 
-The Simulink model is used to produce the data corresponding to the swing phase of the robot. Each time an impact event occurs, the simulation stops. Therefore, to simulate continuous walking, the executing script contains a loop which re-initialises the simulation after each step. This is convenient, since the impact events represent a discontinuity in the states, which is much easier to handle outside the model. It also presents a programmatic separation between the dynamics of the robot and the planning, therefore availing simpler means of evaluating the performance of the planning algorithm. \\
+The Simulink model is used to produce the data corresponding to the swing phase of the robot. Each time an impact event occurs, the simulation stops. Therefore, to simulate continuous walking, the executing script contains a loop which re-initialises the simulation after each step. This is convenient, since the impact events represent a discontinuity in the states, which is much easier to handle outside the model. It also presents a programmatic separation between the dynamics of the robot and the planning, therefore availing simpler means of evaluating the performance of the planning algorithm.
 
 The behaviour of the simulation is presented in the following {\color{red}state transition diagram}:
 
-Design of simulation, limitations, outputs
+
+{\color{orange}Theoretically, these curves should only be defined from the start to the end point of the continuous phase which they specify. However, since the constraint is not guaranteed to be perfectly regulated, it is necessary to define the constraint over the full range of possible motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the control signal is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta_n]$, otherwise it is zero.}
+
+{\color{blue}Design of simulation, limitations, outputs}
 
 \section{Simulink Model}
 <Block diagrams and explanatory text>

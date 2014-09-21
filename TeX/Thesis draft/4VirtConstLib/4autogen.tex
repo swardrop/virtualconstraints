@@ -1,12 +1,12 @@
 \subsection{Optimisation of a single constraint}
 \subsubsection{Motivation of need for optimisation}
-Note on intractability of gridding approaches \\
+Note on intractability of gridding approaches
 
-The first challenge in producing a library of virtual constraints is to produce a method by which a single constraint may be optimised -- the optimality of a planned trajectory cannot exceed the optimality of the primitives which compose it. The definition of optimality in the case of a bipedal robot is not clear; {\color{red}<insert literature references to competing definitions>}. \\
+The first challenge in producing a library of virtual constraints is to produce a method by which a single constraint may be optimised -- the optimality of a planned trajectory cannot exceed the optimality of the primitives which compose it. The definition of optimality in the case of a bipedal robot is not clear; {\color{red}<insert literature references to competing definitions>}.
 
-The definition of optimality chosen for the purposes of producing the virtual constraint library is as follows: \\
+The definition of optimality chosen for the purposes of producing the virtual constraint library is as follows:
 
-\emph{The optimal constraint for a given start and end configuration and kinetic energy gain or loss is the one which requires the minimum RMS torque value to maintain.} \\
+\emph{The optimal constraint for a given start and end configuration and kinetic energy gain or loss is the one which requires the minimum RMS torque value to maintain.}
 
 Using this definition, we may further motivate the need for optimisation of the virtual constraints by way of example. Consider Figure \ref{fig:manualgen}; the constraint has been chosen based upon reasoning that it appears to produce a net-gain kinetic energy in a fairly smooth motion. However, the torque required to maintain this motion is clearly wasteful and nonmonotonic. {\color{red} Maybe try to give some good justification here.}
 
@@ -21,14 +21,16 @@ Using this definition, we may further motivate the need for optimisation of the 
 Surfaces which confirm quasi-convexity.
 
 \subsubsection{Optimisation method}
-Unfortunately, the torque required to maintain a constraint varies with initial velocity. Since the virtual constraint library is prepared off-line, the initial velocity is unknown. The constraint is therefore optimised over a nominal trajectory. That is, each virtual constraint is only perfectly optimised for a particular initial velocity. {\color{red} Justify this, and go into depth about the choice of initial velocity? There's no reason that this should be the same per constraint. The nominal trajectory is probably different for each constraint.} \\
+Unfortunately, the torque required to maintain a constraint varies with initial velocity. Since the virtual constraint library is prepared off-line, the initial velocity is unknown. The constraint is therefore optimised over a nominal trajectory. That is, each virtual constraint is only perfectly optimised for a particular initial velocity. {\color{red} Justify this, and go into depth about the choice of initial velocity? There's no reason that this should be the same per constraint. The nominal trajectory is probably different for each constraint.}
 
 The nominal initial velocity for a particular constraint was chosen to be that which achieves periodic walking based upon the constraint. That is, the output of the impact map $\dot{\theta}^+$ is equal to the initial velocity $\dot{\theta}_0$. This is calculable in closed-form: The following relations are trivially obtained from the partial closed form solution and the impact map (Equations \ref{eqn:??} and \ref{eqn:??}):
-\begin{eqnarray}
-	\left(\dot{\theta}^-\right)^2 &=& \Gamma(\theta^-)\dot{\theta}_0^2 + \Psi(\theta^-) \\
-	\dot{\theta}^+ &=& \Delta_{\dot{\theta}}\dot{\theta}^- \\
-	\Delta_{\dot{\theta}} &:=& cR\Delta(\Phi(\theta^-))\Phi'(\theta^-)
-\end{eqnarray}
+\begin{subequations}
+\begin{align}
+	\left(\dot{\theta}^-\right)^2 &= \Gamma(\theta^-)\dot{\theta}_0^2 + \Psi(\theta^-) \\
+	\dot{\theta}^+ &= \Delta_{\dot{\theta}}\dot{\theta}^- \\
+	\Delta_{\dot{\theta}} &:= cR\Delta(\Phi(\theta^-))\Phi'(\theta^-)
+\end{align}
+\end{subequations}
 Equating $\dot{\theta}^+$ and $\dot{\theta}_0$, we obtain (periodic velocity)
 \begin{equation}
 	\dot{\theta}_{0,p}^2 = \frac{\Psi(\theta^-)}{\Delta_{\dot{\theta}}^{-2} - \Gamma(\theta^-)}

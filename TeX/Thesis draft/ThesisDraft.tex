@@ -14,7 +14,7 @@
 \usepackage[toc,page]{appendix}
 \usepackage{epstopdf}
 \usepackage{multicol}
-\usepackage[includeheadfoot, margin=3cm]{geometry}
+\usepackage[includeheadfoot, margin=3cm, headsep=0.8cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{lscape}
@@ -32,6 +32,14 @@
 \usepackage{titlesec}
 \usepackage{pdfpages}
 \usepackage[nottoc,numbib,notlof,notlot]{tocbibind}
+\usepackage{enumitem}
+\usepackage{changepage}
+\usepackage[parfill]{parskip}
+
+\titlespacing{\section}
+{0pt}{0ex}{0ex}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
 \usepackage{draftwatermark}
 \SetWatermarkLightness{0.95}
@@ -55,9 +63,13 @@
 \hypersetup{pdfauthor={Stephen Wardrop},pdftitle={Honours Thesis}}
 
 % Set figure numbering
-\renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
-\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
-\renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\theequation}{\thechapter\arabic{equation}}
+\renewcommand{\theequation}{\thechapter\arabic{equation}}
+\renewcommand{\theequation}{\thechapter\arabic{equation}}
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
 
 \renewcommand{\chaptermark}[1]{\markleft{}}
 \renewcommand{\sectionmark}[1]{\markright{}}
@@ -79,51 +91,35 @@
 \titleformat{\chapter}[display]
 	{\bfseries\Large}
 	{}
-	{1ex}
+	{-4cm}
 	{\titlerule\vspace{1ex}
 	\ifnum\value{chapter}>0 \MakeUppercase{\chaptertitlename}~\Huge\thechapter \fi
 		~ \Large\filright}
 	[\vspace{1ex}\titlerule]
 
 \chapter{Introduction}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{1Introduction}
-\clearpage
 
 \chapter{Literature Review}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{2LitReview}
-\clearpage
 
 \chapter{Technical Background}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{3TechBackground}
-\clearpage
 
 \chapter{Virtual Constraint Library}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{4VirtConstLib}
-\clearpage
 
 \chapter{Algorithm Design}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{5AlgDesign}
-\clearpage
 
 \chapter{Simulation}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{6Sim}
-\clearpage
 
 \chapter{Results}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{7Results}
-\clearpage
 
 \chapter{Discussion}
-\setcounter{figure}{0}\setcounter{equation}{0}\setcounter{table}{0}
 \input{8Disc}
-\clearpage
 
 \bibliography{../references}
 
@@ -135,9 +131,5 @@
 \end{appendices}
 
 \endgroup
-\clearpage
-
-
-
 
 \end{document}

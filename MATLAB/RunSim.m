@@ -15,13 +15,15 @@ err = [];
 impact = [];
 
 % Set up terrain (stored as set of heights with zero-order hold)
-ground = [-realmax,0];                    % Flat ground
+%ground = [-realmax,0];                    % Flat ground
 %ground = [-realmax, 0; 1 -0.05];          % Step up 0.05m at 1m
 % ground = [-realmax, 0;
 %             1       -0.05
 %             2       0
 %             3       0.05
 %             3.5     0.1];
+ground = [-realmax,0;
+            0.4       0.1];
 
 % Define holonomic constraint (Bezier curve)
 constrData = ConstrGui;
