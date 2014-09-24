@@ -1,0 +1,13 @@
+Optimising a particular constraint for minimum torque is valuable for the achievement of efficient periodic walking on flat ground, however coverage over the configuration space of the robot is required for walking over uneven terrain. In addition, a viable solution must include a means of velocity control. Therefore, we require coverage of the configuration space with optimised constraints which achieve additions and subtractions of kinetic energy. Constraints which allow for an increase in kinetic energy are required to facilitate steps against the gravitational potential field, and decreases in kinetic energy may be required to keep the motor output within torque limits, to limit excessive wear on the robot, and to bring the walker to a stop once it has completed its task.
+
+\subsection{Acceptable coverage}
+Coverage of intra-step configuration space, energy gains/losses and step heights and lengths
+
+\subsection{Ordering sets of constraints}
+Ordering on the basis of $\Gamma(\theta^\bullet)$ and $\Psi(\theta^\bullet)$
+
+\subsection{Library structure}
+Constraints structured together based upon same step length + height, ordering(s) stored, tree/array/linked list/hash table/map?
+
+\subsection{Library generation method}
+Grid much more finely over heights than lengths - step lengths is just a "nicety", but step heights is required for terrain traversability.

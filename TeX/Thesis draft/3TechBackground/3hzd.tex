@@ -18,7 +18,7 @@ We model the dynamics of the walking robot by assuming that between each impact 
 \end{enumerate}
 Furthermore, we assume that all impacts occur without slipping. That is, the impulsive forces which occur at impact lie within the static friction cone. 
 
-These assumptions represent an adequate model of physical walking and are widely used and discussed in the literature, see \cite{hurmuzlu1994rigid, westervelt2007feedback}. Under this impact model, there exists an impact map of following form \cite{manchester2013planning}:
+These assumptions represent an adequate model of physical walking and are widely used and discussed in the literature, see \cite{hurmuzlu1994rigid, westervelt2007feedback}. Under this impact model, there exists an impact map of following form \cite{manchester13planning}:
 \begin{subequations}
 \begin{align}
 	q\left(t^+\right) &= Rq\left(t^-\right) \label{eqn:impactconfig}\\
@@ -111,7 +111,7 @@ If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\thet
 	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}_0^2 + \Psi(\theta)
 \end{equation}
 
-For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote this point the \textit{critical velocity}, $\theta_c$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
+For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote the velocity at this point the \textit{critical velocity}, $\dot{theta}(\theta_c)$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
 \begin{equation} \label{eqn:critvel}
 	\Gamma(\theta_c)\dot{\theta}_{0,c}^2 + \Psi(\theta_c) = 0
 \end{equation}
@@ -139,8 +139,8 @@ In order to be admissible, a virtual constraint must satisfy the following condi
 \begin{samepage}
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
-	\item $q_\beta\left(\theta_\beta^+\right) = Rq_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
-	\item $\dot{q}_\beta\left(\theta_\beta^+\right) = R\Delta\left(q_\alpha(\theta_\alpha^-)\right)\dot{q}_\alpha\left(\theta_\alpha^-\right)$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
+	\item $\Phi_\beta\left(\theta_\beta^+\right) = R\Phi_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
+	\item $\Phi_\beta'\left(\theta_\beta^+\right) = R\Delta\left(\Phi_\alpha(\theta_\alpha^-)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
 	\item The vertical component of the post-impact velocity of the end of the new swing leg, $\dot{p}_v^+ > 0$ -- The new swing lifts off the ground immediately after impact. \label{item:liftoff}
 	\item $F_N > 0$ -- the vertical force at impact is compressive; the ground resists the leg rather than attracts it. \label{item:posnormalF}
 	\item $|F_T|/F_N<\mu_s$ -- the forces at impact lie within the friction cone. \label{item:frictioncone}
@@ -230,7 +230,7 @@ The invariance conditions, \ref{item:configinvariance} and \ref{item:velinvarian
 	\beta_1 &= \frac{\theta_\beta^- - \theta_\beta^+}{N_\beta}
 	H_0\Delta_{\dot{\theta}_\alpha} \left(c\Delta_{\dot{\theta}_\alpha}\right)^{-1} + \beta_0\\
 	\Delta_{\dot{\theta}_\alpha} &= R\Delta\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)
-		\Phi_\alpha'\left(\theta_\alpha^-\right)
+		\Phi_\alpha'\left(\theta_\alpha^-\right) \label{eqn:Delthd}
 \end{align}
 \end{subequations}
 
@@ -242,10 +242,17 @@ For any given robot, the position $p=[p_h;p_v]$ of the end of the swing leg is a
 	\Phi'(\theta)\dot{\theta}
 \end{equation*}
 
-By hypothesis, $\theta$ is increasing, so \ref{item:liftoff} is satisfied only if Equation \ref{eqn:liftoff} is true both for the constraint $\alpha$ and for a following constraint $\beta$ which satisfies the invariance conditions.
+By hypothesis, $\theta$ is increasing, so \ref{item:liftoff} is satisfied if Equation \ref{eqn:liftoff} is true for the constraint $\alpha$.
 \begin{equation} \label{eqn:liftoff}
 	[0~1]~\frac{\partial p}{\partial\Phi_\alpha(\theta)}
 	\left(\Phi_\alpha\left(\theta_\alpha^+\right)\right)\Phi_\alpha'\left(\theta_\alpha^+\right)>0
+\end{equation}
+Note that since $\Phi\left(\theta^+\right)$ and $\Phi'\left(\theta^+\right)$ are fixed by the invariance condition on the basis of the previous constraint, in order for the constraint $\alpha$ to be useful, the final state under $\alpha$ must allow for a constraint which satisfies invariance following $\alpha$ to also satisfy \ref{item:liftoff}. That is:
+\begin{equation} \label{eqn:liftoffNext}
+	[0~1]~\frac{\partial p}{\partial\left(R\Phi_\alpha(\theta)\right)}
+	\left(R\Phi_\alpha\left(\theta_\alpha^-\right)\right)
+	R\Delta\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)
+	\Phi_\alpha'\left(\theta_\alpha^-\right)>0
 \end{equation}
 
 Similarly, \ref{item:posnormalF} is satisfied if $\dot{p}_v^- < 0$, therefore it is satisfied if
