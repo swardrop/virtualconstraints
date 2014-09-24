@@ -22,7 +22,7 @@ function varargout = ConstrGui(varargin)
 
 % Edit the above text to modify the response to help ConstrGui
 
-% Last Modified by GUIDE v2.5 14-Sep-2014 20:53:09
+% Last Modified by GUIDE v2.5 24-Sep-2014 14:35:20
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,7 +55,9 @@ global constr orig_th orig_al theta q;
 global constrData;
 global drag;
 global type;
+global invOn;
 drag = 0;
+invOn = true;
 
 N = 5;
 
@@ -92,161 +94,19 @@ type = contents{get(handles.costmenu,'Value')};
 % UIWAIT makes ConstrGui wait for user response (see UIRESUME)
 uiwait(handles.figure1);
 
-
-% --- Outputs from this function are returned to the command line.
-function varargout = ConstrGui_OutputFcn(hObject, eventdata, handles)
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global constrData;
-% Get default command line output from handles structure
-varargout{1} = constrData(2:end);
-
-
-% --------------------------------------------------------------------
-function FileMenu_Callback(hObject, eventdata, handles)
-% hObject    handle to FileMenu (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --------------------------------------------------------------------
-function OpenMenuItem_Callback(hObject, eventdata, handles)
-% hObject    handle to OpenMenuItem (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-file = uigetfile('*.fig');
-if ~isequal(file, 0)
-    open(file);
-end
-
-% --------------------------------------------------------------------
-function PrintMenuItem_Callback(hObject, eventdata, handles)
-% hObject    handle to PrintMenuItem (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-printdlg(handles.figure1)
-
-% --------------------------------------------------------------------
-function CloseMenuItem_Callback(hObject, eventdata, handles)
-% hObject    handle to CloseMenuItem (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-selection = questdlg(['Close ' get(handles.figure1,'Name') '?'],...
-                     ['Close ' get(handles.figure1,'Name') '...'],...
-                     'Yes','No','Yes');
-if strcmp(selection,'No')
-    return;
-end
-
-delete(handles.figure1)
-
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global constrData
-if length(constrData) < 2
-    saveButton_Callback(hObject, eventdata, handles)
-end
-uiresume(handles.figure1);
-delete(handles.figure1);
-
-% --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over pushbutton4.
-function pushbutton4_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-%uiresume(handles.figure1);
-
-% Executes on button press on lines within the plot
-function bezplot_ButtonDownFcn(o,e)
-global constr
-global drag dragEnd
-p = get(gca, 'CurrentPoint');
-p = p(1,1:2);
-
-theta_p = constr.theta_p;
-alpha_p = constr.alpha_p;
-% Search through points to see if button pressed near point
-% First check theta coord.
-possPoints = find(abs(theta_p - p(1)) < 0.1);
-% Then iterate through possible th coords for match in both th and q
-for i = possPoints
-    if abs(alpha_p(:,i) - p(2)) < 0.05
-        drag = i;
-        if i == 1 || i == 2 ...
-                  || i == length(theta_p)-1 || i == length(theta_p)
-            dragEnd = true;
-        end
-        break;
-    end
-end
-
-% --- Executes on mouse press over figure background, over a disabled or
-% --- inactive control, or over an axes background.
-function figure1_WindowButtonUpFcn(hObject, eventdata, handles)
-% hObject    handle to figure1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global constr
-global drag dragEnd
-
-if (drag)
-    p = get(handles.axes3, 'CurrentPoint');
-    p = p(1,1:2);
-    constr.alpha_p(:,drag) = p(2);
-    drag = false;
-    if (dragEnd)
-        constr.theta_p(drag) = p(1);
-        updatePoints
-        dragEnd = false;
-    end
-    h = refreshBezDisplay(handles);
-    set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
-    constr = makeConstr(constr.theta_p, constr.alpha_p);
-    refreshSidePlots(handles);
-end
-
-
-function figure1_WindowButtonMotionFcn(hObject, eventdata, handles)
-% hObject    handle to figure1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global constr
-global drag dragEnd
-
-if (drag)
-    p = get(handles.axes3, 'CurrentPoint');
-    p = p(1,1:2);
-    constr.alpha_p(:,drag) = p(2);
-    if (dragEnd)
-        constr.theta_p(drag) = p(1);
-        updatePoints;
-    end
-    refreshBezDisplay(handles);
-end
-
-function h = refreshBezDisplay(handles)
-global constr theta q
-set(handles.uitable1, 'Data', [constr.alpha_p; constr.theta_p]);
-axes(handles.axes3);
-[h, theta, q] = plotBez(constr.theta_p, constr.alpha_p);
-
 % Scale control point positions based on endpoints.
 function updatePoints()
-global constr
+global constr invOn
 N = length(constr.theta_p);
 
-% Impose self-invariance
-[p0, th0, p1] = invarianceCond(...
-    constr.theta_p, constr.alpha_p, constr.theta_p(end), N, true);
-constr.theta_p(1) = th0;
-constr.alpha_p(:,1) = p0;
-constr.alpha_p(:,2) = p1;
+if (invOn)
+    % Impose self-invariance
+    [p0, th0, p1] = invarianceCond(...
+        constr.theta_p, constr.alpha_p, constr.theta_p(end), N, true);
+    constr.theta_p(1) = th0;
+    constr.alpha_p(:,1) = p0;
+    constr.alpha_p(:,2) = p1;
+end
 
 % Note that x value must be i*(xf-x0)/n + x0 due to
 % functional formulation of bezier curve.
@@ -280,45 +140,81 @@ plot([th_c th_c], [min(Psi)-sc_fact, max(Psi)+sc_fact], 'k-');
 ylim([min(Psi)-sc_fact, max(Psi)+sc_fact]);
 grid on
 
-% --- Executes during object deletion, before destroying properties.
-function figure1_DeleteFcn(hObject, eventdata, handles)
+function h = refreshBezDisplay(handles)
+global constr theta q
+%set(handles.uitable1, 'Data', [constr.alpha_p; constr.theta_p]);
+axes(handles.axes3);
+[h, theta, q] = plotBez(constr.theta_p, constr.alpha_p);
+
+% Executes on button press on lines within the plot
+function bezplot_ButtonDownFcn(o,e)
+global constr
+global drag 
+p = get(gca, 'CurrentPoint');
+p = p(1,1:2);
+
+theta_p = constr.theta_p;
+alpha_p = constr.alpha_p;
+% Search through points to see if button pressed near point
+% First check theta coord.
+possPoints = find(abs(theta_p - p(1)) < 0.1);
+% Then iterate through possible th coords for match in both th and q
+for i = possPoints
+    if abs(alpha_p(:,i) - p(2)) < 0.05
+        drag = i;
+        break;
+    end
+end
+
+function figure1_WindowButtonMotionFcn(hObject, eventdata, handles)
 % hObject    handle to figure1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-uiresume(handles.figure1);
+global constr
+global drag 
 
+if (drag)
+    p = get(handles.axes3, 'CurrentPoint');
+    p = p(1,1:2);
+    constr.alpha_p(:,drag) = p(2);
+    constr.theta_p(drag) = p(1);
+    updatePoints;
+    refreshBezDisplay(handles);
+end
 
-% --- Executes when user attempts to close figure1.
-function figure1_CloseRequestFcn(hObject, eventdata, handles)
+% --- Executes on mouse press over figure background, over a disabled or
+% --- inactive control, or over an axes background.
+function figure1_WindowButtonUpFcn(hObject, eventdata, handles)
 % hObject    handle to figure1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global constr
+global drag 
 
-% Hint: delete(hObject) closes the figure
-uiresume(handles.figure1);
-delete(hObject);
+if (drag)
+    p = get(handles.axes3, 'CurrentPoint');
+    p = p(1,1:2);
+    constr.alpha_p(:,drag) = p(2);
+    constr.theta_p(drag) = p(1);
+    drag = false;
+    updatePoints
+    h = refreshBezDisplay(handles);
+    set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
+    constr = makeConstr(constr.theta_p, constr.alpha_p);
+    refreshSidePlots(handles);
+end
 
-
-% --- Executes when entered data in editable cell(s) in uitable1.
-function uitable1_CellEditCallback(hObject, eventdata, handles)
-% hObject    handle to uitable1 (see GCBO)
-% eventdata  structure with the following fields (see UITABLE)
-%	Indices: row and column indices of the cell(s) edited
-%	PreviousData: previous data for the cell(s) edited
-%	EditData: string(s) entered by the user
-%	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
-%	Error: error string when failed to convert EditData to appropriate value for Data
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global constr;
-points = get(handles.uitable1, 'Data');
-constr.alpha_p = points(1:end-1,:);
-constr.theta_p = points(end,:);
-updatePoints;
-constr = makeConstr(constr.theta_p, constr.alpha_p);
-h = refreshBezDisplay(handles);
-set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
-refreshSidePlots(handles);
-
+global constrData
+if length(constrData) < 2
+    saveButton_Callback(hObject, eventdata, handles)
+end
+uiresume(handles.figure1);
+delete(handles.figure1);
 
 % --- Executes on button press in saveButton.
 function saveButton_Callback(hObject, eventdata, handles)
@@ -380,15 +276,70 @@ sqthetadot_0 = str2double(get(handles.editvel, 'String'));
 gridTorques(constr.theta_p(end), constr.alpha_p(:,end), ...
     N, sqthetadot_0, type);
 
+% --- Executes on button press in updateButton.
+function updateButton_Callback(hObject, eventdata, handles)
+% hObject    handle to updateButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global constr;
+points = get(handles.uitable1, 'Data');
+constr.alpha_p = points(1:end-1,:);
+constr.theta_p = points(end,:);
+updatePoints;
+constr = makeConstr(constr.theta_p, constr.alpha_p);
+h = refreshBezDisplay(handles);
+set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
+refreshSidePlots(handles);
 
-function editN_Callback(hObject, eventdata, handles)
-% hObject    handle to editN (see GCBO)
+% --- Executes on button press in invCondButton.
+function invCondButton_Callback(hObject, eventdata, handles)
+% hObject    handle to invCondButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global invOn
+if (invOn)
+    invOn = false;
+    set(handles.invCndStatus, 'String', 'OFF');
+else
+    invOn = true;
+    set(handles.invCndStatus, 'String', 'ON');
+end
+
+
+
+
+
+
+% -- Necessary autogenerated functions, no need to touch
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = ConstrGui_OutputFcn(hObject, eventdata, handles)
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global constrData;
+% Get default command line output from handles structure
+varargout{1} = constrData(2:end);
+
+% --- Executes during object deletion, before destroying properties.
+function figure1_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+uiresume(handles.figure1);
+
+
+% --- Executes when user attempts to close figure1.
+function figure1_CloseRequestFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of editN as text
-%        str2double(get(hObject,'String')) returns contents of editN as a double
-
+% Hint: delete(hObject) closes the figure
+uiresume(handles.figure1);
+delete(hObject);
 
 % --- Executes during object creation, after setting all properties.
 function editN_CreateFcn(hObject, eventdata, handles)
@@ -401,17 +352,6 @@ function editN_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
-
-function editvel_Callback(hObject, eventdata, handles)
-% hObject    handle to editvel (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of editvel as text
-%        str2double(get(hObject,'String')) returns contents of editvel as a double
-
 
 % --- Executes during object creation, after setting all properties.
 function editvel_CreateFcn(hObject, eventdata, handles)
@@ -434,7 +374,6 @@ function costmenu_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns costmenu contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from costmenu
-
 global type
 contents = cellstr(get(hObject,'String'));
 type = contents{get(hObject,'Value')};

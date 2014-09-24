@@ -26,7 +26,7 @@ plot([0 X1(1,1) X2(1,1)], [0 X1(2,1) X2(2,1)], 'k-');
 
 % Plot intermediate positions
 len = size(q,2);
-num = 10;
+num = 9;
 idx = round(len/(num+1)) : round(len/(num+1)) : len - floor(len/(num+1));
 x = [zeros(length(idx), 1), X1(1,idx)', X2(1,idx)'];
 y = [zeros(length(idx), 1), X1(2,idx)', X2(2,idx)'];

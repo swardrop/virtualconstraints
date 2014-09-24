@@ -22,8 +22,7 @@ impact = [];
 %             2       0
 %             3       0.05
 %             3.5     0.1];
-ground = [-realmax,0;
-            0.4       0.1];
+ground = [-realmax,0];
 
 % Define holonomic constraint (Bezier curve)
 constrData = ConstrGui;

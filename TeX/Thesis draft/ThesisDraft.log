@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  22 SEP 2014 00:52
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.3.24)  24 SEP 2014 12:14
 entering extended mode
 **ThesisDraft.tex
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\ThesisDraft.tex"
@@ -1620,7 +1620,11 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Chapter 3.
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground.tex"
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/1Actuat
-ion.tex")
+ion.tex"
+
+LaTeX Warning: Citation `??' on page 21 undefined on input line 7.
+
+)
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/2Opt.te
 x" [21
 
@@ -1635,6 +1639,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 ("C:\Users\yak\Documents\GitHub\thesis\TeX\Thesis draft\3TechBackground/3hzd.te
 x"
 
+LaTeX Warning: Citation `??' on page 23 undefined on input line 6.
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
@@ -1642,7 +1649,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [23
 
-] <3TechBackground/impact.png, id=579, 557.08125pt x 828.09375pt>
+]
+
+LaTeX Warning: Citation `manchester2013planning' on page 24 undefined on input 
+line 21.
+
+<3TechBackground/impact.png, id=579, 557.08125pt x 828.09375pt>
 File: 3TechBackground/impact.png Graphic file (type png)
 
 <use 3TechBackground/impact.png>
@@ -1699,15 +1711,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [27]
-Overfull \hbox (2.4648pt too wide) in paragraph at lines 143--144
-[]$[] \OT1/lmr/m/n/12 = \OML/lmm/m/it/12 R\OT1/lmr/m/n/12  [] []$ \T1/lmr/m/n/
-12 -- The ini-tial ve-loc-ity un-der the con-straint matches
- []
-
-
-Underfull \vbox (badness 2376) has occurred while \output is active []
-
-
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1725,6 +1728,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [29]
+Underfull \vbox (badness 7907) has occurred while \output is active []
+
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
@@ -1975,16 +1981,16 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 17568 strings out of 493921
- 276305 string characters out of 3147288
+ 17570 strings out of 493921
+ 276333 string characters out of 3147288
  361701 words of memory out of 3000000
- 20157 multiletter control sequences out of 15000+200000
+ 20159 multiletter control sequences out of 15000+200000
  54656 words of font info for 47 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  42i,18n,47p,1516b,701s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Fil
-es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fon
-ts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ma
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/M
+iKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/e
+nc/dvips/lm/lm-mathsy.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ma
 thex.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program 
 Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}<C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/lm/lmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/l
@@ -1998,7 +2004,7 @@ ts/type1/public/lm/lmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/
 lmri12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy6.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/public/lm/lmsy8.pfb>
-Output written on ThesisDraft.pdf (63 pages, 863955 bytes).
+Output written on ThesisDraft.pdf (63 pages, 863907 bytes).
 PDF statistics:
  935 PDF objects out of 1000 (max. 8388607)
  242 named destinations out of 1000 (max. 500000)

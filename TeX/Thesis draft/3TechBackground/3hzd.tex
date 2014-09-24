@@ -139,8 +139,8 @@ In order to be admissible, a virtual constraint must satisfy the following condi
 \begin{samepage}
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
-	\item $q_{\beta_0} = Rq_{\alpha_f}$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
-	\item $\dot{q}_{\beta_0} = R\Delta\left(q_{\alpha_f}\right)\dot{q}_{\alpha_f}$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
+	\item $q_\beta\left(\theta_\beta^+\right) = Rq_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
+	\item $\dot{q}_\beta\left(\theta_\beta^+\right) = R\Delta\left(q_\alpha(\theta_\alpha^-)\right)\dot{q}_\alpha\left(\theta_\alpha^-\right)$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
 	\item The vertical component of the post-impact velocity of the end of the new swing leg, $\dot{p}_v^+ > 0$ -- The new swing lifts off the ground immediately after impact. \label{item:liftoff}
 	\item $F_N > 0$ -- the vertical force at impact is compressive; the ground resists the leg rather than attracts it. \label{item:posnormalF}
 	\item $|F_T|/F_N<\mu_s$ -- the forces at impact lie within the friction cone. \label{item:frictioncone}
@@ -195,20 +195,20 @@ Where $\theta(q)$ is the phase variable, each row of $B_\alpha\circ\theta(q)$ is
 
 This avails a convenient and compact method to encapsulate the parameters of the virtual constraints; each row of Equation \ref{eqn:outputfun} is a Bézier polynomial with coefficients $\alpha_1^k, \ldots, \alpha_N^k$, so all coefficients may be stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$.
 
-One of the useful properties of Bézier polynomials is that the value of $b_k$ and its derivative are explicitly set by the coefficients:
+A characteristic property of Bézier polynomials is that the value of $b_k$ and its derivative at the endpoints are explicitly set by the coefficients:
 \begin{subequations}
 \begin{align}
-	\Phi_\alpha\left(\theta^+\right) &= H^{-1}\begin{bmatrix}
+	\Phi_\alpha\left(\theta_\alpha^+\right) &= H^{-1}\begin{bmatrix}
 		\alpha_0 \\ \theta_\alpha^+
 	\end{bmatrix} \\
-	\Phi_\alpha\left(\theta^-\right) &= H^{-1}\begin{bmatrix}
+	\Phi_\alpha\left(\theta_\alpha^-\right) &= H^{-1}\begin{bmatrix}
 		\alpha_N \\ \theta_\alpha^-
 	\end{bmatrix} \\
-	\Phi_\alpha'\left(\theta^+\right) &= H^{-1}\begin{bmatrix}
+	\Phi_\alpha'\left(\theta_\alpha^+\right) &= H^{-1}\begin{bmatrix}
 		\frac{N}{\theta_\alpha^- - \theta_\alpha^+}(\alpha_1 - \alpha_0) \\
 		1
 	\end{bmatrix} \\
-	\Phi_\alpha'\left(\theta^-\right) &= H^{-1}\begin{bmatrix}
+	\Phi_\alpha'\left(\theta_\alpha^-\right) &= H^{-1}\begin{bmatrix}
 		\frac{N}{\theta_\alpha^- - \theta_\alpha^+}(\alpha_N - \alpha_{N-1}) \\
 		1
 	\end{bmatrix}
@@ -227,10 +227,10 @@ The invariance conditions, \ref{item:configinvariance} and \ref{item:velinvarian
 \end{equation}
 \begin{subequations} \label{eqn:bezinvvel}
 \begin{align}
-	\beta_1 &= H_0\Delta_{\dot{\theta}_\alpha} \frac{\theta_\beta^- - \theta_\beta^+}{M}
-	\left(c\Delta_{\dot{\theta}_\alpha}\right)^{-1} + \beta_0 \\
-	\Delta_{\dot{\theta}_\alpha} &= R\Delta\left(\Phi_\alpha\left(\theta^-\right)\right)
-		\Phi_\alpha'\left(\theta^-\right)
+	\beta_1 &= \frac{\theta_\beta^- - \theta_\beta^+}{N_\beta}
+	H_0\Delta_{\dot{\theta}_\alpha} \left(c\Delta_{\dot{\theta}_\alpha}\right)^{-1} + \beta_0\\
+	\Delta_{\dot{\theta}_\alpha} &= R\Delta\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)
+		\Phi_\alpha'\left(\theta_\alpha^-\right)
 \end{align}
 \end{subequations}
 
@@ -245,20 +245,20 @@ For any given robot, the position $p=[p_h;p_v]$ of the end of the swing leg is a
 By hypothesis, $\theta$ is increasing, so \ref{item:liftoff} is satisfied only if Equation \ref{eqn:liftoff} is true both for the constraint $\alpha$ and for a following constraint $\beta$ which satisfies the invariance conditions.
 \begin{equation} \label{eqn:liftoff}
 	[0~1]~\frac{\partial p}{\partial\Phi_\alpha(\theta)}
-	\left(\Phi_\alpha\left(\theta^+\right)\right)\Phi_\alpha'\left(\theta^+\right)>0
+	\left(\Phi_\alpha\left(\theta_\alpha^+\right)\right)\Phi_\alpha'\left(\theta_\alpha^+\right)>0
 \end{equation}
 
 Similarly, \ref{item:posnormalF} is satisfied if $\dot{p}_v^- < 0$, therefore it is satisfied if
 \begin{equation} \label{eqn:posnormalF}
 	[0~1]~\frac{\partial p}{\partial\Phi_\alpha(\theta)}
-	\left(\Phi_\alpha\left(\theta^-\right)\right)\Phi_\alpha'\left(\theta^-\right)<0
+	\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)<0
 \end{equation}
 
 It is possible to write the force at impact in the following manner, with $F = [F_T;F_N]$ \cite{westervelt2007feedback}:
 \[ F = \Delta_{F}(q^-)\dot{q}^- \]
 Therefore \ref{item:frictioncone} is satisfied if 
 \begin{equation}
-	\left\lvert\frac{[1~0]~\Delta_F(\Phi_\alpha\left(\theta^-\right)) \Phi_\alpha'\left(\theta^-\right)}
-		{[0~1]~\Delta_F(\Phi_\alpha\left(\theta^-\right)) \Phi_\alpha'\left(\theta^-\right)}\right\rvert
+	\left\lvert\frac{[1~0]~\Delta_F(\Phi_\alpha\left(\theta_\alpha^-\right)) \Phi_\alpha'\left(\theta_\alpha^-\right)}
+		{[0~1]~\Delta_F(\Phi_\alpha\left(\theta_\alpha^-\right)) \Phi_\alpha'\left(\theta_\alpha^-\right)}\right\rvert
 		< \mu_s
 \end{equation}

@@ -1,6 +1,6 @@
 function [h, theta, q] = plotBez(theta_p, alpha_p)
 
-s = 0:0.01:1;
+s = linspace(0, 1, 20);
 
 theta = s*(theta_p(end) - theta_p(1)) + theta_p(1);
 q = bezConstraint(theta_p, alpha_p, theta);
@@ -15,5 +15,7 @@ minscale = 1.2;
 ax_w = max(min_w);%, minscale*theta_p(end));
 ax_h = max(min_h);%, minscale*max(max(alpha_p)));
 axis([-ax_w ax_w -ax_h ax_h])
+xlabel('\theta')
+ylabel('H_0 q')
 grid on
 end
