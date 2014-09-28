@@ -1,12 +1,11 @@
 function thdsq = thdsq_nom(cd)
 % Returns nominal initial velocity for the given constraint for use in
 % determining the nominal torque required to maintain the constraint.
+[~, Phi_f, ~, dPhi_f] = constrEndPts(cd.theta_p, cd.alpha_p);
 
-Phi_thf = cd.Phi(:,end);
-d_Phi_thf = cd.d_Phi(:,end);
-delqd = impactMatrices(Phi_thf);
+delqd = impactMatrices(Phi_f);
 [~,~,c] = constrMatrices;
-delthd = c*delqd*d_Phi_thf;
+delthd = c*delqd*dPhi_f;
 
 % Periodic velocity
 % thdsq = cd.Psi_f/((delthd)^(-2) - cd.Gamma_f)

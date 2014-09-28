@@ -140,7 +140,7 @@ In order to be admissible, a virtual constraint must satisfy the following condi
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
 	\item $\Phi_\beta\left(\theta_\beta^+\right) = R\Phi_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
-	\item $\Phi_\beta'\left(\theta_\beta^+\right) = R\Delta\left(\Phi_\alpha(\theta_\alpha^-)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
+	\item $\Phi_\beta'\left(\theta_\beta^+\right)\dot{\theta}^+ = R\Delta\left(\Phi_\alpha(\theta_\alpha^-)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)\dot{\theta}^-$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
 	\item The vertical component of the post-impact velocity of the end of the new swing leg, $\dot{p}_v^+ > 0$ -- The new swing lifts off the ground immediately after impact. \label{item:liftoff}
 	\item $F_N > 0$ -- the vertical force at impact is compressive; the ground resists the leg rather than attracts it. \label{item:posnormalF}
 	\item $|F_T|/F_N<\mu_s$ -- the forces at impact lie within the friction cone. \label{item:frictioncone}

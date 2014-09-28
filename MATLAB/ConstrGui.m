@@ -22,7 +22,7 @@ function varargout = ConstrGui(varargin)
 
 % Edit the above text to modify the response to help ConstrGui
 
-% Last Modified by GUIDE v2.5 25-Sep-2014 00:21:54
+% Last Modified by GUIDE v2.5 28-Sep-2014 21:17:31
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -327,6 +327,22 @@ set(handles.text_maxtorque, 'String', num2str(max(u)));
 integ = sum(u)/(constr.th_base(2)-constr.th_base(1));
 set(handles.text_inttorque, 'String', num2str(integ));
 set(handles.text_normtorque, 'String', num2str(norm(u)));
+
+% --- Executes on button press in optimiseButton.
+function optimiseButton_Callback(hObject, eventdata, handles)
+% hObject    handle to optimiseButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global constr
+cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
+    [constr.alpha_p(end);constr.theta_p(end)],0,6);
+
+constr = cd;
+h = refreshBezDisplay(handles);
+set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
+refreshSidePlots(handles);
+calcNomTorqueButton_Callback(hObject, eventdata, handles);
+
 
 function renderLaTeX(hObject, handles)
 % TEXT annotations need an axes as parent so create an invisible axes which
