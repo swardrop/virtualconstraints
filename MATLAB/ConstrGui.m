@@ -22,7 +22,7 @@ function varargout = ConstrGui(varargin)
 
 % Edit the above text to modify the response to help ConstrGui
 
-% Last Modified by GUIDE v2.5 28-Sep-2014 21:17:31
+% Last Modified by GUIDE v2.5 28-Sep-2014 21:40:15
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -324,7 +324,7 @@ plot(constr.th_base, u)
 grid on
 
 set(handles.text_maxtorque, 'String', num2str(max(u)));
-integ = sum(u)/(constr.th_base(2)-constr.th_base(1));
+integ = sum(u.^2)*(constr.th_base(2)-constr.th_base(1));
 set(handles.text_inttorque, 'String', num2str(integ));
 set(handles.text_normtorque, 'String', num2str(norm(u)));
 
@@ -334,13 +334,18 @@ function optimiseButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global constr
+
+DelKE = str2double(get(handles.DelKE, 'String'));
+degree = str2double(get(handles.polydeg, 'String'));
+
 cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
-    [constr.alpha_p(end);constr.theta_p(end)],0,6);
+    [constr.alpha_p(end);constr.theta_p(end)],DelKE,degree);
 
 constr = cd;
 h = refreshBezDisplay(handles);
 set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 refreshSidePlots(handles);
+set(handles.editvel_torque, 'String', num2str(thdsq_nom(constr)));
 calcNomTorqueButton_Callback(hObject, eventdata, handles);
 
 
