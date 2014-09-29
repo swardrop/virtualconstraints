@@ -35,7 +35,7 @@ function J = cost(x)
 % Extract the Bezier coefficients from x
 [theta_p, alpha_p] = getCoefficients(x);
 % Calculate nominal intial squared velocity
-cd = makeConstr(theta_p, alpha_p);
+cd = getOrMakeConstr(theta_p, alpha_p);
 thd2 = thdsq_nom(cd);
 % Get integral of squared input torque
 J = squareIntTorque(cd, thd2);
@@ -68,7 +68,7 @@ global desired_DelKE
 [theta_p, alpha_p] = getCoefficients(x);
 [~, Phi_f, dPhi_0, dPhi_f] = constrEndPts(theta_p, alpha_p);
 
-cd = makeConstr(theta_p, alpha_p);
+cd = getOrMakeConstr(theta_p, alpha_p);
 thdsq_0 = thdsq_nom(cd);
 td2m = cd.Gamma_f*thdsq_0 + cd.Psi_f;
 Delqd = impactMatrices(Phi_f);
@@ -95,3 +95,16 @@ theta_p = linspace(theta_ends(1), theta_ends(2), degree+1);
 alpha_p_infix = reshape(x, length(x)/(degree-3), degree-3);
 alpha_p = [alpha_ends(:,1:2), alpha_p_infix, alpha_ends(:,3:4)];
 end
+
+function cd = getOrMakeConstr(theta_p, alpha_p)
+persistent constr
+if ~isempty(constr) 
+    if constr.alpha_p == alpha_p
+        cd = constr;
+        return;
+    end
+end
+cd = makeConstr(theta_p, alpha_p);
+constr = cd;
+end
+        

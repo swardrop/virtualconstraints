@@ -8,7 +8,7 @@ function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
 % when the physical system is subject to the holonomic constraint defined
 % by the Bezier control points defined by theta_p and alpha_p.
 
-num_points = 50;
+num_points = 25;
 
 theta_f = theta_p(end);
 theta_0 = theta_p(1);

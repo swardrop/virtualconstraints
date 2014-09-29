@@ -338,8 +338,12 @@ global constr
 DelKE = str2double(get(handles.DelKE, 'String'));
 degree = str2double(get(handles.polydeg, 'String'));
 
+% Clear persistent variables (constr)
+clear optimiseConstraint
+tic
 cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
     [constr.alpha_p(end);constr.theta_p(end)],DelKE,degree);
+toc
 
 constr = cd;
 h = refreshBezDisplay(handles);

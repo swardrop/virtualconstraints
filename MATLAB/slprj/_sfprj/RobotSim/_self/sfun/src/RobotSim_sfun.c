@@ -149,10 +149,10 @@ unsigned int sf_RobotSim_process_check_sum_call( int nlhs, mxArray * plhs[], int
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3021165162U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2203897525U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3292166474U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(901167127U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3058155609U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1553107385U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(424243683U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1659767976U);
   }
 
   return 1;
@@ -226,7 +226,7 @@ unsigned int sf_RobotSim_autoinheritance_info( int nlhs, mxArray * plhs[], int
 
      case 6:
       {
-        if (strcmp(aiChksum, "QRwLNlHsnWIdMbkwLly82E") == 0) {
+        if (strcmp(aiChksum, "cEGUeC00MmWSFglg2xkiW") == 0) {
           extern mxArray *sf_c6_RobotSim_get_autoinheritance_info(void);
           plhs[0] = sf_c6_RobotSim_get_autoinheritance_info();
           break;
@@ -402,7 +402,7 @@ unsigned int sf_RobotSim_third_party_uses_info( int nlhs, mxArray * plhs[], int
 
      case 6:
       {
-        if (strcmp(tpChksum, "MLWSoyZZt0uoPhvhxFmO7D") == 0) {
+        if (strcmp(tpChksum, "ji8qSiC2WXj5Ip77e6Yw1B") == 0) {
           extern mxArray *sf_c6_RobotSim_third_party_uses_info(void);
           plhs[0] = sf_c6_RobotSim_third_party_uses_info();
           break;
