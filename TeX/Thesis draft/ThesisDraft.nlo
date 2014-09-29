@@ -1,0 +1,8 @@
+\nomenclatureentry{a$\theta$@[{$\theta$}]\begingroup The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint\nomeqref {3.0}|nompageref}{23}
+\nomenclatureentry{aVC@[{VC}]\begingroup Virtual (holonomic) constraint\nomeqref {3.0}|nompageref}{23}
+\nomenclatureentry{aHZD@[{HZD}]\begingroup Hybrid zero dynamics\nomeqref {3.0}|nompageref}{23}
+\nomenclatureentry{a$\theta^+$@[{$\theta^+$}]\begingroup Value of phase variable just after impact\nomeqref {3.2}|nompageref}{25}
+\nomenclatureentry{a$\theta^-$@[{$\theta^-$}]\begingroup Value of phase variable just before impact\nomeqref {3.2}|nompageref}{25}
+\nomenclatureentry{a$\Phi\left(\theta\right)$@[{$\Phi\left(\theta\right)$}]\begingroup Vector function describing the synchronisation of the generalised coordinates to the phase variable under a VC, i.e. $q=\Phi\left(\theta\right)$, $\dot{q} = \Phi'\left(\theta\right)\dot{\theta}$, etc\nomeqref {3.3}|nompageref}{25}
+\nomenclatureentry{a$u_\alpha$@[{$u_\alpha$}]\begingroup Control which achieves perfect regulation of virtual constraint $\alpha$\nomeqref {3.3}|nompageref}{26}
+\nomenclatureentry{a$\alpha$@[{$\alpha$}]\begingroup Matrix of Bézier coefficients defining a virtual constraint; $\alpha_i$ is a column of $\alpha$\nomeqref {3.11}|nompageref}{29}

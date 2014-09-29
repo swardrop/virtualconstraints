@@ -35,9 +35,11 @@
 \usepackage{enumitem}
 \usepackage{changepage}
 \usepackage[parfill]{parskip}
+\usepackage{nomencl}
 
 \titlespacing{\section}
 {0pt}{0ex}{0ex}
+\makenomenclature
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
@@ -121,7 +123,7 @@
 \chapter{Discussion}
 \input{8Disc}
 
-\bibliography{../references}
+\bibliography{references}
 
 \begin{appendices}
 \renewcommand{\thefigure}{\Alph{chapter}.\arabic{figure}}

@@ -38,29 +38,30 @@
 \BOOKMARK [2][-]{subsection.4.4.2}{Definition of optimality}{section.4.4}% 38
 \BOOKMARK [2][-]{subsection.4.4.3}{Validity of convex optimisation approach}{section.4.4}% 39
 \BOOKMARK [2][-]{subsection.4.4.4}{Optimisation method}{section.4.4}% 40
-\BOOKMARK [1][-]{section.4.5}{Library generation}{chapter.4}% 41
-\BOOKMARK [2][-]{subsection.4.5.1}{Acceptable coverage}{section.4.5}% 42
-\BOOKMARK [2][-]{subsection.4.5.2}{Ordering sets of constraints}{section.4.5}% 43
-\BOOKMARK [2][-]{subsection.4.5.3}{Library structure}{section.4.5}% 44
-\BOOKMARK [2][-]{subsection.4.5.4}{Library generation method}{section.4.5}% 45
-\BOOKMARK [0][-]{chapter.5}{Algorithm Design}{}% 46
-\BOOKMARK [0][-]{chapter.6}{Simulation}{}% 47
-\BOOKMARK [1][-]{section.6.1}{Design of simulator}{chapter.6}% 48
-\BOOKMARK [1][-]{section.6.2}{Simulink Model}{chapter.6}% 49
-\BOOKMARK [1][-]{section.6.3}{Compass-Gait \(2-link\) walker}{chapter.6}% 50
-\BOOKMARK [1][-]{section.6.4}{5-link walker}{chapter.6}% 51
-\BOOKMARK [0][-]{chapter.7}{Results}{}% 52
-\BOOKMARK [0][-]{chapter.8}{Discussion}{}% 53
-\BOOKMARK [1][-]{section.8.1}{Outcomes of study}{chapter.8}% 54
-\BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 55
-\BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 56
-\BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 57
-\BOOKMARK [0][-]{chapter.9}{References}{}% 58
-\BOOKMARK [0][-]{section*.4}{Appendices}{}% 59
-\BOOKMARK [0][-]{Appendix.a.A}{Worked example: compass-gait}{}% 60
-\BOOKMARK [1][-]{section.a.A.1}{Continuous phase dynamics}{Appendix.a.A}% 61
-\BOOKMARK [1][-]{section.a.A.2}{Impact dynamics}{Appendix.a.A}% 62
-\BOOKMARK [1][-]{section.a.A.3}{Application of virtual constraints}{Appendix.a.A}% 63
-\BOOKMARK [1][-]{section.a.A.4}{Optimisation of single constraint}{Appendix.a.A}% 64
-\BOOKMARK [1][-]{section.a.A.5}{Optimisation of library of constraints}{Appendix.a.A}% 65
-\BOOKMARK [0][-]{Appendix.a.B}{Numerical integration method}{}% 66
+\BOOKMARK [2][-]{subsection.4.4.5}{Implementation}{section.4.4}% 41
+\BOOKMARK [1][-]{section.4.5}{Library generation}{chapter.4}% 42
+\BOOKMARK [2][-]{subsection.4.5.1}{Acceptable coverage}{section.4.5}% 43
+\BOOKMARK [2][-]{subsection.4.5.2}{Ordering sets of constraints}{section.4.5}% 44
+\BOOKMARK [2][-]{subsection.4.5.3}{Library structure}{section.4.5}% 45
+\BOOKMARK [2][-]{subsection.4.5.4}{Library generation method}{section.4.5}% 46
+\BOOKMARK [0][-]{chapter.5}{Algorithm Design}{}% 47
+\BOOKMARK [0][-]{chapter.6}{Simulation}{}% 48
+\BOOKMARK [1][-]{section.6.1}{Design of simulator}{chapter.6}% 49
+\BOOKMARK [1][-]{section.6.2}{Simulink Model}{chapter.6}% 50
+\BOOKMARK [1][-]{section.6.3}{Compass-Gait \(2-link\) walker}{chapter.6}% 51
+\BOOKMARK [1][-]{section.6.4}{5-link walker}{chapter.6}% 52
+\BOOKMARK [0][-]{chapter.7}{Results}{}% 53
+\BOOKMARK [0][-]{chapter.8}{Discussion}{}% 54
+\BOOKMARK [1][-]{section.8.1}{Outcomes of study}{chapter.8}% 55
+\BOOKMARK [1][-]{section.8.2}{Advantages of virtual constraints method}{chapter.8}% 56
+\BOOKMARK [1][-]{section.8.3}{Limitations of virtual constraints method}{chapter.8}% 57
+\BOOKMARK [1][-]{section.8.4}{Future work}{chapter.8}% 58
+\BOOKMARK [0][-]{chapter.9}{References}{}% 59
+\BOOKMARK [0][-]{section*.5}{Appendices}{}% 60
+\BOOKMARK [0][-]{Appendix.a.A}{Worked example: compass-gait}{}% 61
+\BOOKMARK [1][-]{section.a.A.1}{Continuous phase dynamics}{Appendix.a.A}% 62
+\BOOKMARK [1][-]{section.a.A.2}{Impact dynamics}{Appendix.a.A}% 63
+\BOOKMARK [1][-]{section.a.A.3}{Application of virtual constraints}{Appendix.a.A}% 64
+\BOOKMARK [1][-]{section.a.A.4}{Optimisation of single constraint}{Appendix.a.A}% 65
+\BOOKMARK [1][-]{section.a.A.5}{Optimisation of library of constraints}{Appendix.a.A}% 66
+\BOOKMARK [0][-]{Appendix.a.B}{Numerical integration method}{}% 67

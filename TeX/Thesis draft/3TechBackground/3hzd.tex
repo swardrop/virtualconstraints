@@ -1,6 +1,9 @@
-In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints}.
+In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints (VCs)}. %
+\nomenclature{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
+\nomenclature{VC}{Virtual (holonomic) constraint}
 
 Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what are labelled the \textit{swing phases}, interspersed with impacts. The swing phase dynamics of the robot coupled with the applied virtual constraints, along with the impact dynamics, produce the \textit{hybrid zero dynamics} of the underactuated walker. In this section, we the derivation of hybrid zero dynamics for general underactuation degree one robots along with some useful results for the motion planner.
+\nomenclature{HZD}{Hybrid zero dynamics}
 
 \subsection{Dynamics of a general underactuated walker}
 The general equation of motion of a nonlinear time-invariant physical system may be written as \cite{??}:
@@ -52,7 +55,9 @@ For the underactuated walkers considered in this thesis, $R$ represents a relabe
 To simplify the simulations and mathematics somewhat with no loss to in-principle generality of the method, all ground is considered to be piecewise flat. This implies that the normal force is always purely vertical and the frictional force is purely horizontal.
 
 \subsection{Zero dynamics}
-The application of virtual holonomic constraints synchronises a system's generalised coordinates to a single \textit{phase variable} $\theta$ which is increasing over the interval $[\theta^+, \theta^-]$. This produces functions of the following form:
+The application of virtual holonomic constraints synchronises a system's generalised coordinates to a single \textit{phase variable} $\theta$ which is increasing over the interval $[\theta^+, \theta^-]$. This produces functions of the following form: %
+\nomenclature{$\theta^+$}{Value of phase variable just after impact} %
+\nomenclature{$\theta^-$}{Value of phase variable just before impact}
 \begin{subequations}
 \label{eqn:virtconstraint}
 \begin{align}
@@ -71,19 +76,20 @@ We define the following vector functions:
 	\Phi''\left(\theta\right) &= \left[ \frac{\partial^2\phi_1\left(\theta\right)}{\partial\theta^2},
 	\frac{\partial^2\phi_2\left(\theta\right)}{\partial\theta^2}, \ldots ,
 	\frac{\partial^2\phi_n\left(\theta\right)}{\partial\theta^2} \right]^T
-\end{align*}
+\end{align*} %
+\nomenclature{$\Phi\left(\theta\right)$}{Vector function describing the synchronisation of the generalised coordinates to the phase variable under a VC, i.e. $q=\Phi\left(\theta\right)$, $\dot{q} = \Phi'\left(\theta\right)\dot{\theta}$, etc}
 
 Under the assumption perfect regulation of the virtual constraints, we can evaluate the zero dynamics by simple substitution into Equation~\ref{eqn:dynamics}:
 \begin{equation*}
 	M\left(\Phi(\theta)\right)\left[\Phi'(\theta)\ddot{\theta} + \Phi''\dot{\theta}^2\right] + 
 	C\left(\Phi(\theta),\Phi'(\theta)\dot{\theta}\right)\Phi'(\theta)\dot{\theta} +
-	G\left(\Phi(\theta)\right) = B\left(\Phi(\theta)\right)u_c
-\end{equation*}
-where $u_c$ is the control which achieves perfect regulation of the constraints. This may be rearranged into a more convenient form:
+	G\left(\Phi(\theta)\right) = B\left(\Phi(\theta)\right)u_\alpha
+\end{equation*}\nomenclature{$u_\alpha$}{Control which achieves perfect regulation of virtual constraint $\alpha$}%
+where $u_\alpha$ is the control which achieves perfect regulation of the constraints. This may be rearranged into a more convenient form:
 \begin{equation} \label{eqn:zerodyn}
 	\alpha(\theta)\ddot{\theta} + \beta(\theta)\dot{\theta}^2 + \gamma(\theta) = 0
 \end{equation}
-where, if we denote $B^{\perp}(q)$ as a row vector which satisfies $B^{\perp}(q)B(q)u_c = 0$,
+where, if we denote $B^{\perp}(q)$ as a row vector which satisfies $B^{\perp}(q)B(q)u_\alpha = 0$,
 \addtocounter{equation}{-1}
 \begin{subequations}
 \begin{align}
@@ -111,7 +117,7 @@ If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\thet
 	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}_0^2 + \Psi(\theta)
 \end{equation}
 
-For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote the velocity at this point the \textit{critical velocity}, $\dot{theta}(\theta_c)$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
+For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote the velocity at this point the \textit{critical velocity}, $\dot{\theta}(\theta_c)$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
 \begin{equation} \label{eqn:critvel}
 	\Gamma(\theta_c)\dot{\theta}_{0,c}^2 + \Psi(\theta_c) = 0
 \end{equation}
@@ -150,7 +156,7 @@ In order to be admissible, a virtual constraint must satisfy the following condi
 
 \ref{item:configinvariance} and \ref{item:velinvariance} refer to what may be labelled the \textit{invariance of the zero dynamics}; they specify the requirement of a constraint to match the previous constraint in configuration and velocity through the impact map. The remaining conditions must be met in order for the assumptions made about the impact map to be reasonable.
 
-\subsection{B{\'e}zier curves as virtual constraints}
+\subsection{B{\'e}zier curves as virtual constraints} \label{sec:bezconstraints}
 Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $N+1$ points, where $N$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients. Furthermore, as demonstrated in \cite{westervelt2007feedback}, the use of Bézier polynomials to describe the virtual constraint leads to a closed form of the invariance conditions described in Section \ref{sec:impact}. 
 
 A general Bézier curve is defined by the following parametric equation.
@@ -193,7 +199,8 @@ The use of Bézier polynomials in this manner to define constraints trivially ge
 \end{subequations}
 Where $\theta(q)$ is the phase variable, each row of $B_\alpha\circ\theta(q)$ is a Bézier polynomial of the form of Equation \ref{eqn:usefulBez}, $c$ is a $1\times n$ vector and $H_0$ is a $(n-1)\times n$ matrix.
 
-This avails a convenient and compact method to encapsulate the parameters of the virtual constraints; each row of Equation \ref{eqn:outputfun} is a Bézier polynomial with coefficients $\alpha_1^k, \ldots, \alpha_N^k$, so all coefficients may be stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$.
+This avails a convenient and compact method to encapsulate the parameters of the virtual constraints; each row of Equation \ref{eqn:outputfun} is a Bézier polynomial with coefficients $\alpha_1^k, \ldots, \alpha_N^k$, so all coefficients may be stored in a $(n-1)\times(N+1)$ matrix $\alpha$. For notational convenience, we define each column of $\alpha$ by $\alpha_i := [\alpha_i^1; \ldots; \alpha_i^{n-1}]$. %
+\nomenclature{$\alpha$}{Matrix of Bézier coefficients defining a virtual constraint; $\alpha_i$ is a column of $\alpha$}
 
 A characteristic property of Bézier polynomials is that the value of $b_k$ and its derivative at the endpoints are explicitly set by the coefficients:
 \begin{subequations}
