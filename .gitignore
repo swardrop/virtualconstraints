@@ -2,6 +2,7 @@ misc
 matlab/Deprecated
 matlab/Old_angle_convention
 matlab/slprj
+matlab/*.mexw64
 doc/*.aux
 doc/*.bbl
 doc/*.blg
