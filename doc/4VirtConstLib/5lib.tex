@@ -1,0 +1,22 @@
+\subsection{Acceptable coverage}
+As motivated in the previous section, a useful library of motion primitives for walking over uneven terrain requires coverage over the start and final configurations of the robot. For each set of start and end configurations, the library should include a range of kinetic energy additions and subtractions. Depending on the unevenness of the terrain, a diverse range of paths of the end of the swing leg may also be required. All generated constraints should be admissible and usable to avoid wasted memory and computation time.
+
+While it is clear that some density of coverage is required, it is not immediately obvious what constitutes sufficiency. It is advantageous to avoid over-populating the library in order to speed up its generation and real-time use and reduce the memory requirements. However, advantages in computation time are meaningless if the library is insufficient for its purpose. As a result, methods for defining acceptable coverage of the dimensions of this optimisation are required.
+
+\subsubsection{Start and end configurations}
+The most important consideration for start and end configuration coverage is to ensure that there is a relatively fine grid of vertical displacements ($p_v(\theta^+)$ and $p_v(\theta^-)$) to allow for the traversal of the robot over unpredictable terrain. 
+
+Note that it is essential that the library is designed such that end configurations of virtual constraints match start configurations of other constraints through the impact map. A primitive is not useful if there are no primitives which can succeed it.
+
+\subsubsection{Inter-step kinetic energy changes}
+
+\subsubsection{Ground configurations}
+
+\subsection{Ordering sets of constraints}
+As discussed in Section \ref{sec:primplanning}, planning with primitives is made much more efficient if there is an ordering of primitives, reducing the worst-case search time from $O(n)$ to $O(\log n)$. Ordering on the basis of $\Gamma(\theta^\bullet)$ and $\Psi(\theta^\bullet)$
+
+\subsection{Library structure}
+Constraints structured together based upon same step length + height, ordering(s) stored, tree/array/linked list/hash table/map?
+
+\subsection{Library generation method}
+Grid much more finely over heights than lengths - step lengths is just a "nicety", but step heights is required for terrain traversability.
