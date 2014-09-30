@@ -1,5 +1,5 @@
 function constraintData = ...
-    optimiseConstraint(start, fin, DelKE, deg)
+    optimiseConstraint(start, fin, DelKE, sigma, deg)
 % optimiseConstraint Produces the optimal constraint given the target
 % change in post-impact kinetic energy from the previous post-impact KE
 % subject to the start and end conditions.
@@ -8,9 +8,10 @@ function constraintData = ...
 % input torque.
 % Note start and fin are column vectors [q1; q2; ... ; qn]
 
-global desired_DelKE degree theta_ends alpha_ends
+global desired_DelKE sigmax degree theta_ends alpha_ends
 desired_DelKE = DelKE;
 degree = deg;
+sigmax = sigma;
 
 theta_ends = [phasevar(start), phasevar(fin)];
 alpha_ends(:,1) = actuated(start);
@@ -32,11 +33,12 @@ constraintData = makeConstr(theta_p, alpha_p);
 end
 
 function J = cost(x)
+global desired_DelKE
 % Extract the Bezier coefficients from x
 [theta_p, alpha_p] = getCoefficients(x);
 % Calculate nominal intial squared velocity
 cd = getOrMakeConstr(theta_p, alpha_p);
-thd2 = thdsq_nom(cd);
+thd2 = thdsq_nom(cd, desired_DelKE);
 % Get integral of squared input torque
 J = squareIntTorque(cd, thd2);
 end
@@ -64,12 +66,12 @@ end
 % ceq -  KE addition/subtraction
 % Note c(x) <= 0 and ceq(x) = 0 are tested in fmincon
 function [c, ceq] = nonlconstrs(x)
-global desired_DelKE
+global sigmax desired_DelKE
 [theta_p, alpha_p] = getCoefficients(x);
 [~, Phi_f, dPhi_0, dPhi_f] = constrEndPts(theta_p, alpha_p);
 
 cd = getOrMakeConstr(theta_p, alpha_p);
-thdsq_0 = thdsq_nom(cd);
+thdsq_0 = thdsq_nom(cd, desired_DelKE);
 td2m = cd.Gamma_f*thdsq_0 + cd.Psi_f;
 Delqd = impactMatrices(Phi_f);
 M = dynMatrices(delq*Phi_f, dPhi_f);
@@ -78,13 +80,25 @@ KE_after = (Delqd*dPhi_f)' * M * Delqd*dPhi_f * td2m;
 KE_before = dPhi_0' * M * dPhi_f * thdsq_0;
 DelKE = KE_after - KE_before;
 
-c = [];
 ceq = desired_DelKE - DelKE;
+
+if size(alpha_p,1) < 2
+    % Don't impose ground constraint for CG
+    c = [];
+else
+    for i = length(theta_p)-1 : -1 : 2
+        p = endSwingFoot(bezConstraint(theta_p, alpha_p, theta_p(i)), ...
+            [0,0]);
+        ind = find(p(1) > sigmax(:,1), 1);
+        height = sigmax(ind, 2);
+        c(i-1) = height - p(2);
+    end
+end
 end
 
 function Su2 = squareIntTorque(cd, thd2)
-u = nomTorque(cd, thd2);
-Su2 = trapz(u.^2);
+u = nomTorque(cd, thd2)';
+Su2 = trapz(sqrt(sum(u.^2)));
 end
 
 % x is (alpha(:,3:end-2))(:)

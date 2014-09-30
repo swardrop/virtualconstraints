@@ -12,6 +12,8 @@
 		\nompageref{25}
   \item [{$\theta^-$}]\begingroup Value of phase variable just before impact\nomeqref {3.2}
 		\nompageref{25}
+  \item [{$p$}]\begingroup The position of the end of the swing leg, $p = [p_h;p_v]$\nomeqref {3.14}
+		\nompageref{30}
   \item [{$u_\alpha$}]\begingroup Control which achieves perfect regulation of virtual constraint $\alpha$\nomeqref {3.3}
 		\nompageref{26}
   \item [{HZD}]\begingroup Hybrid zero dynamics\nomeqref {3.0}

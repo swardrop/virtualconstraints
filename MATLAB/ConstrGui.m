@@ -340,16 +340,23 @@ degree = str2double(get(handles.polydeg, 'String'));
 
 % Clear persistent variables (constr)
 clear optimiseConstraint
+% Set up ground for optimisation
+p1 = endSwingFoot(bezConstraint(constr.theta_p, constr.alpha_p, ...
+    constr.theta_p(1)), [0,0]);
+p2 = endSwingFoot(bezConstraint(constr.theta_p, constr.alpha_p, ...
+    constr.theta_p(end)), [0,0]);
+sigma = [p1'; p2'];
 tic
 cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
-    [constr.alpha_p(end);constr.theta_p(end)],DelKE,degree);
+    [constr.alpha_p(end);constr.theta_p(end)],DelKE,sigma,degree);
 toc
 
 constr = cd;
 h = refreshBezDisplay(handles);
 set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 refreshSidePlots(handles);
-set(handles.editvel_torque, 'String', num2str(thdsq_nom(constr)));
+DelKE = str2double(get(handles.DelKE, 'String'));
+set(handles.editvel_torque, 'String', num2str(thdsq_nom(constr, DelKE)));
 calcNomTorqueButton_Callback(hObject, eventdata, handles);
 
 

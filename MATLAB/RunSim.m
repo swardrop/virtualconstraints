@@ -31,7 +31,7 @@ alpha_p = constrData(1).alpha_p;
 
 % Set initial conditions
 q_0 = bezConstraint(theta_p, alpha_p, theta_p(1));
-theta_dot_sq_0 = thdsq_nom(constrData);
+theta_dot_sq_0 = thdsq_nom(constrData, 0);
 qd_0 = constrData.d_Phi(:,1)*sqrt(theta_dot_sq_0);
 last_t = 0;
 while (timeleft > dur_tol)

@@ -112,16 +112,16 @@ Substituting Equation~\ref{eqn:zerodyn} into this expression, we arrive at a fir
 	\frac{d}{d\theta}\dot{\theta}(\theta)^2 = -2\frac{\beta(\theta)}{\alpha(\theta)}
 		\dot{\theta}(\theta)^2 - 2\frac{\gamma(\theta)}{\alpha(\theta)}
 \end{equation}
-If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta_0, \theta_n]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta_0, \theta_n]$, which yields an affine solution, i.e.
+If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta^+, \theta^-]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta^+, \theta^-]$, which yields an affine solution, i.e.
 \begin{equation} \label{eqn:affinesoln}
-	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}_0^2 + \Psi(\theta)
+	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}^{+^2} + \Psi(\theta)
 \end{equation}
 
 For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote the velocity at this point the \textit{critical velocity}, $\dot{\theta}(\theta_c)$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
 \begin{equation} \label{eqn:critvel}
-	\Gamma(\theta_c)\dot{\theta}_{0,c}^2 + \Psi(\theta_c) = 0
+	\Gamma(\theta_c)\dot{\theta}^{+^2}_c + \Psi(\theta_c) = 0
 \end{equation}
-For any initial velocity less than $\dot{\theta}_{0,c}$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta_c$; the robot will fall back rather than complete the footstep.
+For any initial velocity less than $\dot{\theta}^+_c$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta_c$; the robot will fall back rather than complete the footstep.
 
 Following from Equation \ref{eqn:affinesoln}, we may also derive the total mechanical energy of the system. For general systems with dynamics as expressed in Equation~\ref{eqn:dynamics}, the mechanical energy has the form:
 \[ H\left(q,\dot{q}\right) = \dot{q}^TM(q)\dot{q} + V(q) \]
@@ -243,7 +243,8 @@ The invariance conditions, \ref{item:configinvariance} and \ref{item:velinvarian
 
 Imposing the invariance conditions constrains the coefficients $\beta_0$ and $\beta_1$ to be functions of $\alpha_N$ and $\alpha_{N-1}$. In order for this to make sense in the context of continuous walking, this implies that the minimum degree of Bézier polynomial chosen to define each constraint must be no less than 3.
 
-For any given robot, the position $p=[p_h;p_v]$ of the end of the swing leg is a function of the generalised coordinates. If the robot operates under a set of virtual constraints of the form of Equation \ref{eqn:virtconstraint}, then
+For any given robot, the position $p=[p_h;p_v]$ of the end of the swing leg is a function of the generalised coordinates. If the robot operates under a set of virtual constraints of the form of Equation \ref{eqn:virtconstraint}, then %
+\nomenclature{$p$}{The position of the end of the swing leg, $p = [p_h;p_v]$}
 \begin{equation*}
 	\dot{p} = \frac{\partial p\Big(\Phi(\theta)\Big)}{\partial\Phi(\theta)}
 	\Phi'(\theta)\dot{\theta}
