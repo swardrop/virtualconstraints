@@ -81,7 +81,7 @@ Delqd = impactMatrices(Phi_f);
 M = dynMatrices(delq*Phi_f, dPhi_f);
 
 KE_after = (Delqd*dPhi_f)' * M * Delqd*dPhi_f * td2m;
-KE_before = dPhi_0' * M * dPhi_f * thdsq_0;
+KE_before = dPhi_0' * M * dPhi_0 * thdsq_0;
 DelKE = KE_after - KE_before;
 
 ceq = desired_DelKE - DelKE;

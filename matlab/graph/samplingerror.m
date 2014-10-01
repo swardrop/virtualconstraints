@@ -22,7 +22,7 @@ for i = 1 : length(samples)
     hold on
     color = color - 0.1;
     
-    [~, Phi_f, ~, dPhi_f] = constrEndPts(theta_p, alpha_p);
+    [~, Phi_f, dPhi_0, dPhi_f] = constrEndPts(theta_p, alpha_p);
     nom_vel(i) = thdsq_nom(sp, 0);
     td2m = sp.Gamma_f*nom_vel(i) + sp.Psi_f;
     Delqd = impactMatrices(Phi_f);
