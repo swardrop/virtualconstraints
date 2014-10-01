@@ -147,7 +147,7 @@ set(handles.text_psic, 'String', num2str(constr.Psi_c, 3));
 
 function h = refreshBezDisplay(handles)
 global constr theta q
-%set(handles.uitable1, 'Data', [constr.alpha_p; constr.theta_p]);
+set(handles.uitable1, 'Data', [constr.alpha_p; constr.theta_p]);
 axes(handles.axes3);
 [h, theta, q] = plotBez(constr.theta_p, constr.alpha_p);
 

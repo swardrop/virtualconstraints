@@ -1,9 +1,9 @@
 In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints (VCs)}. %
 \nomenclature{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
-\nomenclature{VC}{Virtual (holonomic) constraint}
+\nomenclature[*]{VC}{Virtual (holonomic) constraint}
 
 Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what are labelled the \textit{swing phases}, interspersed with impacts. The swing phase dynamics of the robot coupled with the applied virtual constraints, along with the impact dynamics, produce the \textit{hybrid zero dynamics} of the underactuated walker. In this section, we the derivation of hybrid zero dynamics for general underactuation degree one robots along with some useful results for the motion planner.
-\nomenclature{HZD}{Hybrid zero dynamics}
+\nomenclature[*]{HZD}{Hybrid zero dynamics}
 
 \subsection{Dynamics of a general underactuated walker}
 The general equation of motion of a nonlinear time-invariant physical system may be written as \cite{??}:
@@ -22,7 +22,7 @@ We model the dynamics of the walking robot by assuming that between each impact 
 Furthermore, we assume that all impacts occur without slipping. That is, the impulsive forces which occur at impact lie within the static friction cone. 
 
 These assumptions represent an adequate model of physical walking and are widely used and discussed in the literature, see \cite{hurmuzlu1994rigid, westervelt2007feedback}. Under this impact model, there exists an impact map of following form \cite{manchester13planning}:
-\begin{subequations}
+\begin{subequations} \label{eqn:impact}
 \begin{align}
 	q\left(t^+\right) &= Rq\left(t^-\right) \label{eqn:impactconfig}\\
 	\dot{q}\left(t^+\right) &= R\Delta\left(q\left(t^-\right)\right)\dot{q}\left(t^-\right) \label{eqn:impactvel}
@@ -55,9 +55,10 @@ For the underactuated walkers considered in this thesis, $R$ represents a relabe
 To simplify the simulations and mathematics somewhat with no loss to in-principle generality of the method, all ground is considered to be piecewise flat. This implies that the normal force is always purely vertical and the frictional force is purely horizontal.
 
 \subsection{Zero dynamics}
-The application of virtual holonomic constraints synchronises a system's generalised coordinates to a single \textit{phase variable} $\theta$ which is increasing over the interval $[\theta^+, \theta^-]$. This produces functions of the following form: %
-\nomenclature{$\theta^+$}{Value of phase variable just after impact} %
-\nomenclature{$\theta^-$}{Value of phase variable just before impact}
+The application of virtual holonomic constraints synchronises a system's generalised coordinates to a single \textit{phase variable} $\theta$ which is increasing over the interval $[\theta_0, \theta^-]$. This produces functions of the following form: %
+\nomenclature[x]{$\theta_0$}{Initial value of phase variable} %
+\nomenclature[y]{$\theta^-$}{Value of phase variable just before impact} %
+\nomenclature[z]{$\theta^+$}{Value of phase variable just after impact, used interchangably with $\theta_0$ except where it is necessary to distinguish the initial velocity from the following post-impact velocity}
 \begin{subequations}
 \label{eqn:virtconstraint}
 \begin{align}
@@ -112,16 +113,16 @@ Substituting Equation~\ref{eqn:zerodyn} into this expression, we arrive at a fir
 	\frac{d}{d\theta}\dot{\theta}(\theta)^2 = -2\frac{\beta(\theta)}{\alpha(\theta)}
 		\dot{\theta}(\theta)^2 - 2\frac{\gamma(\theta)}{\alpha(\theta)}
 \end{equation}
-If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta^+, \theta^-]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta^+, \theta^-]$, which yields an affine solution, i.e.
+If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\theta_0, \theta^-]$, we have local instantaneous controllability, i.e. $\alpha(\theta) \neq 0$, then we may solve Equation~\ref{eqn:zerodynDE} numerically over $[\theta_0, \theta^-]$, which yields an affine solution, i.e.
 \begin{equation} \label{eqn:affinesoln}
-	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}^{+^2} + \Psi(\theta)
+	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}_0^2 + \Psi(\theta)
 \end{equation}
 
-For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote the velocity at this point the \textit{critical velocity}, $\dot{\theta}(\theta_c)$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given constraint there exists an initial velocity which satisfies
+For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote this point the \textit{critical point}, $\theta^c$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given virtual constraint $\alpha$, there exists an initial velocity which satisfies
 \begin{equation} \label{eqn:critvel}
-	\Gamma(\theta_c)\dot{\theta}^{+^2}_c + \Psi(\theta_c) = 0
+	\Gamma_\alpha(\theta_\alpha^c)\dot{\theta}_\alpha^{c^2} + \Psi_\alpha(\theta_\alpha^c) = 0
 \end{equation}
-For any initial velocity less than $\dot{\theta}^+_c$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta_c$; the robot will fall back rather than complete the footstep.
+For any constraint, if the initial velocity is less than $\dot{\theta}^c$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta^c$; the robot will fall back rather than complete the footstep.
 
 Following from Equation \ref{eqn:affinesoln}, we may also derive the total mechanical energy of the system. For general systems with dynamics as expressed in Equation~\ref{eqn:dynamics}, the mechanical energy has the form:
 \[ H\left(q,\dot{q}\right) = \dot{q}^TM(q)\dot{q} + V(q) \]
@@ -138,10 +139,12 @@ Since this is affine in $\dot{\theta}^2$ for a given $\theta$, we may trivially 
 	\Upsilon(\theta)\Psi\left(\theta\right) + \Xi(\theta)
 \end{equation}
 
+Note that the impact map (Equation \ref{eqn:impactvel}) is linear in velocity. Since compositions of affine functions remain affine, and linear functions are a subset of affine functions, it is possible to formulate an affine solution for the velocity through one or more impact events. Clearly, the same is also true for energy.
+
 \subsection{Impact conditions} \label{sec:impact}
 It is not possible to apply virtual constraints across impacts since the dynamics of impact are discontinuous; the impulsive forces applied by the ground on the end of the swing leg occur over too short a time period to oppose through the application of control. The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impactvel} are therefore independent of the control applied over the swing phases. 
 
-In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$:
+In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial (post-impact) value of $\theta$ for the constraint $\alpha$. This is denoted $\theta_0$ in places where it is important to distinguish the initial velocity from the post-impact velocity \textit{following} the constraint.
 \begin{samepage}
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
@@ -235,8 +238,8 @@ The invariance conditions, \ref{item:configinvariance} and \ref{item:velinvarian
 \begin{subequations} \label{eqn:bezinvvel}
 \begin{align}
 	\beta_1 &= \frac{\theta_\beta^- - \theta_\beta^+}{N_\beta}
-	H_0\Delta_{\dot{\theta}_\alpha} \left(c\Delta_{\dot{\theta}_\alpha}\right)^{-1} + \beta_0\\
-	\Delta_{\dot{\theta}_\alpha} &= R\Delta\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)
+	H_0\Delta_\alpha \left(c\Delta_\alpha\right)^{-1} + \beta_0\\
+	\Delta_\alpha &= R\Delta\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)
 		\Phi_\alpha'\left(\theta_\alpha^-\right) \label{eqn:Delthd}
 \end{align}
 \end{subequations}

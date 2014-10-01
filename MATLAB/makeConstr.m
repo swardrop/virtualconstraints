@@ -7,13 +7,15 @@ function constrData = makeConstr(theta_p, alpha_p)
 %           inferred intermediate values
 % step_l - length of step
 % step_h - height of step
+% theta_c - critical phase angle
 % Gamma_c - value of Gamma function at critical theta
 % Psi_c - value of Psi function at critical theta
-% theta_c - critical theta
 % Gamma_f - value of Gamma function just before impact
 % Psi_f - value of Psi function just before impact
+% Gamma_p - value of Gamma function just after impact
+% Psi_p - value of Psi function just after impact
 %
-% ADDITIONAL ITEMS WHICH POSSIBLY SHOULD BE REMOVED FOR SPACE EFFICIENCY
+% ADDITIONAL ITEMS WHICH SHOULD BE REMOVED FOR SPACE EFFICIENCY
 % Gamma
 % Psi
 % th_base
@@ -24,13 +26,12 @@ function constrData = makeConstr(theta_p, alpha_p)
 % d_Phi
 % dd_Phi
 
-% Calculate step length and height
-p2 = endSwingFoot(...
-    bezConstraint(theta_p, alpha_p, theta_p(end)), [0, 0]);
-
 % Calculate partial solution
 [Gamma, Psi, th_base, th_c, alpha, beta, gamma, Phi, d_Phi, dd_Phi] = ...
     PartialSolZeroDyn(theta_p, alpha_p);
+
+% Calculate step length and height
+p2 = endSwingFoot(Phi(:,end), [0, 0]);
 
 % Calculate Gamma and Psi at th_c.
 step_size = th_base(2)-th_base(1);
@@ -40,6 +41,12 @@ G_c = (Gamma(idx_before+1)-Gamma(idx_before))/step_size * ...
 P_c = (Psi(idx_before+1)-Psi(idx_before))/step_size * ...
     (th_c - th_base(idx_before)) + Psi(idx_before);
 
+% Calculate Gamma and Psi at th_p.
+delqd = impactMatrices(Phi(:,end));
+[~,~,c] = constrMatrices;
+delthd = (c*delqd*d_Phi(:,end))^2;
+G_p = delthd*Gamma(end);
+P_p = delthd*Psi(end);
 
 constrData = struct;
 constrData.theta_p = theta_p;
@@ -51,6 +58,8 @@ constrData.Psi_c = P_c;
 constrData.theta_c = th_c;
 constrData.Gamma_f = Gamma(end);
 constrData.Psi_f = Psi(end);
+constrData.Gamma_p = G_p;
+constrData.Psi_p = P_p;
 
 constrData.Gamma = Gamma;
 constrData.Psi = Psi;
