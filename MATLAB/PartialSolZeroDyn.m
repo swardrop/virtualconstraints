@@ -1,5 +1,5 @@
 function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
-    Phi, d_Phi, dd_Phi] = PartialSolZeroDyn(theta_p, alpha_p)
+    Phi, d_Phi, dd_Phi] = PartialSolZeroDyn(theta_p, alpha_p, num_points)
 % Produces the partial closed-form solution for the square of the velocity
 % of the phase variable theta in terms of the two coefficient functions,
 % Gamma and Psi, where
@@ -8,7 +8,9 @@ function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
 % when the physical system is subject to the holonomic constraint defined
 % by the Bezier control points defined by theta_p and alpha_p.
 
-num_points = 25;
+if nargin < 3
+    num_points = 25;
+end
 
 theta_f = theta_p(end);
 theta_0 = theta_p(1);

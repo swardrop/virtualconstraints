@@ -1,5 +1,5 @@
 function constraintData = ...
-    optimiseConstraint(start, fin, DelKE, sigma, deg)
+    optimiseConstraint(start, fin, DelKE, sigma, deg, grid_num)
 % optimiseConstraint Produces the optimal constraint given the target
 % change in post-impact kinetic energy from the previous post-impact KE
 % subject to the start and end conditions.
@@ -8,10 +8,11 @@ function constraintData = ...
 % input torque.
 % Note start and fin are column vectors [q1; q2; ... ; qn]
 
-global desired_DelKE sigmax degree theta_ends alpha_ends
+global desired_DelKE sigmax degree theta_ends alpha_ends gridN
 desired_DelKE = DelKE;
 degree = deg;
 sigmax = sigma;
+gridN = grid_num;
 
 theta_ends = [phasevar(start), phasevar(fin)];
 alpha_ends(:,1) = actuated(start);
@@ -28,7 +29,7 @@ options = optimoptions('fmincon', 'Algorithm', 'interior-point');
 x = fmincon(@cost, x0, [], [], [], [], lb, ub, @nonlconstrs, options);
 
 [theta_p, alpha_p] = getCoefficients(x);
-constraintData = makeConstr(theta_p, alpha_p);
+constraintData = makeConstr(theta_p, alpha_p, grid_num);
 
 end
 
@@ -39,8 +40,11 @@ global desired_DelKE
 % Calculate nominal intial squared velocity
 cd = getOrMakeConstr(theta_p, alpha_p);
 thd2 = thdsq_nom(cd, desired_DelKE);
+
 % Get integral of squared input torque
-J = squareIntTorque(cd, thd2);
+u = nomTorque(cd, thd2);
+%Su2 = trapz(sum(u, 1).^2); % Integral of 2-norm squared.
+J = trapz(abs(u));
 end
 
 % Get inital estimate of coefficients based upon start and end points
@@ -96,11 +100,6 @@ else
 end
 end
 
-function Su2 = squareIntTorque(cd, thd2)
-u = nomTorque(cd, thd2)';
-Su2 = trapz(sqrt(sum(u.^2)));
-end
-
 % x is (alpha(:,3:end-2))(:)
 function [theta_p, alpha_p] = getCoefficients(x)
 global degree alpha_ends theta_ends
@@ -111,6 +110,7 @@ alpha_p = [alpha_ends(:,1:2), alpha_p_infix, alpha_ends(:,3:4)];
 end
 
 function cd = getOrMakeConstr(theta_p, alpha_p)
+global gridN
 persistent constr
 if ~isempty(constr) 
     if constr.alpha_p == alpha_p
@@ -118,7 +118,7 @@ if ~isempty(constr)
         return;
     end
 end
-cd = makeConstr(theta_p, alpha_p);
+cd = makeConstr(theta_p, alpha_p, gridN);
 constr = cd;
 end
         

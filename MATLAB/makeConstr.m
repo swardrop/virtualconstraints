@@ -1,4 +1,4 @@
-function constrData = makeConstr(theta_p, alpha_p)
+function constrData = makeConstr(theta_p, alpha_p, num_points)
 % Takes a set of Bezier control points which are specified in each row of
 % the points argument. Returns a structure containing the following fields:
 %
@@ -26,9 +26,13 @@ function constrData = makeConstr(theta_p, alpha_p)
 % d_Phi
 % dd_Phi
 
+if nargin < 3
+    num_points = 25;
+end
+
 % Calculate partial solution
 [Gamma, Psi, th_base, th_c, alpha, beta, gamma, Phi, d_Phi, dd_Phi] = ...
-    PartialSolZeroDyn(theta_p, alpha_p);
+    PartialSolZeroDyn(theta_p, alpha_p, num_points);
 
 % Calculate step length and height
 p2 = endSwingFoot(Phi(:,end), [0, 0]);

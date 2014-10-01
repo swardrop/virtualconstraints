@@ -337,6 +337,7 @@ global constr
 
 DelKE = str2double(get(handles.DelKE, 'String'));
 degree = str2double(get(handles.polydeg, 'String'));
+grid = str2double(get(handles.gridN, 'String'));
 
 % Clear persistent variables (constr)
 clear optimiseConstraint
@@ -348,7 +349,7 @@ p2 = endSwingFoot(bezConstraint(constr.theta_p, constr.alpha_p, ...
 sigma = [p1'; p2'];
 tic
 cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
-    [constr.alpha_p(end);constr.theta_p(end)],DelKE,sigma,degree);
+    [constr.alpha_p(end);constr.theta_p(end)],DelKE,sigma,degree,grid);
 toc
 
 constr = cd;

@@ -25,7 +25,7 @@ approximates Equation \ref{eqn:motorenergy} evaluated over the virtual constrain
 \subsection{Validity of convex optimisation approach}
 The decision variables for the purpose of optimisation are the Bézier coefficients $\alpha$. Since the formulation of the cost function $J$ is not linear or quadratic in these decision variables, the optimisation problem becomes more complex; see Section \ref{sec:nonlinopt}. Linear and quadratic techniques are not immediately applicable to the nonlinear case, leaving two alternatives; gridding approaches and nonlinear programming. Gridding approaches in optimisation are subject to the same limitations described above; indeed, if the advantage of optimisation is to avoid using gridding, then such an approach is clearly a poor choice. However, nonlinear programming will only produce reasonable results under certain conditions.
 
-It is not possible to determine \textit{a priori} that an optimisation is well-formed, that is, will result in a valid solution. Furthermore, for nonlinear optimisation to produce favourable results, the cost function must be convex or near-convex close to the initial estimate. It is therefore of significant interest to determine how close the cost function is to being convex. For the two-link compass gait walker, it is possible to produce such a verification, since we can formulate an optimisation with only two decision variable,s which is easily visualised. In Figure \ref{fig:cggridtorque}, we see that gridding the two decision variables produces a surface that appears to be well-behaved and convex. It is reasonable to suggest that this is generalisable to higher degree constraints with more decision variables for the compass-gait robot.
+It is not possible to determine \textit{a priori} that an optimisation is well-formed, that is, will result in a valid solution. Furthermore, for nonlinear optimisation to produce favourable results, the cost function must be convex or near-convex close to the initial estimate. It is therefore of significant interest to determine how close the cost function is to being convex. For the two-link compass gait walker, it is possible to produce such a verification, since we can formulate an optimisation with only two decision variables, which is easily visualised. In Figure \ref{fig:cggridtorque}, we see that gridding the two decision variables produces a surface that appears to be well-behaved and convex. It is reasonable to suggest that this is generalisable to higher degree constraints with more decision variables for the compass-gait robot.
 
 \begin{figure}
 	\centering
@@ -51,7 +51,7 @@ The ground height at a horizontal displacement $x$ from the end of the stance le
 	\end{array} \right.
 \end{equation}
 
-Recall from Section \ref{sec:bezconstraints} that in order to be physically realisable, a VC must satisfy several conditions. The \textit{invariance conditions}, \ref{item:configinvariance} and \ref{item:velinvariance}, place restrictions on the admissibility of a primitive on the basis of the VC which preceded it. The first condition is not of great concern in the construction of a single primitive, since the responsibility of ensuring coverage of start and final configurations is deferred to the library generation. However, it is important to consider the latter condition when generating a single constraint; in order for the library to be useful, any VC which matches the prior primitive through the impact map should be a valid choice of successor. This implies that the slope of all constraints at the end point for any given final configuration ought to be identical. A reasonable choice to satisfy this condition is to enforce that the final slope must be zero for all constraints. This has the additional advantage of making the constraints more robust to errors in ground height perception.
+Recall from Section \ref{sec:bezconstraints} that in order to be physically realisable, a VC must satisfy several conditions. The \textit{invariance conditions}, \ref{item:configinvariance} and \ref{item:velinvariance}, place restrictions on the admissibility of a primitive on the basis of the VC which precedes it. The first condition is not of great concern in the construction of a single primitive, since the responsibility of ensuring coverage of start and final configurations is deferred to the library generation. However, it is important to consider the latter condition when generating a single constraint; in order for the library to be useful, any VC which matches the prior primitive through the impact map should be a valid choice of successor. This implies that the slope of all constraints at the end point for any given final configuration ought to be identical. A reasonable choice to satisfy this condition is to enforce that the final slope must be zero for all constraints. This has the additional advantage of making the constraints more robust to errors in ground height perception.
 
 When formulating an optimisation, it is advantageous to minimise the number of decision variables, if all else is considered static, since this reduces the evaluation time. This is particularly true for variables which are subject to constraints. It is notable that fixing the start and end configuration of the constraint along with enforcing zero slope at the final configuration fixes the four outermost columns of $\alpha$. As such, we consider these fixed and exclude them as decision variables. The optimisation variables therefore take the form given in Table \ref{tab:optDecVars}. Note that the conditions in Section \ref{sec:bezconstraints} along with the equality constraint in Equation \ref{eqn:groundheight} are all concerned with those four outermost columns of $\alpha$, therefore in the single VC optimisation, these conditions are not applicable.
 
@@ -88,7 +88,7 @@ For \textbf{energy-subtractive constraints}, for which $\Delta$KE $<0$, assuming
 	\dot{\theta}^+ &= c\Delta_\alpha\dot{\theta}^-
 	\end{align}
 \end{subequations}
-Equating $\dot{\theta}^+$ with $\lambda\dot{\theta}_{0,c}$, where $\lambda$ is the same factor of safety as in Equation \ref{eqn:energyadditive}:
+Equating $\dot{\theta}^+$ with $\lambda\dot{\theta}_\alpha^c$, where $\lambda$ is the same factor of safety as in Equation \ref{eqn:energyadditive}:
 \begin{equation}
 	\dot{\theta}_{\alpha,\Delta\mathrm{KE}^-}^{*^2} = \frac{(c\Delta_\alpha)^{-2}\left(-\lambda^2\frac{ \Psi(\theta_\alpha^c)}{ \Gamma(\theta_\alpha^c)}\right) - \Psi(\theta_\alpha^-)} {\Gamma(\theta_\alpha^-)}
 \end{equation}
@@ -96,10 +96,38 @@ Equating $\dot{\theta}^+$ with $\lambda\dot{\theta}_{0,c}$, where $\lambda$ is t
 \textbf{Energy-neutral constraints} result in $\Delta$KE $=0$. In this case, we expect the next constraint to require an initial $\dot{\theta}$ no greater or less than $\dot{\theta}_\alpha^*$. As such, either of the above expressions seem suitable. The simplicity of Equation \ref{eqn:energyadditive} is preferred.
 
 \subsection{Implementation}
+The \mcode{optimiseConstraint} function takes as arguments the start and end configurations of the constraint, the desired change in kinetic energy, the ground definition $\sigma(x)$ and the degree of the desired Bézier polynomial. It returns the start and end values of the phase variable $\theta_0$, $\theta^-$ and the Bézier coefficients $\alpha$. These are sufficient to define the virtual holonomic constraint, however, for convenience, it also returns the calculated values of the partial solution at $\theta_c$, $\theta^-$ and $\theta^+$.
+
 The single VC implementation is achieved using MATLAB's constrained nonlinear programming function \mcode{fmincon}. This uses an interior point method to seek local minima in the cost function subject to the given constraints. For each set of test values for the decision variables, the partial solution ($\Gamma(\theta)$ and $\Psi(\theta)$) is evaluated by producing a grid of $\theta$ values in $[\theta_0, \theta^-]$. The cost is calculated using trapezoidal integration on the resulting torque values. Since $\Delta$KE also relies upon the partial solution, it is held persistently in a helper function and only recalculated upon differing decision variables, to avoid inefficient recalculation.
 
 $\sigma(x)$ is defined by specifying the ground height at individual points. From this, the ground level over all $x$ is determined by a zero-order hold. The ground constraint is enforced by taking relatively sparse samples from $\theta_0$ to $\theta^-$ and testing for each sample that $p_v(\theta)>\sigma(\theta)$. A natural choice of samples is at each Bézier control point, such that the sampling of the ground is dependent on the degree of the polynomial. It is reasonable to test only several points along the trajectory on the assumption that the ground height changes at relatively few points over one footstep and that the swing leg traces a smooth arc between its start and end points. The second assumption is valid for all physical robots. The first is able to be justified by the design of the library generation.
 
 The optimisation is not subjected to any additional bounds other than the $\Delta$KE and $\sigma(x)$ constraints. This is due to the well-behaved nature of the problem; large deviations always cost more in terms of input torque than small ones. It therefore makes little sense to arbitrarily constrain the decision variables. In the case of the compass-gait robot, due to its morphological simplicity, the $\sigma(x)$ constraint is not applied. Indeed, it is not possible for the compass-gait robot to complete walking motion on flat ground without scuffing its swing leg if no means are provided to shorten it.
 
-The \mcode{optimiseConstraint} function takes as arguments the start and end configurations of the constraint, the desired change in kinetic energy, the ground definition $\sigma(x)$ and the degree of the desired Bézier polynomial. It returns the start and end values of the phase variable $\theta_0$, $\theta^-$ and the Bézier coefficients $\alpha$. These are sufficient to define the virtual holonomic constraint, however, for convenience, it also returns the calculated values of the partial solution at $\theta_c$, $\theta^-$ and $\theta^+$.
+\subsubsection{Accuracy of numerical solutions}
+As discussed above, the optimisation of a virtual constraint is significantly dependent upon the numerical partial solution for velocity and energy. The accuracy of the numerical solution therefore limits the optimality of the constraint and the accuracy to which the prescribed $\Delta$KE is achieved. This is not of great significance, since each VC is optimised only for a single initial velocity and the prescription of $\Delta$KE is performed in order to produce a diverse library, which is attained regardless. However, of much greater concern is the fidelity of the data produced by the optimisation.
+
+The partial solution (the functions $\Gamma(\theta)$ and $\Psi(\theta)$) is produced by constructing a grid of $\theta$ values, over which functions are evaluated and integrated, see Appendix \ref{sec:numint}. The critical issue here is that because the partial solution is generated by \textit{integration} over a grid, the accuracy of the solution is particularly sensitive to the grid density. To understand this, consider that numerically sampling a function produces the precise value of that function for the particular chosen values, but integrating sampled functions requires approximation of the shape between sampled points and therefore grows in error from the start to the end point of the integration, as shown in Figure \ref{fig:samplingerror}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{4VirtConstLib/samplingerror.eps}
+	\caption{Sampling error in $\Gamma(\theta)$ and $\Psi(\theta)$}
+	\label{fig:samplingerror}
+\end{figure}
+
+The extent of the loss of accuracy due to sampling was evaluated by taking optimising a self-invariant constraint on flat ground with the target $\Delta$KE $=0$ and testing the proximity of $\theta^+$ to $\theta^*$. The results are presented in Table \ref{tab:samplingerror}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{ c | c | c | c }
+		Number of samples & $\dot{\theta}^*$ (rad/s) & $\dot{\theta}^+$ (rad/s) & Error \\ \hline
+		10 & 1.34 & 1.25 & \\
+		25 & 1.42 & 1.32 & \\
+		50 & 1.42 & 1.32 & \\
+		200 & 1.43 & 1.34 &
+	\end{tabular}
+	\caption{Error from sampling in numerical integration.}
+	\label{tab:samplingerror}
+	{\color{red} It would appear something else is at play here.}
+\end{table}
