@@ -28,7 +28,7 @@ th_c = inf;
 for i = 1 : num_points
     % Calculate zero dynamics coefficients
     [al, bet, gam, P, dP, ddP] = ...
-        ZeroDynCompassGait(theta_p, alpha_p, th_base(i));
+        ZeroDyn(theta_p, alpha_p, th_base(i));
     alpha(i) = al;
     beta(i) = bet;
     gamma(i) = gam;

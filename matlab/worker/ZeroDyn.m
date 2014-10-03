@@ -1,8 +1,10 @@
 function [alpha, beta, gamma, Phi, d_Phi, dd_Phi] = ...
-    ZeroDynCompassGait(theta_p, alpha_p, theta)
-% Produces the zero dynamics of the Compass-gait walker with dynamical
+    ZeroDyn(theta_p, alpha_p, theta)
+% Produces the zero dynamics of the robot with dynamical
 % parameters defined by dynMatrices(q,qd) subject to the Bezier control 
 % points in {theta_p, alpha_p} at theta.
+
+% TODO: MAKE THIS WORK WITH GENERAL CASE
 
 theta_f = theta_p(end);
 theta_0 = theta_p(1);
