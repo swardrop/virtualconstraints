@@ -27,10 +27,10 @@ For a given robot, it may be possible to define a particular range of $\Delta$KE
 
 We need not be as strict on keeping $n_k$ small, since $\lvert P \rvert \propto n_k$ rather than $n_k^2$, however since velocity control is able to be executed over multiple footsteps, the precision and variety of $\Delta$KE over a single footstep is not critical. Therefore in the interest of keeping the library manageable, $n_k$ should be kept to a moderate size.
 
-Note that while the initial and final configurations are important data for a virtual constraint, the $\Delta$KE should not be stored. As discussed previously, the change in kinetic energy is dependent on the initial velocity of the constraint. Furthermore, its calculation requires very little computation due to the affine form of the partial solution.
+Note that while the initial and final configurations are important data for a virtual constraint, the target $\Delta$KE should not be stored. As discussed previously, the change in kinetic energy is dependent on the initial velocity of the constraint. Furthermore, its calculation requires very little computation due to the affine form of the partial solution.
 
 \subsubsection{Ground configurations}
-It is important to consider the likely shape of the ground for constraints with particular step lengths and heights. For the off-line generation of virtual constraints, it is best to be somewhat conservative in specifying where the ground level changes. Consider Figure \ref{fig:stepup}; the terrain steps up at a horizontal displacement significantly smaller than $p_h(\theta^-)$. It is reasonable to expect that this is representative of the typical use case of a step-up virtual constraint. It is not necessary to optimise numerous primitives with all else fixed, but with varied ground configurations; if the terrain profile for the purposes of each single VC optimisation is conservatively defined, the ground configuration is indirectly sampled by producing constraints with varying initial and final configurations.
+It is important to consider the likely shape of the ground for constraints with particular step lengths and heights. For the off-line generation of virtual constraints, it is best to be somewhat conservative in specifying where the ground level changes. Consider Figure \ref{fig:stepup}; the terrain steps up at a horizontal displacement significantly smaller than $p_h(\theta^-)$. It is reasonable to expect that this is representative of the typical use case of a step-up virtual constraint. It is not necessary to optimise numerous primitives with all else fixed but with varied ground configurations; if the terrain profile for the purposes of each single VC optimisation is conservatively defined, the ground configuration is indirectly sampled by producing constraints with varying initial and final configurations.
 
 \begin{figure}
 	\centering
@@ -43,13 +43,7 @@ It is important to consider the likely shape of the ground for constraints with 
 As discussed in Section \ref{sec:primplanning}, planning with primitives is made much more efficient if there is an ordering of primitives, since this facilitates a binary search, reducing the worst-case search time from $O(n)$ to $O(\log n)$. Ordering on the basis of $\Gamma(\theta^\bullet)$ and $\Psi(\theta^\bullet)$
 
 \subsection{Library structure}
-The structure of the library is a critical issue in determining the running time of the planning algorithm. It is important that constraints with certain properties can be found efficiently and that traversal through the library is straightforward. The library of motion primitives is structured similarly to that described in \cite{manchester13planning}.
-
-The library is built using a hierarchical (forest) structure with each of the impact configurations in $\tilde{Q}$ at the top. Consider this the initial configuration of the robot. Connected to each root node are $n_x$ nodes representing a particular step length $p_h(\theta^-)$. To each of these nodes are connected $n_y$ edges, encoding the grid of step heights $p_v(\theta^-)$. At each of the nodes reachable from these edges, we have an encoded step length and height. This is important since there is only one height for a given length which is applicable based on the terrain.
-
-Each of these nodes is connected to $n_q$ leaf nodes which specify the complete final configuration $q(\theta^-)$ of the robot. For each final configuration, there are $n_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}.
-
-The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_qn_k))$ time. This is clearly preferable to the $\mathcal{O}(n_xn_yn_qn_k)$ time of a search through an unstructured array.
+The structure of the library is a critical issue in determining the running time of the planning algorithm. It is important that constraints with certain properties can be found efficiently and that traversal through the library is straightforward. The library of motion primitives, as pictured in Figure \ref{fig:lib} is structured similarly to that described in \cite{manchester13planning}.
 
 \begin{figure}
 	\centering
@@ -57,43 +51,78 @@ The library is therefore conducive to an efficient search from a particular init
 	scale = 1, transform shape, thick,
 	every node/.style = {draw, circle, minimum size = 10mm},
 	grow = down,  % alignment of characters
-	level 1/.style = {sibling distance=7.2cm},
-	level 2/.style = {sibling distance=2.4cm}, 
+	level 1/.style = {sibling distance=5cm},
+	level 2/.style = {sibling distance=1.2cm}, 
 	level 3/.style = {sibling distance=1.2cm}, 
+	emph/.style={edge from parent/.style={red,very thick,draw}, line width = 2pt},
+	norm/.style={edge from parent/.style={black,thin,draw}},
+	leaf/.style={shape = rectangle, rounded corners, fill = gray!50},
 	level distance = 1.25cm
 	]
-	\node[shape = circle, draw, line width = 1pt,
-	minimum size = 10mm, inner sep = 0mm] {$q^+$} 
-	child { node[shape = circle, draw, line width = 1pt,
-		minimum size = 10mm, inner sep = 0mm] (x1) {$p_h^-$}
-		child {   node [] (A) {$p_v^-$}
-			child { node [] (B) {$q^-$}}
-			child { node [] (C) {$q^-$}}
+	
+	\begin{scope}[xshift=0cm]
+	\node[emph] {$q^+$} 
+	child { node [emph] {$p_h^-$}
+		child {   node [emph] {$p_v^-$}
+			child { node [leaf,emph]  {}}
 		}
-		child {   node [] (D) {$p_v^-$}
-			child { node [] (E) {$q^-$}}
-			child { node [] (F) {$q^-$}}
+		child {   node [norm] {$p_v^-$}
+			child { node [leaf]  {}}
 		}
-		child {   node [] (D1) {$p_v^-$}
-			child { node [] (E1) {$q^-$}}
-			child { node [] (F1) {$q^-$}}
-		}}
-	child { node[shape = circle, draw, line width = 1pt,
-		minimum size = 10mm, inner sep = 0mm] (x2) {$p_h^-$}
-		child {   node [] (A1) {$p_v^-$}
-			child { node [] (B1) {$q^-$}}
-			child { node [] (C1) {$q^-$}}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
 		}
-		child {   node [] (D1) {$p_v^-$}
-			child { node [] (E1) {$q^-$}}
-			child { node [] (F1) {$q^-$}}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
 		}
-		child {   node [] (D3) {$p_v^-$}
-			child { node [] (E3) {$q^-$}}
-			child { node [] (F3) {$q^-$}}
+	}
+	child { node[emph] {$p_h^-$}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
+		}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
+		}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
+		}
+		child {   node [emph] {$p_v^-$}
+			child { node [leaf,emph]  {}}
+		}
+	}
+	child { node[emph] {$p_h^-$}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
+		}
+		child {   node [emph]{$p_v^-$}
+			child { node [leaf,emph]  {}}
+		}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
+		}
+		child {   node [] {$p_v^-$}
+			child { node [leaf]  {}}
 		}
 	};
+	\end{scope}
 	\end{tikzpicture}
-	\caption[Virtual constraint library structure]{Virtual constraint library structure. Note that only  one initial condition $q^+\in\tilde{Q}$ is pictured. The library contains many repetitions of this structure.}
+	\caption[Virtual constraint library structure]{Virtual constraint library structure. Each leaf contains $n_qn_k$ primitives in a sorted array. A possible (worst-case) search path is indicated in bold. Note that only  one initial condition $q^+\in\tilde{Q}$ is pictured. The library contains many repetitions of this structure.}
+	\label{fig:lib}
 \end{figure}
+
+The library is built using a hierarchical (forest) structure with each of the impact configurations in $\tilde{Q}$ at the top. Consider this the initial configuration of the robot. Connected to each root node are $n_x$ nodes representing a particular step length $p_h(\theta^-)$. To each of these nodes are connected $n_y$ edges, encoding the grid of step heights $p_v(\theta^-)$. These edges are sorted in ascending order of height. At each of the nodes reachable from these edges, we have an encoded step length and height. This is important since there is only one height for a given length which is applicable based on the terrain.
+
+Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}(n_xn_yn_qn_k)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
+
 \subsection{Library generation implementation}
+Implemented in matlab -- a ``real'' implementation should be in a language with pointers like C.
+
+Generation of set of impact configurations
+
+Enforcement of condition 3-5?
+
+Ground definition
+
+Low-level structure - array with pointers (indexes)
+
+Multiple orderings?
