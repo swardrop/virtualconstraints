@@ -1,4 +1,4 @@
-Library generation is the process of creating of a large set of primitives $P$, each of which define a trajectory $\Phi(\theta^+) \to \Phi(\theta^-)$, where $\Phi(\theta^+), \Phi(\theta^-) \in \tilde{Q}$, the set of all impact configurations. The library is intended to be structured such that efficient on-line use is enabled. Minimising off-line computation time is a secondary concern.
+Library generation is the process of creating of a large set of primitives $P$, each of which define a trajectory $\Phi(\theta^+) \to \Phi(\theta^-)$, where $\Phi(\theta^+), \Phi(\theta^-) \in \tilde{Q}$, the set of all impact configurations. Note that we define $\tilde{Q}$ with $q\equiv Rq$. That is, a final configuration is considered equivalent to the initial configuration to which it maps through an impact event. The library is intended to be structured such that efficient on-line use is enabled. Minimising off-line computation time is a secondary concern.
 
 \subsection{Acceptable coverage}
 As motivated in the previous section, a useful library of motion primitives for walking over uneven terrain requires coverage over the start and final configurations of the robot along with a range of kinetic energy additions and subtractions. Depending on the unevenness of the terrain, a diverse range of paths of the end of the swing leg may also be required. All generated constraints should be admissible and usable to avoid wasted memory and computation time.
@@ -112,12 +112,18 @@ The structure of the library is a critical issue in determining the running time
 
 The library is built using a hierarchical (forest) structure with each of the impact configurations in $\tilde{Q}$ at the top. Consider this the initial configuration of the robot. Connected to each root node are $n_x$ nodes representing a particular step length $p_h(\theta^-)$. To each of these nodes are connected $n_y$ edges, encoding the grid of step heights $p_v(\theta^-)$. These edges are sorted in ascending order of height. At each of the nodes reachable from these edges, we have an encoded step length and height. This is important since there is only one height for a given length which is applicable based on the terrain.
 
-Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}(n_xn_yn_qn_k)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
+Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}\left((n_xn_yn_qn_k)^2\right)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
 
 \subsection{Library generation implementation}
 Implemented in matlab -- a ``real'' implementation should be in a language with pointers like C.
 
-Generation of set of impact configurations
+Generation of set of impact configurations -- IK used here was to specify the problem enough that the IK has a single solution and to search for the solution using an iterative method. A better approach may be to use fuzzy logic \cite{something?}
+
+Build set of impact configurations in tree structure to start with to aid in VC structure.
+
+Ordering to avoid search through all constraints to find initial condition. -- updating tree structure.
+
+Application of impact map
 
 Enforcement of condition 3-5?
 

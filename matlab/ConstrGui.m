@@ -164,7 +164,7 @@ theta_p = constr.theta_p;
 alpha_p = constr.alpha_p;
 % Search through points to see if button pressed near point
 % First check theta coord.
-possPoints = find(abs(theta_p - p(1)) < 0.1);
+possPoints = find(abs(theta_p - p(1)) < 0.05);
 % Then iterate through possible th coords for match in both th and q
 for i = possPoints
     if abs(alpha_p(:,i) - p(2)) < 0.05
@@ -184,8 +184,10 @@ if (drag)
     p = get(handles.axes3, 'CurrentPoint');
     p = p(1,1:2);
     constr.alpha_p(:,drag) = p(2);
-    constr.theta_p(drag) = p(1);
-    updatePoints;
+    if (drag == 1 || drag >= length(constr.theta_p) - 1)
+        constr.theta_p(drag) = p(1);
+        updatePoints;
+    end
     refreshBezDisplay(handles);
 end
 

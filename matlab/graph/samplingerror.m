@@ -1,6 +1,6 @@
 function [times, nom_vel_s, nom_vel, post_vel, KE_bf, DelKE] = ...
     samplingerror(theta_p, alpha_p)
-cd ..
+addpath ../worker
 
 samples = [5, 10, 25, 50, 200];
 times = zeros(size(samples));

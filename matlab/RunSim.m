@@ -32,7 +32,7 @@ alpha_p = constrData(1).alpha_p;
 cd worker
 addpath ../model/active
 % Set initial conditions
-q_0 = bezConstraint(theta_p, alpha_p, theta_p(1));
+q_0 = constrEndPts(theta_p, alpha_p);
 theta_dot_sq_0 = thdsq_nom(constrData, 0);
 qd_0 = constrData.d_Phi(:,1)*sqrt(theta_dot_sq_0);
 last_t = 0;

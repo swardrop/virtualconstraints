@@ -14,9 +14,14 @@ function [lib, constrs] = generateLibrary(nx, ny, nq, nk)
 %   virtual constraints contain indexes into lib based on their initial and
 %   final configurations.
 
-end
+addpath model/active
+addpath worker
 
-function tildeQ = impactConfigurations(nx, ny, nq)
+[Q, Qtree] = impactConfigs(nx, ny, nq);
+
+% Per element in Q, trace through Qtree and build a set of nk constraints
+% at the leaf.
+% -- sort the list of nk constraints
 
 end
 

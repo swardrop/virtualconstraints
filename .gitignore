@@ -3,6 +3,7 @@ matlab/Deprecated
 matlab/Old_angle_convention
 matlab/worker/slprj
 matlab/worker/*.mexw64
+matlab/model/active
 doc/*.aux
 doc/*.bbl
 doc/*.blg
