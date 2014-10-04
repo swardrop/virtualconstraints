@@ -1,6 +1,9 @@
-function [h, theta, q] = plotBez(theta_p, alpha_p)
+function [h, theta, q] = plotBez(theta_p, alpha_p, th_grid)
 
-s = linspace(0, 1, 20);
+if nargin < 3
+    th_grid = 20;
+end
+s = linspace(0, 1, th_grid);
 
 theta = s*(theta_p(end) - theta_p(1)) + theta_p(1);
 q = bezConstraint(theta_p, alpha_p, theta);

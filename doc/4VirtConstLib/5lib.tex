@@ -18,10 +18,13 @@ The cardinality of the set of all impact configurations is trivially evaluable:
 \begin{equation} \label{eqn:numimpactconfs}
 \lvert\tilde{Q}\rvert = n_xn_yn_q
 \end{equation}
-We note that while $n_q$ must be fairly large to enable walking over uneven terrain, $n_x$ and $n_q$ are useful only to provide additional control and should be kept small. Under Equation \ref{eqn:numimpactconfs}, $\lvert P \rvert \propto \lvert\tilde{Q}\rvert^2 \implies \lvert P \rvert \propto n_x^2 ~~\wedge~~ \lvert P \rvert \propto n_q^2$.
+We note that while $n_q$ must be fairly large to enable walking over uneven terrain, $n_x$ and $n_q$ are useful only to provide additional control and should be kept small.
 
 \subsubsection{Inter-step kinetic energy changes}
-The only method of velocity control available to the motion planner is to chose constraints which add, maintain or reduce the kinetic energy of the walker. It is therefore important to produce, for each pair of step length and height, a range of kinetic energy mutations. For simplicity, we produce a set of kinetic energy additions and subtractions $\tilde{K}$, where $\lvert\tilde{K}\rvert = n_k$. For each set of initial and final configurations $q^+,q^- \in \tilde{Q}$, we produce the $n_k$ unique trajectories $q^+ \to q^-$ with $\Delta$KE $\in \tilde{K}$.
+The only method of velocity control available to the motion planner is to chose constraints which add, maintain or reduce the kinetic energy of the walker. It is therefore important to produce, for each pair of step length and height, a range of kinetic energy mutations. For simplicity, we produce a set of kinetic energy additions and subtractions $\tilde{K}$, where $\lvert\tilde{K}\rvert = n_k$. For each set of initial and final configurations $q^+,q^- \in \tilde{Q}$, we produce the $n_k$ unique trajectories $q^+ \to q^-$ with $\Delta$KE $\in \tilde{K}$. We therefore may formulate an expression for the total number of primitives in the library:
+\begin{equation}
+	\lvert P \rvert = n_k\left( n_xn_yn_q\right)^2
+\end{equation}
 
 For a given robot, it may be possible to define a particular range of $\Delta$KE values on the basis of the initial and final configuration. For instance, since a step-up trajectory converts kinetic into potential energy, constraints which add the maximum kinetic energy may not ever be chosen by the motion planning algorithm. Such reasoning is difficult to properly justify in general and as such has not been pursued in this thesis work. Even if such reasoning is used, it is still likely best to produce $n_k$ paths.
 
@@ -112,12 +115,12 @@ The structure of the library is a critical issue in determining the running time
 
 The library is built using a hierarchical (forest) structure with each of the impact configurations in $\tilde{Q}$ at the top. Consider this the initial configuration of the robot. Connected to each root node are $n_x$ nodes representing a particular step length $p_h(\theta^-)$. To each of these nodes are connected $n_y$ edges, encoding the grid of step heights $p_v(\theta^-)$. These edges are sorted in ascending order of height. At each of the nodes reachable from these edges, we have an encoded step length and height. This is important since there is only one height for a given length which is applicable based on the terrain.
 
-Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}\left((n_xn_yn_qn_k)^2\right)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
+Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}\left((n_xn_yn_q)^2n_k\right)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
 
 \subsection{Library generation implementation}
 Implemented in matlab -- a ``real'' implementation should be in a language with pointers like C.
 
-Generation of set of impact configurations -- IK used here was to specify the problem enough that the IK has a single solution and to search for the solution using an iterative method. A better approach may be to use fuzzy logic \cite{something?}
+Generation of set of impact configurations -- approach used here was to specify the problem enough that the IK has a single solution and to search for the solution using an iterative method. A better approach may be to use fuzzy logic \cite{something?}. Enforcement of cond 5 based upon zero slope. Equation \ref{eqn:zeroslopefriccone} -- range of step length and height?
 
 Build set of impact configurations in tree structure to start with to aid in VC structure.
 
@@ -125,10 +128,14 @@ Ordering to avoid search through all constraints to find initial condition. -- u
 
 Application of impact map
 
-Enforcement of condition 3-5?
+Enforcement of condition 3-4? -- based upon enforcement of ground condition.
+
+Coping with errors? -- No $\theta^c$ - set to end or start, depending on step up or down -- No feasible solution
 
 Ground definition
 
 Low-level structure - array with pointers (indexes)
 
 Multiple orderings?
+
+Production of $\Delta$KE values

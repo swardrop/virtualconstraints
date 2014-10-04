@@ -9,6 +9,11 @@ M = [0.25*m*l^2 + I, ...
     0.5*m*l^2*(cos(q(1)) - 1/2) - I, ...
     m*l^2*(1.5 - cos(q(1))) + 2*I];
 
+if nargin == 1 % Only interested in M
+    C = 0; G = 0; B = 0; B_perp = 0;
+    return
+end
+
 C = 0.5*m*l^2*sin(q(1))*[0, -qd(2); qd(2)-qd(1), qd(1)];
 
 G = 0.5*m*g*l*[sin(q(1)-q(2)); -sin(q(1)-q(2))-3*sin(q(2))];

@@ -13,21 +13,20 @@ al_ends(:,1) = actuated(start);
 al_ends(:,4) = actuated(fin);
 al_ends(:,3) = al_ends(:,end); % Zero slope at impact
 [~, ~, al1] = invarianceCond(th_ends, al_ends, th_ends(end), ...
-                deg+1, false);
+                degree+1, false);
 al_ends(:,2) = al1;
 
 x0 = getInitEstimate(start, fin, deg);
 [lb, ub] = bounds(start, fin, deg);
 
-options = optimoptions('fmincon', 'Algorithm', 'interior-point', ...
-    'Display', 'off');
+options = optimoptions('fmincon', 'Algorithm', 'interior-point');
 [x,~,flag] = fmincon(...
     @(x)cost(x, th_ends, al_ends, DelKE, deg, grid_num), ...
     x0, [], [], [], [], lb, ub, ...
     @(x)nonlconstrs(x, th_ends, al_ends, DelKE, sigma, deg, grid_num), ...
     options);
 
-[theta_p, alpha_p] = getCoefficients(x, th_ends, al_ends, deg);
+[theta_p, alpha_p] = getCoefficients(x);
 constraintData = publishConstr(theta_p, alpha_p);
 
 end
@@ -80,9 +79,9 @@ M = dynMatrices(delq*Phi_f);
 
 KE_after = (Delqd*dPhi_f)' * M * Delqd*dPhi_f * td2m;
 KE_before = dPhi_0' * M * dPhi_0 * thdsq_0;
-DelKE_act = KE_after - KE_before;
+DelKE = KE_after - KE_before;
 
-ceq = DelKE_act - DelKE;
+ceq = desired_DelKE - DelKE;
 
 if size(alpha_p,1) < 2
     % Don't impose ground constraint for CG

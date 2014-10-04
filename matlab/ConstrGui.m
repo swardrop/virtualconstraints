@@ -143,9 +143,12 @@ plot([th_c th_c], [min(Psi)-sc_fact, max(Psi)+sc_fact], 'k-');
 ylim([min(Psi)-sc_fact, max(Psi)+sc_fact]);
 grid on
 
+[G_c, P_c] = selectGammaPsi(constr.theta_p, constr.alpha_p, ...
+    constr.Gamma, constr.Psi, constr.theta_c, constr.th_base);
+
 set(handles.text_thetac, 'String', num2str(th_c, 3));
-set(handles.text_gammac, 'String', num2str(constr.Gamma_c, 3));
-set(handles.text_psic, 'String', num2str(constr.Psi_c, 3));
+set(handles.text_gammac, 'String', num2str(G_c, 3));
+set(handles.text_psic, 'String', num2str(P_c, 3));
 
 function h = refreshBezDisplay(handles)
 global constr theta q

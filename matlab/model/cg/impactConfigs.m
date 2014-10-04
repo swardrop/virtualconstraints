@@ -23,26 +23,33 @@ step_height = linspace(step_height_min, step_height_max, ny);
 % Something like <angle> = linspace(start, end, nq), perhaps.
 
 % Build configuration tree
-tree = struct;
-for i = nx : -1 : 1
-    tree.lens(i).len = step_len(i);
-    for j = ny : -1 : 1
-        tree.lens(i).hts(j).ht = step_height(j);
-        for k = nq : -1 : 1 % Not necessary for CG
+tree(nx) = struct;
+Qtilde = zeros(2,nx,ny,nq);
+
+parfor i = 1:nx
+    tree(i).len = step_len(i);
+    % Preallocate
+    tree(i).hts(ny) = struct;
+    for j = 1:ny
+        tree(i).step_ht(j).ht = step_height(j);
+        tree(i).step_ht(j).configs(nq) = 0;
+        for k = 1:nq % Not necessary for CG
             ind = sub2ind([nx ny nq], i, j, k);
-            Qtilde(ind,:) = solveIK(step_len(i), step_height(j));
-            tree.lens(i).hts(j).cfgs(k) = ind;
+            Qtilde(:,i,j,k) = solveIK(step_len(i), step_height(j));
+            tree(i).step_ht(j).configs(k) = ind;
         end
     end
 end
 
 % Sort by Qtilde by q1, then by q2, then by ... qn.
-[Qtilde, ind_sorted] = sortrows(Qtilde);
+Qtilde = reshape(Qtilde, length(delq), nx*ny*nq);
+[Qtilde, ind_sorted] = sortrows(Qtilde');
 Qtilde = Qtilde';
 % Update indexes in tree
-for i = 1:nx
+parfor i = 1:nx;
     for j = 1:ny
-        tree.lens(i).hts(j).cfgs = ind_sorted(tree.lens(i).hts(j).cfgs);
+        tree(i).step_ht(j).configs = ...
+            ind_sorted(tree(i).step_ht(j).configs);
     end
 end
 
@@ -52,14 +59,14 @@ end
 function q = solveIK(step_len, step_ht)
 q = [pi/4;0];
 iter = 0;
-gridsize = 21;
+gridsize = 20;
 accept = false;
 
 while ~accept
-    q1m = q(1) - (pi/4)/(gridsize^iter);
-    q1p = q(1) + (pi/4)/(gridsize^iter);
-    q2m = q(2) - (pi/2)/(gridsize^iter);
-    q2p = q(2) + (pi/2)/(gridsize^iter);
+    q1m = q(1) - (pi/4)/((gridsize/2)^iter);
+    q1p = q(1) + (pi/4)/((gridsize/2)^iter);
+    q2m = q(2) - (pi/2)/((gridsize/2)^iter);
+    q2p = q(2) + (pi/2)/((gridsize/2)^iter);
     iter = iter + 1;
     [q, accept] = mingrid(step_len, step_ht, q1m, q1p, q2m, q2p, gridsize);
 end

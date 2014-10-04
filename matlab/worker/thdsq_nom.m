@@ -9,9 +9,12 @@ delqd = impactMatrices(Phi_f);
 [~,~,c] = constrMatrices;
 delthd = c*delqd*dPhi_f;
 
+[Gamma_c, Psi_c] = selectGammaPsi(cd.theta_p, cd.alpha_p, ...
+    cd.Gamma, cd.Psi, cd.theta_c, cd.th_base);
+
 if DelKE < 0
     % Fixed factor over minimum feasible velocity after impact
-    thdsq = (delthd^(-2)*(-ratio^2*cd.Psi_c/cd.Gamma_c) - cd.Psi_f)/cd.Gamma_f;
+    thdsq = (delthd^(-2)*(-ratio^2*Psi_c/Gamma_c) - cd.Psi(end))/cd.Gamma(end);
 else %if DelKE >= 0
-    thdsq = -ratio^2*cd.Psi_c/cd.Gamma_c;
+    thdsq = -ratio^2*Psi_c/Gamma_c;
 end
