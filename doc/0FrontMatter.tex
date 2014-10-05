@@ -33,11 +33,15 @@ October, 2014
 \end{center}
 \end{titlepage}
 \pagebreak
-
+~
+\thispagestyle{empty}
+\pagenumbering{roman}
+\setcounter{page}{2}
+\pagebreak
 \begin{abstract}
 \thispagestyle{plain}
 \pagenumbering{roman}
-\setcounter{page}{2}
+\setcounter{page}{3}
 There is significant interest, both technical and aesthetic, in developing bipedal robots which locomote stably, efficiently and reliably over uneven terrain. This continues to present a significant challenge due to computational intractability, highly complex nonlinear dynamics and intrinsic static and dynamic instability. Successful methods which achieve walking gaits restrict the problem to particular domains or motions to overcome the intractability of the general problem. One such method is to prepare a library of motion primitives and thus to limit the on-line computation to the choice of a particular constraint within the library.
 
 Previous work has demonstrated the in-principle effectiveness of the motion primitives approach for real-time path planning of dynamic walking over uneven terrain. The contribution of this thesis work is to present a general method for the production of a library of motion primitives which achieves sufficient coverage of the feasible motions of the robot along with a method for intelligently choosing between them.
@@ -49,15 +53,14 @@ Previous work has demonstrated the in-principle effectiveness of the motion prim
 \begin{abstract}
 \thispagestyle{plain}
 \pagenumbering{roman}
-\setcounter{page}{3}
+\setcounter{page}{4}
 \begin{itemize}
 	\item I completed the literature review largely independently, with some papers being recommended to me by my supervisor
 	\item I designed and implemented the simulator for the compass-gait robot and 5-link walker, with the code for generating the dynamics of the 5-link walker being sourced from Westervelt et al \cite{westervelt2007feedback}.
 	\item I designed the graphical interfaces for the investigation of virtual constraints
-	\item I designed the method by which the motion primitives could be automatically generated {\color{red}(yet to complete...)}
+	\item I designed the method by which the motion primitives could be automatically generated
 	\item I extended the algorithm designed by my supervisor and others to include a more intelligent heuristic for selection of motion primitives in real time. {\color{red}(yet to complete...)}
 	\item I derived (though not necessarily pioneered) the equations presented, except where cited
-	\item I authored the thesis in its entirety, except where cited.
 \end{itemize}
 ~\\~\\
 
@@ -74,20 +77,25 @@ _______________ (student) \hspace{5mm} _______________ (supervisor)
 \begin{abstract}
 \thispagestyle{plain}
 \pagenumbering{roman}
-\setcounter{page}{4}
+\setcounter{page}{5}
 I would like to thank my supervisor, Dr Ian Manchester, for his time and forbearance in helping me grasp the matter of this field. Along with him, I thank Jack Umemberger for his helpful comments and insights to get me up to speed with his previous work in this matter.
 
 I thank <anybody who did this> for proofreading and advice given.
 
-I also thank my wife for enduring the countless nights and weekends spent with a preoccupied or absent husband even while taking care of our young daughter. Your encouragement and patience have been vital.
+I thank Trevor Anderson for being a willing and effective co-worker on so many assignments and projects over the course of our degrees, particularly for the last couple of years. I cannot calculate the effect that your friendship and hard work have had on myself and my grades.
+
+I extend my sincere and heartfelt thanks to my parents for their belief in me and for investing in my education from long before I knew that it was important.
+
+I also thank my wife Laura for enduring the countless nights and weekends spent with a preoccupied or absent husband even while taking care of our young daughter. Thank you for boosting my motivation when it was lacking and for doing everything you could to give me the space I needed to finish this work. You're amazing and your encouragement and patience have been vital to me.
 \end{abstract}
 
 
 \pagenumbering{roman}
-\setcounter{page}{5}
+\setcounter{page}{6}
 \tableofcontents
 \listoffigures
 \listoftables
+\listofalgorithms
 \renewcommand{\nomname}{Abbreviations and Nomenclature}
 \printnomenclature
 \clearpage

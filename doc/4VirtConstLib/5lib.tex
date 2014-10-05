@@ -32,7 +32,7 @@ We need not be as strict on keeping $n_k$ small, since $\lvert P \rvert \propto 
 
 Note that while the initial and final configurations are important data for a virtual constraint, the target $\Delta$KE should not be stored. As discussed previously, the change in kinetic energy is dependent on the initial velocity of the constraint. Furthermore, its calculation requires very little computation due to the affine form of the partial solution.
 
-\subsubsection{Ground configurations}
+\subsubsection{Ground configurations} \label{sec:ground}
 It is important to consider the likely shape of the ground for constraints with particular step lengths and heights. For the off-line generation of virtual constraints, it is best to be somewhat conservative in specifying where the ground level changes. Consider Figure \ref{fig:stepup}; the terrain steps up at a horizontal displacement significantly smaller than $p_h(\theta^-)$. It is reasonable to expect that this is representative of the typical use case of a step-up virtual constraint. It is not necessary to optimise numerous primitives with all else fixed but with varied ground configurations; if the terrain profile for the purposes of each single VC optimisation is conservatively defined, the ground configuration is indirectly sampled by producing constraints with varying initial and final configurations.
 
 \begin{figure}
@@ -43,7 +43,35 @@ It is important to consider the likely shape of the ground for constraints with 
 \end{figure}
 
 \subsection{Ordering sets of constraints} \label{sec:orderings}
-As discussed in Section \ref{sec:primplanning}, planning with primitives is made much more efficient if there is an ordering of primitives, since this facilitates a binary search, reducing the worst-case search time from $O(n)$ to $O(\log n)$. Ordering on the basis of $\Gamma(\theta^\bullet)$ and $\Psi(\theta^\bullet)$
+As discussed in Section \ref{sec:primplanning}, planning with primitives is made much more efficient if there is a means of ordering the primitives, since this facilitates a binary search, reducing the worst-case search time from $O(n)$ to $O(\log n)$. As discussed in \cite{manchester13planning}, the partial solution for velocity avails a method of ordering sets of constraints on the basis of a desired critical velocity $\dot{\theta}_a$. Recall that the velocity at the critical point for the constraint $\alpha$ is given by:
+\[
+	\dot{\theta}_c^2 = \Gamma(\theta_\alpha^c)\dot{\theta}_0^2 + \Psi(\theta_\alpha^c)
+\]
+If we say that we wish for the constraint to pass through the critical point with minimum velocity $\dot{\theta}_a$, then
+\begin{align*}
+	\Gamma(\theta_\alpha^c)\dot{\theta}_0^2 + \Psi(\theta_\alpha^c) &\geq \dot{\theta}_a^2 \\
+	\dot{\theta}_0^2 \geq \frac{\dot{\theta}_a^2 - \Psi(\theta_\alpha^c)}{\Gamma(\theta_\alpha^c)}
+\end{align*}
+We construct a precedence $\alpha \prec_{\dot{\theta}_a} \beta$ on the basis of the minimum required initial velocity $\dot{\theta}_0^2$ to achieve $\dot{\theta}_c\geq\dot{\theta}_a$:
+
+\begin{figure}[h]
+\centering
+$\alpha \prec_{\dot{\theta}_a} \beta$ if $q_\alpha^-=q_\beta^-$, $q_\alpha^+=q_\beta^+$ and
+\begin{equation} \label{eqn:ordering}
+	\frac{\dot{\theta}_a^2 - \Psi(\theta_\alpha^c)}{\Gamma(\theta_\alpha^c)}
+	\leq
+	\frac{\dot{\theta}_a^2 - \Psi(\theta_\beta^c)}{\Gamma(\theta_\beta^c)}
+\end{equation}
+\end{figure}
+
+Clearly, a similar ordering can be constructed based upon target final or post-impact velocities.
+
+\subsubsection{Velocity-independent ordering}
+Note that Equation \ref{eqn:ordering} is dependent on a target velocity $\dot{\theta}_a$. This ordering is useful for looking through the library for the virtual constraint which most closely reaches $\dot{\theta}_a$ at the critical point. However, if a different velocity is desired, the ordering is not guaranteed to provide any useful structure, therefore the search returns to a complexity of $\mathcal{O}(n)$.
+
+An ordering which is independent of a target velocity may be possible; if there is a total ordering between $(\Gamma(\theta^c),-\Psi(\theta^c))$ pairs, i,e. $\Gamma(\theta_\alpha^c) \geq \Gamma(\theta_\beta^c) \Longleftrightarrow -\Psi(\theta_\alpha^c) \geq -\Psi(\theta_\beta^c)$, then Equation \ref{eqn:ordering} is independent of $\dot{\theta}_a$. If such a set of $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ values can be found, the ordering generated avails much more general use.
+
+Another approach to achieving the equivalent of velocity independence in orderings, if the set of $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ does not contain the useful structure described, is to calculate the range of velocities for which a particular ordering applies. If the set of partial solutions is reasonably well behaved, it may be conceivable to cover the entire range of possible $\dot{\theta}_a$ values with relatively few sets of orderings.
 
 \subsection{Library structure}
 The structure of the library is a critical issue in determining the running time of the planning algorithm. It is important that constraints with certain properties can be found efficiently and that traversal through the library is straightforward. The library of motion primitives, as pictured in Figure \ref{fig:lib} is structured similarly to that described in \cite{manchester13planning}.
@@ -117,25 +145,117 @@ The library is built using a hierarchical (forest) structure with each of the im
 
 Each of these nodes is associated with a sorted array containing $n_qn_k$ applicable trajectories $q^+ \to q^-$, specified by Bézier coefficients as discussed in Section \ref{sec:bezconstraints}. These paths are able to be sorted based upon the ordering method introduced in Section \ref{sec:orderings}. The library is therefore conducive to an efficient search from a particular initial configuration $q^+$ to a trajectory $q^+ \to q^-$ on the basis of first matching step heights to the terrain at given step lengths, then searching through only the applicable constraints for a desired velocity or kinetic energy. Note that since the primitives are ordered, this search is completed in $\mathcal{O}(n_x\log(n_yn_qn_k))$ time. This is clearly preferable to the $\mathcal{O}\left((n_xn_yn_q)^2n_k\right)$ time of a search through an unstructured array of all primitives in $P$. We may again motivate the need to keep $n_x$ small; the worst-case search time is logarithmic in $n_y$, $n_q$ and $n_k$ but linear in $n_x$.
 
-\subsection{Library generation implementation}
-Implemented in matlab -- a ``real'' implementation should be in a language with pointers like C.
+\subsection{Library generation algorithm}
+The \mcode{generateLibrary} function is implemented in MATLAB to allow for simple interfacing with the simulation and optimisation code. However, the algorithm is more suited to languages with explicit pointers (e.g. C/C++), for reasons which should become apparent. The high-level structure of the algorithm is presented in Algorithm \ref{alg:highlevellib}.
 
-Generation of set of impact configurations -- approach used here was to specify the problem enough that the IK has a single solution and to search for the solution using an iterative method. A better approach may be to use fuzzy logic \cite{something?}. Enforcement of cond 5 based upon zero slope. Equation \ref{eqn:zeroslopefriccone} -- range of step length and height?
+\begin{algorithm}
+\begin{algorithmic}[1]
+	\Function{generateLibrary}{$n_x,n_y,n_q,n_k,deg,N_g,\dot{\theta}_a$}
+		\State [$\tilde{Q}, \tilde{Q}_{tree}$] $\gets$ \Call {impactConfigs}{$n_x,n_y,n_q$}
+		\State $\Delta$KE$_{list}$ $\gets$ \Call {DelKEs}{$n_k$}
+		\State $P \gets$ emptyList
+		\ForAll {$q^+ \in \tilde{Q}$}
+			\State $L(q^+) \gets \tilde{Q}_{tree}$
+			\ForAll {$len \in L(q^+).lens$}
+				\ForAll {$ht \in L(q^+).len.hts$}
+					\State $L(q^+).len.ht.prims \gets$ emptyArray($n_qn_k$)
+					\ForAll {$q_n^+ \in L(q^+).len.ht.qs$}
+						\State $q^- \gets Rq_n^+$
+						\State $\sigma(x) \gets$ \Call {makeGround}{$q^+,q^-$}
+						\ForAll {$\Delta$KE $\in$ $\Delta$KE$_{list}$}
+							
+							\State $[p, f] \gets$ \Call {optimiseVC}{$q^+,q^-,\Delta\mathrm{KE},\sigma(x),deg,N_g$}
+							\If {$f \neq$ FAIL}
+								\State $p.q^- \gets q^-$
+								\State $p.q^+ \gets q^+$
+								\State \Call{addToList}{$P, p$}
+								\State \Call{addToArray}{$L(q^+).len.ht.prims, p$}
+							\EndIf
+						\EndFor
+					\EndFor
+					\State \Call {sortVCs}{$L(q^+).len.ht.prims, \dot{\theta}_a$}
+				\EndFor
+			\EndFor
+		\EndFor
+		\State \Return{$L,P,\tilde{Q}$}
+	\EndFunction
+\end{algorithmic}
+\caption{Virtual constraint library generation}
+\label{alg:highlevellib}
+\end{algorithm}
 
-Build set of impact configurations in tree structure to start with to aid in VC structure.
+The library generation begins by producing the set of impact configurations and a list of mutations in kinetic energy. Note that the impact configurations are returned both as an array and a tree; the tree is structured in the same manner as the virtual constraint library in order to enable its efficient generation. That is, the tree contains pointers to elements of $\tilde{Q}$, arranged by step length and then by height. For each element $q^+ \in \tilde{Q}$, the tree is duplicated and for each configuration $q^-$ at the leaf of the tree, $n_k$ virtual constraints are constructed which define paths $q^+ \to q^-$. These constraints are stored in a large structure $P$ containing all constraints. The leaves of the tree $L$, the library of virtual constraints, are arrays containing pointers to elements of $P$. This array is sorted using the ordering in Section \ref{sec:orderings}. %
+\nomenclature{$\tilde{Q}$}{Set of all impact conditions in the virtual constraint library} %
+\nomenclature{$P$}{The set of all primitives in the virtual constraint library} %
+\nomenclature{$L$}{The structured virtual constraint library containing pointers into $\tilde{Q}$ and $P$}
 
-Ordering to avoid search through all constraints to find initial condition. -- updating tree structure.
+\subsubsection{Impact configurations}
+In order to generate the impact configurations in the form described above, it is necessary to calculate the inverse kinematics (IK) using a stipulated the step length and height. This significantly increases the complexity of the problem; forward kinematics (FK) are always able to be analytically derived, whereas one cannot even guarantee the existence of an IK solution. It is typically necessary to fix some other coordinates in order to produce a unique solution to the IK. %
+\nomenclature[*]{IK}{Inverse kinematics; i.e. calculating a set of generalised coordinates $q$ to achieve a desired position of a point on the robot}
 
-Application of impact map
+The IK are solved using a search with iterative grid refinement, as shown in Algorithm \ref{alg:iksol}. $s_l$ and $s_h$ are the step length and height respectively and $[h_h^*, h_v^*]$ is the position of the hip at impact. $N_g$ is the 1-D length of the grid, $\epsilon^*$ being the tolerance for error for accepting a solution. $q_p$ is the portion of the generalised coordinates which affect the position of the end of the swing leg $p$. 
+\begin{algorithm}
+\begin{algorithmic}[1]
+	\Function {solveIK}{$s_l,s_h,h_h^*,h_v^*,N_g,\epsilon^*$}
+		\State $[q_{p_{lim-}},q_{p_{lim+}}] \gets$ \Call{getLims}{}
+		\State $q_p \gets (q_{p_{lim-}}+q_{p_{lim+}})/2$
+		\State $q_{p_\Delta} \gets q_p - q_{p_{lim-}}$
+		\State $i \gets 0$
+		\State $accept \gets$ \textbf{false}
+		\While {$\neg ~accept$}
+			\State $q_{p_{min}} \gets q_p - q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
+			\State $q_{p_{max}} \gets q_p + q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
+			\State $[q_p,accept] \gets$ \Call{minGrid}{$s_l,s_h,h_l,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
+			\State $i \gets i + 1$
+		\EndWhile
+		\State \Return{$q_p$}
+	\EndFunction
+	\Function {minGrid}{$s_l,s_h,h_h^*,h_v^*,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
+		\State $[q_1, \ldots, q_n] \gets$ \Call{ndGrid}{$q_{p_{min}}^*,q_{p_{max}}^*,N_g$}
+		\State $[p_h, p_y] \gets$ \Call{endSwingLeg}{$q_1, \ldots, q_n$}
+		\State $[h_h, h_v] \gets$ \Call{hipPos}{$q_1, \ldots, q_n$}\Comment{Note hipPos ignored for CG}
+		\State $\epsilon \gets \lVert [s_l-p_h; s_h-p_v; h_h^*-h_h; h_v^*-h_v] \rVert_2$
+		\State $[\epsilon_{min}, q_{min}] \gets$ \Call{findMin}{$\epsilon$}
+		\State \Return{$q_{min}, (\epsilon_{min} \leq \epsilon^*)$}
+	\EndFunction
+\end{algorithmic}
+\caption{Iterative grid search for IK solution}
+\label{alg:iksol}
+\end{algorithm}
 
-Enforcement of condition 3-4? -- based upon enforcement of ground condition.
+Setting the step length and height along with the hip position is sufficient to provide a unique solution to the IK for the legs of a planar bipedal robot with up to one knee per leg. Since coordinates above the hip, e.g. the torso angle, do not affect the step length and height, these may be freely chosen. Note that for each step length and height, $n_q$ different sets of hip height and applicable additional coordinates are set. For the degenerate case of the compass-gait walker, $n_q=1$, and the hip position is not constrained, since the step length and height are sufficient to uniquely define the IK.
 
-Coping with errors? -- No $\theta^c$ - set to end or start, depending on step up or down -- No feasible solution
+It should be noted that this algorithm is exponential in the dimensions of $q_p$ and recalculates the entire grid each time. It is not possible in general to produce a polynomial time algorithm for IK \cite{??}, however the efficiency could be improved by using previous solutions to the IK to inform the initial guess, or by implementing an Adaptive Neuro-Fuzzy Inference System (ANFIS) \cite{??}.
 
-Ground definition
+It is important to check that the generated final configuration will be admissible on the basis of the simplified friction cone condition (Equation \ref{eqn:zeroslopefriccone}). This check may be completed in the code which calls \mcode{solveIK}. It is preferable that there are exactly $n_q$ configurations per step length and height in the library, so at this point the best practice is to recalculate the IK using a different set hip height or other coordinates. However, such configurations can be simply omitted from the library for simplicity of implementation without compromising the data structure. This is not a large concern; the friction cone constraint is typically satisfied if the range of step lengths and heights are within the robot's nominal operating limits.
 
-Low-level structure - array with pointers (indexes)
+The library of virtual constraints $L$ allows for an efficient search through the structure from a given initial configuration $q^+$. Since the virtual constraints contain references to the following impact configuration, finding the root in $L$ of a primitive given the preceding primitive is achieved in $\mathcal{O}(1)$ time. However, this clearly does not apply to the initial case. $\tilde{Q}$ is therefore sorted by $q_1$, then $q_2$, etc, to $q_n$. This allows for a $\mathcal{O}(\log\lvert\tilde{Q}\rvert)$ time initial search for a root node in $L$, assuming that the initial $q$ is known.
 
-Multiple orderings?
+\subsubsection{Kinetic energy mutations}
+The range of kinetic energy additions and subtractions must be set based upon the dynamics of the robot. This is intuitively obvious; a more massive robot with greater inertia requires a larger range of kinetic energy additions and subtractions. It therefore makes sense to define the kinetic energy mutations based upon the desired velocity characteristics, since these are much more intuitive and universal. The  maximum $\Delta$KE value is set by choosing the maximum change in generalised coordinate velocity $\delta\dot{q}_{max}$:
+\begin{equation}
+	\Delta\mathrm{KE}_{max} = (\delta\dot{q}_{max})^T M (\delta\dot{q}_{max})
+\end{equation}
+It is possible to formulate a less ``manual'' expression, in terms of the desired change in average horizontal velocity or similar, however since the change in kinetic energy is approximate and based only on a single constraint, it is deemed not necessary to commit computational power to solving such a formulation. The range in $\Delta$KE is produced by linear interpolation of $n_k$ values on the interval $[-\Delta\mathrm{KE}_{max},\Delta\mathrm{KE}_{max}]$.
 
-Production of $\Delta$KE values
+\subsubsection{Ground definition}
+Following the discussion in Section \ref{sec:ground} on conservative ground definitions, the ground height for all pairs of impact configurations $q^+, q^- \in \tilde{Q}$ is defined to be the following:
+\begin{equation}
+	\arraycolsep=1.4pt\def\arraystretch{1.5}
+	\sigma(x) = \left\{
+		\begin{array}{l c l}
+			p_v(\theta^+) &~:~& x < \tfrac{1}{2}p_h(\theta^+) \\
+			0 &~:~& x \in \left[\tfrac{1}{2}p_h(\theta^+), \tfrac{1}{2}p_h(\theta^-)\right) \\
+			p_v(\theta^-) &~:~& x \geq \tfrac{1}{2}p_h(\theta^-)
+		\end{array}
+	\right.
+\end{equation}
+Optimising a virtual constraint with this ground definition implicitly enforces \ref{item:liftoff} and \ref{item:posnormalF} from Section \ref{sec:impact}, since if the configuration path leaves the ground on a positive-height trajectory, then comes back into contact with the ground from above, the vertical component of the swing foot's velocity, $p_v$, must be respectively positive and negative. The only robots which must have additional checks placed on the optimisation solution, therefore, are those with rigid legs, e.g. the compass-gait walker.
+
+{\color{red}\subsubsection{Multiple orderings?}
+Possibly order multiply in $\theta_c$ or perhaps also by $\theta^+$}
+
+\subsubsection{MATLAB implementation}
+Due to a lack of pointers in MATLAB, the set of all virtual constraints $P$ is stored in an array, with indexes operating as \textit{de facto} pointers. The same is true for the ``pointers'' in $\tilde{Q}_{tree}$ into $\tilde{Q}$. While this limits the freedom of memory allocation and precludes the program from several efficiency measures, the full functionality of the algorithm is able to be maintained.
+
+The only significant point of difference in the algorithm is in the handling of the optimisation returning an invalid constraint or an error flag. Since the virtual constraint set $P$ must already be initialised and is indexed, it is necessary to fill the entries of $P$ corresponding to errors with some values. For reasons which should be self-evident when considering the ordering method in Section \ref{sec:orderings}, these entries are filled with $\Gamma_\bullet = 0, \Psi_\bullet=-\infty$.

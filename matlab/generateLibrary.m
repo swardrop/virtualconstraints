@@ -45,7 +45,7 @@ constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
 Qsize = size(Q,2);
 lib(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
 for q = 1 : Qsize;
-    initq = delq*Q(:,q);
+    initq = Q(:,q);
     lib(q).initq = initq;
     for l = 1 : nx          % For each step length in the tree:
         
@@ -55,9 +55,9 @@ for q = 1 : Qsize;
             
             for qf = 1 : nq         % For each configuration given l & h:
                 finalq_ind = lib(q).step_len(l).step_ht(h).configs(qf);
-                finalq = Q(:,finalq_ind);
+                finalq = delq*Q(:,finalq_ind);
+                sigma = makeGround(initq, finalq);
                 for k = 1 : nk          % For every DelKE given a final q:
-                    sigma = makeGround(initq, Q(:,qf));
                     [vc, flag] = optimiseConstraint(initq, finalq, ...
                         DelKE(k), sigma, deg, optGrid);
                     if flag > 0 % Only add constraint if it is valid

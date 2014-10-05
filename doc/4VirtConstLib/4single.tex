@@ -6,9 +6,7 @@ Manual design approaches are not favourable since they are expensive and ineffic
 The redundancy inherent in the sampling approach increases the the memory required to store the virtual constraint library and the computational requirements of both its generation and use in real time. An optimisation approach attempts to find the best virtual constraint subject to particular requirements, e.g. beginning and final conditions. Therefore, the utility of single virtual constraint optimisation is to avoid the large amount of redundancy involved in the sampling approach and to enable the enforcement of feasible walking conditions. Clearly, single VC optimisation is itself not sufficient to produce a library of primitives; see Section \ref{sec:lib}.
 
 \subsection{Definition of optimality}
-As with most physical systems, there are competing definitions of optimality in the case walking robots; {\color{red}<insert literature references to competing definitions>}.
-
-The definition of optimality chosen for the purposes of producing the virtual constraint library is as follows:
+As with most physical systems, there are competing definitions of optimality in the case walking robots \cite{sreenath2011compliant, westervelt2003hybrid, hurmuzlu2004modeling}. The definition of optimality chosen for the purposes of producing the virtual constraint library is as follows:
 \emph{The optimal virtual constraint for a given start and end configuration and kinetic energy gain or loss is the one which requires the minimum input energy to maintain.}
 
 We note that the relationship between torque and electrical energy in conventional DC motors is typically approximated by the following equation:
@@ -34,7 +32,7 @@ It is not possible to determine \textit{a priori} that an optimisation is well-f
 	\label{fig:cggridtorque}
 \end{figure}
 
-In the case of higher-DOF walking models, it becomes more difficult to confirm near-convexity or even that the cost function is well-behaved. Taking slices, where we choose two decision variables over which to grid and fix all others, allows us to develop some intuition, see Figure \ref{fig:5lslice1} and \ref{fig:5lslice2}. We note that in these slices, the cost function again appears to be well-behaved and near-convex. On the basis of this evidence, it appears to be reasonable to assume that the convex optimisation approach will produce valid near-optimal results.
+{\color{orange}In the case of higher-DOF walking models, it becomes more difficult to confirm near-convexity or even that the cost function is well-behaved. Taking slices, where we choose two decision variables over which to grid and fix all others, allows us to develop some intuition, see Figure \ref{fig:5lslice1} and \ref{fig:5lslice2}. We note that in these slices, the cost function again appears to be well-behaved and near-convex. On the basis of this evidence, it appears to be reasonable to assume that the convex optimisation approach will produce valid near-optimal results.}
 
 \subsection{Optimisation method}
 \subsubsection{Decision variables and constraints}
@@ -99,7 +97,7 @@ Equating $\dot{\theta}^+$ with $\lambda\dot{\theta}_\alpha^c$, where $\lambda$ i
 \textbf{Energy-neutral constraints} result in $\Delta$KE $=0$. In this case, we expect the next constraint to require an initial $\dot{\theta}$ no greater or less than $\dot{\theta}_\alpha^*$. As such, either of the above expressions seem suitable. The simplicity of Equation \ref{eqn:energyadditive} is preferred.
 
 \subsection{Implementation}
-The \mcode{optimiseConstraint} function takes as arguments the start and end configurations of the constraint, the desired change in kinetic energy, the ground definition $\sigma(x)$ and the degree of the desired Bézier polynomial. It returns the start and end values of the phase variable $\theta_0$, $\theta^-$ and the Bézier coefficients $\alpha$. These are sufficient to define the virtual holonomic constraint, however, for convenience, it also returns the calculated values of the partial solution at $\theta_c$, $\theta^-$ and $\theta^+$.
+The \mcode{optimiseVC} function takes as arguments the start and end configurations of the constraint, the desired change in kinetic energy, the ground definition $\sigma(x)$ and the degree of the desired Bézier polynomial. It returns the start and end values of the phase variable $\theta_0$, $\theta^-$ and the Bézier coefficients $\alpha$. These are sufficient to define the virtual holonomic constraint, however, for convenience, it also returns the calculated values of the partial solution at $\theta_c$, $\theta^-$ and $\theta^+$.
 
 The single VC implementation is achieved using MATLAB's constrained nonlinear programming function \mcode{fmincon}. This uses an interior point method to seek local minima in the cost function subject to the given constraints. For each set of test values for the decision variables, the partial solution ($\Gamma(\theta)$ and $\Psi(\theta)$) is evaluated by producing a grid of $\theta$ values in $[\theta_0, \theta^-]$. The cost is calculated using trapezoidal integration on the resulting torque values. Since $\Delta$KE also relies upon the partial solution, it is held persistently in a helper function and only recalculated upon differing decision variables, to avoid inefficient recalculation.
 

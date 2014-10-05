@@ -35,7 +35,7 @@ parfor i = 1:nx
         tree(i).step_ht(j).configs(nq) = 0;
         for k = 1:nq % Not necessary for CG
             ind = sub2ind([nx ny nq], i, j, k);
-            Qtilde(:,i,j,k) = solveIK(step_len(i), step_height(j));
+            Qtilde(:,i,j,k) = delq*solveIK(step_len(i), step_height(j));
             tree(i).step_ht(j).configs(k) = ind;
         end
     end

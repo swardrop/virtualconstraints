@@ -1,5 +1,5 @@
 In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints (VCs)}. %
-\nomenclature{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
+\nomenclature[w]{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
 \nomenclature[*]{VC}{Virtual (holonomic) constraint}
 
 Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what are labelled the \textit{swing phases}, interspersed with impacts. The swing phase dynamics of the robot coupled with the applied virtual constraints, along with the impact dynamics, produce the \textit{hybrid zero dynamics} of the underactuated walker. In this section, we the derivation of hybrid zero dynamics for general underactuation degree one robots along with some useful results for the motion planner.
@@ -27,7 +27,9 @@ These assumptions represent an adequate model of physical walking and are widely
 	q\left(t^+\right) &= Rq\left(t^-\right) \label{eqn:impactconfig}\\
 	\dot{q}\left(t^+\right) &= R\Delta\left(q\left(t^-\right)\right)\dot{q}\left(t^-\right) \label{eqn:impactvel}
 \end{align}
-\end{subequations}
+\end{subequations} %
+\nomenclature[j]{$R$}{Matrix encapsulating relabelling of coordinates at impact}
+\nomenclature[k]{$\Delta(q)$}{Map of instantaneous change in velocity at impact}
 
 For the underactuated walkers considered in this thesis, $R$ represents a relabelling of coordinates. A simple example of relabelling of the coordinates at impact for a compass-gait walker is shown in Figure~\ref{fig:relabelimpact}.
 

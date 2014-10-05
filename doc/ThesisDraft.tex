@@ -14,7 +14,7 @@
 \usepackage[toc,page]{appendix}
 \usepackage{epstopdf}
 \usepackage{multicol}
-\usepackage[includeheadfoot, margin=3cm, headsep=0.8cm]{geometry}
+\usepackage[bindingoffset=1cm, includeheadfoot, margin=2cm, top=1.5cm, bottom=1cm, headsep=0.8cm, footskip=1.2cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{url}
 \usepackage{lscape}
@@ -37,9 +37,12 @@
 \usepackage[parfill]{parskip}
 \usepackage{nomencl}
 \usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
-\titlespacing{\section}
-{0pt}{0ex}{0ex}
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 \makenomenclature
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
@@ -67,11 +70,13 @@
 
 % Set figure numbering
 \renewcommand{\theequation}{\thechapter\arabic{equation}}
-\renewcommand{\theequation}{\thechapter\arabic{equation}}
-\renewcommand{\theequation}{\thechapter\arabic{equation}}
+\renewcommand{\thefigure}{\thechapter\arabic{figure}}
+\renewcommand{\thetable}{\thechapter\arabic{table}}
+\renewcommand{\thealgorithm}{\thetchapter\arabic{algorithm}}
 \numberwithin{equation}{chapter}
 \numberwithin{figure}{chapter}
 \numberwithin{table}{chapter}
+\numberwithin{algorithm}{chapter}
 
 
 \renewcommand{\chaptermark}[1]{\markleft{}}
@@ -113,7 +118,7 @@
 \chapter{Virtual Constraint Library}
 \input{4VirtConstLib}
 
-\chapter{Algorithm Design}
+\chapter{Path Planning Algorithm}
 \input{5AlgDesign}
 
 \chapter{Simulation}
