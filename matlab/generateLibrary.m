@@ -19,9 +19,6 @@ function [lib, constrs] = generateLibrary(nx,ny,nq,nk,deg,optGrid,nomvel)
 % before calling generateLibrary. Close the threads with
 %   matlabpool close
 
-addpath model/active
-addpath worker
-
 if nargin < 7
     nomvel = 2; %rad/s
     if nargin < 6

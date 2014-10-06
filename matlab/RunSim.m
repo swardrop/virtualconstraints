@@ -30,7 +30,7 @@ theta_p = constrData(1).theta_p;
 alpha_p = constrData(1).alpha_p;
 
 cd worker
-addpath ../model/active
+addpath ../model/cg
 % Set initial conditions
 q_0 = constrEndPts(theta_p, alpha_p);
 theta_dot_sq_0 = thdsq_nom(constrData, 0);
@@ -113,4 +113,5 @@ suptitle('Torque expended');
 % Animation of motion
 figure('Position', [300, 100, 1000, 600])
 mov = visualise(q, impact, ground);
+rmpath ../model/cg
 cd ..

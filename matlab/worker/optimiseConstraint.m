@@ -70,19 +70,19 @@ end
 function [c, ceq] = nonlconstrs(x, th_ends, al_ends, DelKE, ...
     sigma, deg, grid_num)
 [theta_p, alpha_p] = getCoefficients(x, th_ends, al_ends, deg);
-[~, Phi_f, dPhi_0, dPhi_f] = constrEndPts(theta_p, alpha_p);
 
 cd = getOrMakeConstr(theta_p, alpha_p, grid_num);
 thdsq_0 = thdsq_nom(cd, DelKE);
 td2m = cd.Gamma(end)*thdsq_0 + cd.Psi(end);
-Delqd = impactMatrices(Phi_f);
-M = dynMatrices(delq*Phi_f);
+Delqd = impactMatrices(cd.Phi(:,end));
+M_0 = dynMatrices(cd.Phi(:,1));
+M_p = dynMatrices(delq*cd.Phi(:,end));
 
-KE_after = (Delqd*dPhi_f)' * M * Delqd*dPhi_f * td2m;
-KE_before = dPhi_0' * M * dPhi_0 * thdsq_0;
+KE_after = (Delqd*cd.d_Phi(:,end))' * M_p * Delqd*cd.d_Phi(:,end) * td2m;
+KE_before = cd.d_Phi(:,1)' * M_0 * cd.d_Phi(:,1) * thdsq_0;
 DelKE_act = KE_after - KE_before;
 
-ceq = DelKE_act - DelKE;
+ceq = DelKE - DelKE_act;
 
 if size(alpha_p,1) < 2
     % Don't impose ground constraint for CG

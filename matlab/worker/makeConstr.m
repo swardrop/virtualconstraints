@@ -27,7 +27,7 @@ end
 constrData = struct;
 constrData.theta_p = theta_p;
 constrData.alpha_p = alpha_p;
-constrData.theta_c = theta_c;
+constrData.th_c = theta_c;
 constrData.Gamma = Gamma;
 constrData.Psi = Psi;
 constrData.th_base = th_base;

@@ -26,8 +26,6 @@ function varargout = ConstrGui(varargin)
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
-addpath model\active
-addpath worker
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
                    'gui_OpeningFcn', @ConstrGui_OpeningFcn, ...
@@ -125,7 +123,7 @@ axes(handles.axes1)
 visualiseStatic(q);
 
 th_base = constr.th_base; Gamma = constr.Gamma; Psi = constr.Psi;
-th_c = constr.theta_c;
+th_c = constr.th_c;
 axes(handles.axes6)
 hold off
 plot(th_base,Gamma)
@@ -144,7 +142,7 @@ ylim([min(Psi)-sc_fact, max(Psi)+sc_fact]);
 grid on
 
 [G_c, P_c] = selectGammaPsi(constr.theta_p, constr.alpha_p, ...
-    constr.Gamma, constr.Psi, constr.theta_c, constr.th_base);
+    constr.Gamma, constr.Psi, constr.th_c, constr.th_base);
 
 set(handles.text_thetac, 'String', num2str(th_c, 3));
 set(handles.text_gammac, 'String', num2str(G_c, 3));
@@ -359,7 +357,7 @@ cd = optimiseConstraint([constr.alpha_p(1);constr.theta_p(1)], ...
     [constr.alpha_p(end);constr.theta_p(end)],DelKE,sigma,degree,grid);
 toc
 
-constr = cd;
+constr = makeConstr(cd.theta_p, cd.alpha_p);
 h = refreshBezDisplay(handles);
 set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 refreshSidePlots(handles);
