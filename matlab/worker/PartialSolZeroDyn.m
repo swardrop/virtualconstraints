@@ -11,6 +11,7 @@ function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
 if nargin < 3
     num_points = 25;
 end
+eps = 1e-8;
 
 theta_f = theta_p(end);
 theta_0 = theta_p(1);
@@ -24,6 +25,7 @@ Phi = zeros([size(alpha_p,1)+1, length(th_base)]);
 d_Phi = zeros(size(Phi));
 dd_Phi = zeros(size(Phi));
 th_c = inf;
+al_0c = [];
 
 for i = 1 : num_points
     % Calculate zero dynamics coefficients
@@ -39,20 +41,51 @@ for i = 1 : num_points
     % Find th_c
     if i == 1
         gamma_prev = gam;
+        alpha_prev = al;
     end
-    if (gam < 0 && gamma_prev > 0) || (gam > 0 && gamma_prev < 0)
+    if sign(gamma_prev) ~= sign(gam)
         % Use linear interpolation between two points
         th_c = gamma_prev/(gamma_prev-gam)*step_size+th_base(i)-step_size;
     end
     gamma_prev = gam;
+    
+    % Test for alpha zero crossing
+    if sign(alpha_prev) ~= sign(al)
+        al_0c(end+1) = i-1; %#ok<AGROW>
+    end
+    alpha_prev = al;
 end
 
 fx = 2*beta./alpha;
 gx = -2*gamma./alpha;
-    
-int_fx = cumtrapz(fx)*step_size;
-int_gxefx = cumtrapz(gx.*exp(int_fx))*step_size;
+
+% Partition fx and gx such that any intervals where there are zero
+% crossings are excluded from the integral
+idx = 1;
+int_fx = zeros(size(th_base));
+int_gxefx = zeros(size(th_base));
+
+for i = 1 : length(al_0c)
+    zc = fzero(@(theta)ZeroDyn(theta_p,alpha_p,theta), ...
+        [th_base(al_0c(i)), th_base(al_0c(i)+1)]);
+    [alm, betm, gamm] = ZeroDyn(theta_p, alpha_p,zc-eps);
+    fx(al_0c(i)) = 2*betm/alm;
+    gx(al_0c(i)) = -2*gamm/alm;
+    th_base(al_0c(i)) = zc-eps;
+    [alp, betp, gamp] = ZeroDyn(theta_p, alpha_p,zc+eps);
+    fx(al_0c(i)+1) = 2*betp/alp;
+    fx(al_0c(i)+1) = -2*gamp/alp;
+    th_base(al_0c(i)+1) = zc+eps;
+    int_fx(idx:al_0c(i)) = cumtrapz(fx(idx:al_0c(i)), ...
+        th_base(idx:al_0c(i)));
+    int_gxefx(idx:al_0c(i)) = cumtrapz(gx(idx:al_0c(i)) ... 
+        .*exp(int_fx(idx:al_0c(i))), th_base(idx:al_0c(i)));
+    idx = al_0c + 1;
+end
+
+int_fx(idx:end) = cumtrapz(fx(idx:end), th_base(idx:end));
+int_gxefx(idx:end) = cumtrapz(gx(idx:end).*exp(int_fx(idx:end)), ...
+    th_base(idx:end));
 Gamma = exp(-int_fx);
 Psi = exp(-int_fx).*int_gxefx;
-
 end

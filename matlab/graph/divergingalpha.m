@@ -32,3 +32,11 @@ grid off
 xlabel('Horizontal displacement from stance foot (m)');
 ylabel('Vertical displacement from stance foot (m)');
 title('Cartesian robot path')
+
+figure
+c = makeConstr(theta_p,alpha_p,1000);
+u = nomTorque(c, thdsq_nom(c, 0));
+plot(th_base, abs(u), 'k');
+ylabel('|u(\theta)| (Nm)')
+xlabel('\theta');
+xlim([-0.3 0.3]);

@@ -1,31 +1,164 @@
 \section{Design of simulator}
 All simulation presented in this thesis was implemented using MATLAB \& Simulink Version 8.1 (R2013a). The dynamics of the walking robots in conjunction with the controller and path planner were simulated through executing a Simulink model within a MATLAB script. The Simulink model is designed to be flexible such that any robot satisfying the following predicates is able to be simulated:
 \begin{enumerate}
-	\item The dynamics of the robot are expressible in the form of Equation \ref{??}.
+	\item The dynamics of the robot are expressible in the form of Equation \ref{eqn:dynamics}.
 	\item The robot has two legs for each of which there exists a single, identifiable point which defines its end.
 	\item The robot stands in a gravitational potential field with a well-defined ground.
-	\item The robot is subject to a virtual constraint defined in the form of Equation \ref{??}.
+	\item The robot is subject to a virtual constraint defined in the form of Equation \ref{eqn:usefulBez}.
 \end{enumerate}
 
-This flexibility is achieved by deferring all constants (including dynamics matrices) to for definition within the MATLAB workspace which runs the model.
+This flexibility is achieved by deferring all constants (including dynamics matrices) to definition within the MATLAB workspace which runs the model.
 
-The simulator is capable of producing the evolution of the states of the robot over time, as well as the torques used and the extent to which each virtual constraint has been maintained. It is designed for saggital-plane simulations, though it could with some effort be extended to three dimensions. Another current limitation of the simulator is that it is only applicable to piecewise flat ground.
+The simulator is capable of producing output describing the evolution of the states of the robot over time, as well as the torques used and the extent to which each virtual constraint has been maintained. It is designed for saggital-plane simulations, though it could with some effort be extended to three dimensions. Another current limitation of the simulator is that it is only applicable to piecewise flat ground.
 
 The Simulink model is used to produce the data corresponding to the swing phase of the robot. Each time an impact event occurs, the simulation stops. Therefore, to simulate continuous walking, the executing script contains a loop which re-initialises the simulation after each step. This is convenient, since the impact events represent a discontinuity in the states, which is much easier to handle outside the model. It also presents a programmatic separation between the dynamics of the robot and the planning, therefore availing simpler means of evaluating the performance of the planning algorithm.
 
-The behaviour of the simulation is presented in the following {\color{red}state transition diagram}:
+At the conclusion of a stipulated simulation time, or if the simulator encounters a dynamical flaw, e.g. the robot falling back or the impact forces outside the friction cone, the simulation ceases. A visualisation of the robot's path is generated, along with plots of the state and torque evolution over the simulation. It is also trivial to configure the simulation such that it only generates a single footstep in order to analyse the swing-phase behaviour of a single constraint.
 
+\section{Simulink model}
+The Simulink model is composed of a high-level system with two subsystems; the controller and the dynamics of the robot. This is deliberate such that the modelling of the dynamics of the robot can be kept as independent as possible from the control imposed on it. However, it should not be necessary to edit any of the model since much of the behaviour of the simulation is defined by externally provided constants.
 
-{\color{orange}Theoretically, these curves should only be defined from the start to the end point of the continuous phase which they specify. However, since the constraint is not guaranteed to be perfectly regulated, it is necessary to define the constraint over the full range of possible motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the control signal is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta_n]$, otherwise it is zero.}
+\begin{figure}
+	\centering
+	\includegraphics[angle=-90, width=0.9\textwidth]{6Sim/simblockdiag}
+	\caption{Block diagram of high level Simulink model}
+	\label{fig:simblockdiag}
+\end{figure}
 
-{\color{blue}Design of simulation, limitations, outputs}
+The Simulink block diagrams composing the simulation model are presented in Figures \ref{fig:simblockdiag}, \ref{fig:contblockdiag} and \ref{fig:dynblockdiag}. Note that the coordinates of the robot model are encapsulated within a single vector, allowing for a robot with any number of independent links to be modelled.
 
-\section{Simulink Model}
-<Block diagrams and explanatory text>
-<Table of required constants>
+\begin{figure}
+	\centering
+	\includegraphics[angle=-90, width=0.9\textwidth]{6Sim/contblockdiag}
+	\caption{Block diagram of controller}
+	\label{fig:contblockdiag}
+\end{figure}
 
-\section{Compass-gait (2-link) walker}
-Perhaps provide specific inputs to Simulink since this is a fairly simple case
+\begin{figure}
+	\centering
+	\includegraphics[angle=-90, width=0.9\textwidth]{6Sim/dynblockdiag}
+	\caption{Block diagram of dynamics model}
+	\label{fig:dynblockdiag}
+\end{figure}
 
-\section{5-link walker}
-Describe how the matrices were generated \cite{westervelt2007feedback}?
+The controller for the robot is comprised of two additive components; a high-gain PD controller and a HZD-based feed-forward controller. The PD component on its own is not sufficient, since in general there is a non-zero torque required to perfectly maintain the constraint when the error is zero. Note that the simulator does not contain the path planning algorithm. The constraints are chosen in between each footstep of the simulation in order to be able to accurately determine the running time of the algorithm. Clearly, a practical implementation of the planner will run in real-time during the motion of the robot.
+
+Note that since primitives are not guaranteed to be perfectly regulated, it is necessary to define the control over the full range of motion, else it is possible for the walker to enter a region where the control signal is undefined. Therefore, the nominal (feed-forward) control is defined as that required to regulate the constraint if $\theta \in [\theta_0, \theta^-]$, otherwise it is zero. The reference for the PD controller for $\theta \leq \theta_0$ is set to be $\Phi(\theta_0)$ and likewise for $\theta \geq \theta^-$ it is set to be $\Phi(\theta^-)$.
+
+The catalogue of externally supplied data required by the simulation is given in Table \ref{tab:simConstants}. The sizes of many of the input matrices must be compatible with one another. For example, the number of independent Bézier coefficients (rows of $\alpha$) must equal the number of actuated coordinates of the robot. Table \ref{tab:scriptConstants} presents the data required to be supplied for the script which encapsulates the simulation. Note that in order to define or change the model which is used within the simulation, all that is required is to redefine the functions which are referenced in the two tables. For convenience, the file structure of the software separates these functions from the rest of the code. It is therefore possible to change which model is being used simply by changing which folder of model functions is added to the MATLAB path.
+
+All other required data is derived from the supplied data or the simulation. Note that the data which is labelled ``In workspace'' other than the ground definition $\sigma(x)$ is external to the Simulink model, but not to the wrapping script; these data are provided by the motion planner. The ground definition must be able to be set manually, since it is the ability of the robot to locomote over diverse rough terrain which is tested.
+
+\begin{table}
+	\centering
+	\begin{tabular}{ c | c | c | c}
+		Data                             & Description                                          & Size                & Method of supply          \\ \hline
+		$\alpha$                         & Bézier coefficients                                  & $(n-1)\times (N+1)$ & In workspace              \\
+		$\theta_\alpha$                  & Vector containing $\theta_\alpha^+, \theta_\alpha^-$ & $1\times N$         & In workspace              \\
+		$\sigma(x)$                      & Ground definition                                    & $x \times 2$        & In workspace              \\
+		$q(\theta_0), \dot{q}(\theta_0)$ & Initial state                                        & $n \times 1$        & In workspace              \\
+		$(x_0, y_0)$                     & Origin (stance foot)                                 & scalars             & In workspace              \\
+		$M(q),C(q,\dot{q})$              & Dynamics matrices                                    & $n\times n$         & \mcode{dynMatrices(q,qd)} \\
+		$G(q)$                           & Dynamics matrices                                    & $n\times 1$         & \mcode{dynMatrices(q,qd)} \\
+		$B^\perp(q)$                     & Dynamics matrices                                    & $1\times n$         & \mcode{dynMatrices(q,qd)} \\
+		$p(q)$                           & End of swing foot                                    & $2 \times 1$        & \mcode{endSwingfoot(q)}   \\
+		$\theta(q)$                      & Phase variable                                       & scalar              & \mcode{phasevar(q)}       \\
+		$q_{act}(q)$                     & Actuated coordinates                                 & $(n-1)\times 1$     & \mcode{actuated(q)}
+	\end{tabular}
+	\caption{Externally supplied data to the Simulink simulation}
+	\label{tab:simConstants}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}{ c | c | c | c}
+		Data                       & Description              & Size             & Method of supply          \\ \hline
+		$R$                        & Impact relabelling       & $n\times n$      & \mcode{delq()}            \\
+		$\Delta(q), \Delta_F(q)$   & Dynamics impact map      & $n \times n$     & \mcode{impactMatrices(q)} \\
+		$H_0$                      & VC coordinate definition & $(n-1) \times n$ & \mcode{constrMatrices()}  \\
+		$c$                        & VC coordinate definition & $1 \times n$     & \mcode{constrMatrices()}  \\
+		$\Delta\mathrm{KE}_{list}$ & Range of KE mutations    & $1 \times n_k$   & \mcode{DelKEs()}
+	\end{tabular}
+	\caption{Externally supplied data to the code wrapping the simulation}
+\end{table}
+
+\section{Robot models}
+The virtual constraint library generation and simulation of the motion planner were conducted on two robot models. A 2-link (compass-gait) robot was the primary model used for development, in which the simplistic morphology and single actuated coordinate were useful for testing principles and illustrating the concepts of virtual constraint-based planning. {\color{orange} In order to demonstrate the ability of the methods used in this thesis to higher-order robots, a more complex robot model was used; a 5-link robot based on the RABBIT experimental testbed \cite{chevallereau2003rabbit}.}
+\subsection{Compass-gait (2-link) walker}
+Since the compass-gait walker is a simple robot model, it is instructive to present the data which make up the model here. The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg.
+
+\begin{align*}
+	M(q) = &\begin{bmatrix}
+		\tfrac{1}{4}ml^2 + I                         & \tfrac{1}{2}ml^2(\cos(q_1)-\tfrac{1}{2}) - I \\
+		\tfrac{1}{2}ml^2(\cos(q_1)-\tfrac{1}{2}) - I & ml^2(\tfrac{3}{2}-\cos(q_1)) + 2I
+	\end{bmatrix} \\
+	C(q,\dot{q}) = \tfrac{1}{2}ml^2\sin(q_1)&\begin{bmatrix}
+		0                   & -\dot{q}_2 \\
+		\dot{q}_2-\dot{q}_1 & \dot{q}_1
+	\end{bmatrix} \\
+	G(q) = \tfrac{1}{2}mgl&\begin{bmatrix}
+		\sin(q_1 - q_2) \\
+		-\sin(q_1 - q_2) - 3\sin(q_2)
+	\end{bmatrix} \\
+	B = &\begin{bmatrix}
+	1 \\ 0
+	\end{bmatrix}
+\end{align*}
+$B^\perp$ may be chosen as any matrix for which $B^\perp B = 0$. A simple choice is 
+\[B^\perp = \begin{bmatrix}
+	0 & 1
+\end{bmatrix}\]
+
+According to \cite{westervelt2007feedback}, it is possible to write the impact dynamics equations in the following form:
+\begin{align*}
+	\Delta_q &= R \\
+	\Delta_{\dot{q}}(q) &= \begin{bmatrix}
+		R & \mathbf{0}
+	\end{bmatrix} \Delta_{\dot{q}_e} \\
+	\Delta_{\dot{q}_e}(q) &= M_e^{-1}E_2^T\Delta_{F} + \begin{bmatrix}
+		\mathbf{I}_2                          \\
+		\frac{\partial\Upsilon_e}{\partial q}
+	\end{bmatrix} \\
+	\Delta_F(q) &= -(E_2M_e^{-1}E_2^T)^{-1}E_2\begin{bmatrix}
+		\mathbf{I}_2 \\ \frac{\partial\Upsilon_e}{\partial q}
+	\end{bmatrix}
+\end{align*}
+For the compass-gait robot, we have:
+\begin{align*}
+	R = &\begin{bmatrix}
+		-1 & 0 \\ -1 & 1
+	\end{bmatrix} \\
+	M_e(q_e) = &\begin{bmatrix}
+		A & \mathbf{0} \\ \mathbf{0} & 2m\times\mathbf{I}_{2}
+	\end{bmatrix} \\
+	A(q) = \tfrac{1}{8}ml^2 &\begin{bmatrix}
+		1 & \cos(q_1) - 1 \\
+		\cos(q_1) - 1 & 2(1-\cos(q_1))
+	\end{bmatrix} + I\begin{bmatrix}
+		1 & -1 \\ -1 & 2
+	\end{bmatrix} \\
+	E_2(q_e) = &\begin{bmatrix}
+		\tfrac{1}{4}l\cos(q_1-q_2) & \tfrac{1}{4}l(\cos(q_2) - 3\cos(q_1-q_2)) & 1 & 0 \\
+		\tfrac{1}{4}l\sin(q_1-q_2) & \tfrac{1}{4}l(\sin(q_2) - 3\sin(q_1-q_2)) & 0 & 1
+	\end{bmatrix} \\
+	\frac{\partial\Upsilon_e}{\partial q} = \tfrac{1}{4}l & \begin{bmatrix}
+		\cos(q_1 - q_2) & 3\cos(q_2)-cos(q_1-q_2) \\
+		\sin(q_1 - q_2) & 3\sin(q_2)-cos(q_1-q_2) \\
+	\end{bmatrix}
+\end{align*}
+
+The matrices which define the coordinates which are synchronised to the phase variable through virtual constraints and the phase variable itself are trivial for the compass-gait robot. As is typical, we choose the unactuated coordinate to form the phase variable $\theta$. Since there are no complex interactions between other coordinates that we wish to control (indeed there is only one other coordinate), the constraint matrices take the form:
+\begin{align*}
+	H_0 &= \begin{bmatrix}
+		1 & 0
+	\end{bmatrix} \\
+	c &= \begin{bmatrix}
+		0 & 1
+	\end{bmatrix}\\
+	\therefore H &= \begin{bmatrix}
+		1 & 0 \\ 0 & 1
+	\end{bmatrix}
+\end{align*}
+
+{\color{orange}\subsection{5-link walker}
+Describe how the matrices were generated \cite{westervelt2007feedback}?}

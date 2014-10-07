@@ -1,0 +1,40 @@
+As in \cite{manchester13planning}, we produce functions of the form
+\begin{equation}
+\alpha\left(\theta\right)\ddot{\theta}(t) + \beta\left(\theta\right)\dot{\theta}(t)^2 + \gamma\left(\theta\right) = 0
+\end{equation}
+with
+\begin{eqnarray*}
+	\alpha(\theta) &=& B^{\bot}\left(\Phi(\theta)\right)M\left(\Phi(\theta)\right)\Phi'(\theta)\\
+	\beta(\theta) &=& B^{\bot}\left(\Phi(\theta)\right)\left(M\left(\Phi(\theta)\right)\Phi''(\theta)
+	+C\left(\Phi(\theta),\Phi'(\theta)\right)\Phi'(\theta) \right)\\
+	\gamma(\theta) &=& B^{\bot}\left(\Phi(\theta)\right)G\left(\Phi(\theta)\right)\\
+\end{eqnarray*}
+Then we get the differential equation:
+\begin{equation} \label{eqn:diff}
+\frac{d}{d\theta}{\dot{\theta}\left(\theta\right)}^2 = -2\frac{\beta\left(\theta\right)}
+{\alpha\left(\theta\right)}\dot{\theta}\left(\theta\right)^2 - 2\frac{\gamma\left(\theta\right)}
+{\alpha\left(\theta\right)}
+\end{equation}
+
+Solving this over any interval $\theta \in \left[\theta_0,\theta_f\right]$ yields
+\begin{equation} \label{eqn:affine}
+\dot{\theta}\left(\theta\right)^2 = \Gamma\left(\theta,\theta_0\right)\dot{\theta}^2 
++ \Psi\left(\theta, \theta_0\right)
+\end{equation}
+
+This solution is achieved by using the general method for first-order linear ODEs with varying coefficients, i.e. given
+\begin{equation*}
+y'(x) + f(x)y(x) = g(x)
+\end{equation*}
+the solution is
+\begin{equation*}
+y = e^{-\int f(x)dx}\left(\int g(x)e^{\int f(x)dx}dx + \kappa\right)
+\end{equation*}
+Thus we have
+\begin{eqnarray}
+\Gamma(\theta) &=& e^{-\int_{\theta_0}^{\theta}f(x)dx} \\
+\Psi(\theta) &=& e^{-\int_{\theta_0}^{\theta}f(x)dx}
+\int_{\theta_0}^{\theta}g(x)e^{\int_{\theta_0}^{\theta}f(x)dx} \\
+f(x) &=& 2\frac{\beta(x)}{\alpha(x)} \nonumber \\
+g(x) &=& -2\frac{\gamma(x)}{\alpha(x)} \nonumber
+\end{eqnarray}
