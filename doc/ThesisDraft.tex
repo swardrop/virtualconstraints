@@ -39,6 +39,9 @@
 \usepackage{tikz}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{tocloft}
+
+\setlength{\cftbeforechapskip}{1.0em plus 0.3em minus 0.1em}
 
 \titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
 \titlespacing\subsection{0pt}{12pt plus 4pt minus 2pt}{0pt plus 2pt minus 2pt}
@@ -115,7 +118,7 @@
 \input{3TechBackground}
 
 \addtocontents{toc}{\protect\newpage}
-\chapter{Virtual Constraint Library}
+\chapter{Virtual Constraint Library} \label{chap:vclib}
 \input{4VirtConstLib}
 
 \chapter{Path Planning Algorithm}

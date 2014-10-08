@@ -101,9 +101,9 @@ The \mcode{optimiseVC} function takes as arguments the start and end configurati
 
 The single VC implementation is achieved using MATLAB's constrained nonlinear programming function \mcode{fmincon}. This uses an interior point method to seek local minima in the cost function subject to the given constraints. For each set of test values for the decision variables, the partial solution ($\Gamma(\theta)$ and $\Psi(\theta)$) is evaluated by producing a grid of $\theta$ values in $[\theta_0, \theta^-]$. The cost is calculated using trapezoidal integration on the resulting torque values. Since $\Delta$KE also relies upon the partial solution, it is held persistently in a helper function and only recalculated upon differing decision variables, to avoid inefficient recalculation.
 
-$\sigma(x)$ is defined by specifying the ground height at individual points. From this, the ground level over all $x$ is determined by a zero-order hold. The ground constraint is enforced by taking relatively sparse samples from $\theta_0$ to $\theta^-$ and testing for each sample that $p_v(\theta)>\sigma(\theta)$. A natural choice of samples is at each Bézier control point, such that the sampling of the ground is dependent on the degree of the polynomial. It is reasonable to test only several points along the trajectory on the assumption that the ground height changes at relatively few points over one footstep and that the swing leg traces a smooth arc between its start and end points. The second assumption is valid for all physical robots. The first is able to be justified by the design of the library generation.
+$\sigma(x)$ is defined by specifying the ground height at individual points. From this, the ground level over all $x$ is determined by a zero-order hold. The ground constraint is enforced by taking relatively sparse samples from $\theta_0$ to $\theta^-$ and testing for each sample that $p_v(\theta)>\sigma(\theta)$. A natural choice of samples is at each Bézier control point, such that the sampling of the ground is dependent on the degree of the polynomial. It is reasonable to test only several points along the trajectory on the assumption that the ground height changes at relatively few points over one footstep and that the swing leg traces a smooth arc between its start and end points. The second assumption is valid for all physical robots. The first is able to be justified by the design of the library generation. In the case of the compass-gait robot, due to its morphological simplicity, the $\sigma(x)$ constraint is not applied. Indeed, it is not possible for the compass-gait robot to complete walking motion on flat ground without scuffing its swing leg if no means are provided to shorten it.
 
-The optimisation is not subjected to any additional bounds other than the $\Delta$KE and $\sigma(x)$ constraints. This is due to the well-behaved nature of the problem; large deviations always cost more in terms of input torque than small ones. It therefore makes little sense to arbitrarily constrain the decision variables. In the case of the compass-gait robot, due to its morphological simplicity, the $\sigma(x)$ constraint is not applied. Indeed, it is not possible for the compass-gait robot to complete walking motion on flat ground without scuffing its swing leg if no means are provided to shorten it.
+It is not typically necessary to subject the decision variables to any additional bounds other than the $\Delta$KE and $\sigma(x)$ constraints. This is due to the well-behaved nature of the problem; large deviations always cost more in terms of input torque than small ones. However, it may be advantageous in terms of the computational time of the optimisation to subject the decision variables to ``reasonable'' bounds. In practice, it is often difficult to tell what is reasonable without testing the results of the optimisation. The decision variables may also be constrained to avoid poor behaviour of the cost function, e.g. where $\alpha(\theta)$ crosses zero many times over the interval $[\theta_0, \theta_f]$ (see Section \ref{sec:alphazerocrossing})
 
 \subsection{Accuracy of numerical solutions}
 The optimisation of a virtual constraint is significantly dependent upon the numerical partial solution for velocity and energy. The accuracy of the numerical solution therefore limits the optimality of the constraint and the closeness to which the prescribed $\Delta$KE is achieved. This is not of great significance, since each VC is optimised only for a single initial velocity and the prescription of $\Delta$KE is performed only to produce a diverse library.
@@ -149,8 +149,10 @@ Returning to the point made in the preamble of this discussion, it is not necess
 
 While the importance of accuracy in the optimisation is limited, it is very important for the motion planner that the outputs of the optimisation ($\Gamma(\theta)$ and $\Psi(\theta)$ at particular values) are correct. It is therefore prudent to use a limited grid ($25 \leq n_s \leq 50$) for the optimisation and to then calculate the partial solution for the produced Bézier coefficients using much finer sampling, e.g. $n_s = 2000$. 
 
-\subsection{Zero crossings of $\alpha(\theta)$}
-Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq 0$ in order to derive the partial solution (Equation \ref{eqn:affinesoln}). This is an important assumption to make, since if at any point $\theta \in [\theta_0, \theta^-], \alpha(\theta) = 0$, the terms $\frac{\beta(\theta)}{\alpha(\theta)}$ and $\frac{\gamma(\theta)}{\alpha(\theta)}$ are undefined. It turns out that this is by no means guaranteed in general; $\alpha(\theta)$ may cross zero, particularly in primitives which have the robot completing what may be termed ``exaggerated'' motion. Consider Figure \ref{fig:alphazerocrossing}; $\alpha(\theta)$ dips below zero in a constraint where the swing leg crosses the horizontal and points skyward.
+\subsection{Coping with zero crossings of $\alpha(\theta)$} \label{sec:alphazerocrossing}
+Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq 0$ in order to derive the partial solution (Equation \ref{eqn:affinesoln}). This is an important assumption to make, since if at any point $\theta \in [\theta_0, \theta^-], \alpha(\theta) = 0$, the terms $\frac{\beta(\theta)}{\alpha(\theta)}$ and $\frac{\gamma(\theta)}{\alpha(\theta)}$ are undefined. In principle, this is not a significant problem; the partial solution still exists and is correct for all $\theta \not \in \Theta_z$, where $\Theta_z$ is the set of $\theta \in [\theta_0, \theta^-]$ for which $\alpha(\theta)=0$.
+
+It turns out that this is by no means guaranteed in general; $\alpha(\theta)$ may cross zero, particularly in primitives which have the robot completing what may be termed ``exaggerated'' motion. Consider Figure \ref{fig:alphazerocrossing}; $\alpha(\theta)$ dips below zero in a constraint where the swing leg crosses the horizontal and points skyward. In the general case, there may be an unbounded number of zero crossings of $\alpha(\theta)$.
 
 \begin{figure}
 	\centering
@@ -160,17 +162,38 @@ Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq
 	\label{fig:alphazerocrossing}
 \end{figure}
 
- By virtue of the sampling approach to solving the partial solution, there is a vanishingly small chance of sampling exactly at the point where $\alpha=0$. However, since when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, the solution for $\Gamma(\theta)$ and $\Psi(\theta)$ become impulsive. As a result, the calculated torque likewise diverges. This is a serious concern for the optimisation, since the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval, therefore the convexity of the cost function is compromised. It is therefore likely that in cases where \mcode{fmincon} tests constraints which include a zero crossing in $\alpha(\theta)$ that the optimisation will fail to find a minimising set of Bézier coefficients. {\color{blue} It is necessary to alter the method of calculating the partial solution (see Appendix \ref{app:partialsol} for details); the interval $[\theta_0, \theta^-]$ must be divided into two at every zero crossing of $\alpha(\theta)$ and the integration must be performed only over those intervals. Due to the sensitivity of the solution to the exact location of the zero crossing on the sampling interval (which is not solved regardless of how finely the samples are taken), it is necessary to locate the zero crossing and to begin the interval at an equal distance on both sides of the zero.}
+ By virtue of the sampling approach to solving the partial solution (see Appendix \ref{app:partialsol} for details), there is a vanishingly small chance of sampling exactly at the point where $\alpha(\theta)=0$. This is not the concern; when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, thus the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval. This may compromise the convexity of the cost function. Figures \ref{fig:divergence0crossing} and \ref{fig:bad0crossingtorque} demonstrate the erroneous solution obtained by uniform sampling over $[\theta_0, \theta^-]$.
  
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{4VirtConstLib/GamPsi0Crossing.eps}
-	\caption{Irregular behaviour of partial solutions with a zero crossing of $\alpha(\theta)$}
+	\caption[Irregular behaviour of $\Gamma(\theta)$ and $\Psi(\theta)$ with zero crossings of $\alpha(\theta)$]{Irregular behaviour of $\Gamma(\theta)$ and $\Psi(\theta)$ with zero crossings of $\alpha(\theta)$ using uniform sampling}
 	\label{fig:divergence0crossing}
 \end{figure}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{4VirtConstLib/u-0Crossing}
-	\caption{Absolute value of torque for a primitive with a zero crossing of $\alpha(\theta)$}
+	\caption[Absolute value of torque with zero crossings of $\alpha(\theta)$]{Absolute value of torque with a zero crossings of $\alpha(\theta)$ based upon uniform sampling}
+	\label{fig:bad0crossingtorque}
 \end{figure}
+
+ It is necessary to alter the method of calculating the partial solution if $\alpha(\theta)$ crosses zero; the interval $[\theta_0, \theta^-]$ must be divided at every zero crossing of $\alpha(\theta)$ and the integration must be performed only over those intervals. Due to the sensitivity of the solution to the exact location of the zero crossing on the sampling interval (which is not improved by finer sampling), it is necessary to locate the zero crossing and to ensure that the sampling is symmetrical nearby. This method may be called \textit{adaptive sampling}. Figures \ref{fig:betterGamPsi} and \ref{fig:bettertorque} demonstrate the significant improvements in the behaviour of the numerical solutions gained by using this method. Note that, importantly, there is no residual effect of the divergence in $\Gamma(\theta)$ and $\Psi(\theta)$, unlike in Figure \ref{fig:divergence0crossing}.
+ 
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterGamPsi}
+ 	\caption{Improvements to partial solution using adaptive sampling}
+ 	\label{fig:betterGamPsi}
+ \end{figure}
+ 
+  \begin{figure}
+  	\centering
+  	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterTorque}
+  	\caption[Torque using adaptive sampling]{Torque using adaptive sampling. Note that it is still impulsive}
+  	\label{fig:bettertorque}
+  \end{figure}
+  
+  Note that in Figure \ref{fig:bettertorque}, the torque is still much too high for a practicable constraint. This is not a problem; the optimisation is concerned with the value of the cost function, not the physical realisability of the constraints. The improved behaviour of the partial solution attained through the use of adaptive sampling methods is in service of ensuring the cost function remains convex such that a minimum can be found.
+  
+  Note that this method is flawed where zero crossings occur very close to one another. There is no method of rectifying this other than increasing the sampling density. This is intuitively clear; in order to resolve two zero crossings which merge at low sampling rates, the resolution must be increased. This can be considered analogous to resolving two targets using sensing methods.

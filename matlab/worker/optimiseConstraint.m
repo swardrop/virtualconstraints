@@ -60,8 +60,8 @@ end
 
 % Bounds on alpha vals
 function [lb, ub] = bounds(start, fin, deg)
-lb = [];
-ub = [];
+lb = -10*[0; ones(deg-4,1)];
+ub = 10*ones(deg-3,1);
 end
 
 % Nonlinear inequality and equality constraints

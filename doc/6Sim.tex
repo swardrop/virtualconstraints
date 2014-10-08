@@ -47,6 +47,8 @@ Note that since primitives are not guaranteed to be perfectly regulated, it is n
 
 The catalogue of externally supplied data required by the simulation is given in Table \ref{tab:simConstants}. The sizes of many of the input matrices must be compatible with one another. For example, the number of independent Bézier coefficients (rows of $\alpha$) must equal the number of actuated coordinates of the robot. Table \ref{tab:scriptConstants} presents the data required to be supplied for the script which encapsulates the simulation. Note that in order to define or change the model which is used within the simulation, all that is required is to redefine the functions which are referenced in the two tables. For convenience, the file structure of the software separates these functions from the rest of the code. It is therefore possible to change which model is being used simply by changing which folder of model functions is added to the MATLAB path.
 
+The \mcode{dynMatrices(q,qd)} function takes as arguments a state of the robot and produces the numerical values for $M(q),C(q,\dot{q}),G(q),B$ and $B^\perp$ which correspond to that state. Likewise \mcode{impactMatrices(q)} produces the numerical matrices corresponding to the particular given impact configuration. \mcode{endSwingFoot(q)} provides the horizontal and vertical displacement of the end of the swing foot from the stance foot. Note that this is always a function of the configuration $q$ of the robot, regardless of the model. \mcode{constrMatrices} produces the matrices $H,H_0$ and $c$, which define the phase variable and the combinations of the generalised coordinates which are subjected to virtual constraints. \mcode{actuated(q)} and \mcode{phasevar(q)} apply these matrices to the configuration and are not model-specific.
+
 All other required data is derived from the supplied data or the simulation. Note that the data which is labelled ``In workspace'' other than the ground definition $\sigma(x)$ is external to the Simulink model, but not to the wrapping script; these data are provided by the motion planner. The ground definition must be able to be set manually, since it is the ability of the robot to locomote over diverse rough terrain which is tested.
 
 \begin{table}
@@ -80,6 +82,7 @@ All other required data is derived from the supplied data or the simulation. Not
 		$\Delta\mathrm{KE}_{list}$ & Range of KE mutations    & $1 \times n_k$   & \mcode{DelKEs()}
 	\end{tabular}
 	\caption{Externally supplied data to the code wrapping the simulation}
+	\label{tab:scriptConstants}
 \end{table}
 
 \section{Robot models}

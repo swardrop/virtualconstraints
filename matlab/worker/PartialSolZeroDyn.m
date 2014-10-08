@@ -1,5 +1,5 @@
 function [Gamma, Psi, th_base, th_c, alpha, beta, gamma, ...
-    Phi, d_Phi, dd_Phi] = PartialSolZeroDyn(theta_p, alpha_p, num_points)
+    Phi, dPhi, ddPhi] = PartialSolZeroDyn(theta_p, alpha_p, num_points)
 % Produces the partial closed-form solution for the square of the velocity
 % of the phase variable theta in terms of the two coefficient functions,
 % Gamma and Psi, where
@@ -18,74 +18,119 @@ theta_0 = theta_p(1);
 th_base = linspace(theta_0,theta_f,num_points);
 step_size = (theta_f-theta_0)/num_points;
 
-alpha = zeros(size(th_base));
-beta = zeros(size(th_base));
-gamma = zeros(size(th_base));
-Phi = zeros([size(alpha_p,1)+1, length(th_base)]);
-d_Phi = zeros(size(Phi));
-dd_Phi = zeros(size(Phi));
-th_c = inf;
-al_0c = [];
+[alpha, beta, gamma, Phi, dPhi, ddPhi, al_zc] = ...
+    interval(th_base, theta_p, alpha_p);
 
-for i = 1 : num_points
-    % Calculate zero dynamics coefficients
-    [al, bet, gam, P, dP, ddP] = ...
-        ZeroDyn(theta_p, alpha_p, th_base(i));
-    alpha(i) = al;
-    beta(i) = bet;
-    gamma(i) = gam;
-    Phi(:,i) = P;
-    d_Phi(:,i) = dP;
-    dd_Phi(:,i) = ddP;
-    
-    % Find th_c
+% Identify critical theta (gamma zero crossing)
+if sign(gamma(1)) ~= sign(gamma(end))
+    th_c = fzero(@(t)gam2(t,theta_p,alpha_p),[theta_0, theta_f]);
+else
+    th_c = inf; % No critical th_c.
+end
+
+% Partition theta_0 - theta_f wherever there is a zero crossing, and
+% resample such that the sampling around the zero crossing is symmetrical
+for i = 1 : length(al_zc)
+    % Find the lesser of halfway to the next or previous zc or to the
+    % start or end of the interval. Note that al_zc is on the left of
+    % the zero crossing.
     if i == 1
-        gamma_prev = gam;
-        alpha_prev = al;
+        nump = min([al_zc(i)-1, ...
+            floor(0.5*(al_zc(i+1)-(al_zc(i)+1)))+1]);
+    elseif i == length(al_zc)
+        nump = min([floor(0.5*(al_zc(i)-(al_zc(i-1)+1))), ...
+            num_points-(al_zc(i)+1)]);
+    else
+        nump = min([floor(0.5*(al_zc(i+1)-(al_zc(i)+1)))+1, ...
+            floor(0.5*(al_zc(i)-(al_zc(i-1)+1)))]);
     end
-    if sign(gamma_prev) ~= sign(gam)
-        % Use linear interpolation between two points
-        th_c = gamma_prev/(gamma_prev-gam)*step_size+th_base(i)-step_size;
-    end
-    gamma_prev = gam;
-    
-    % Test for alpha zero crossing
-    if sign(alpha_prev) ~= sign(al)
-        al_0c(end+1) = i-1; %#ok<AGROW>
-    end
-    alpha_prev = al;
+    % Find the point of zero crossing
+    th_zc = fzero(@(t)al2(t,theta_p,alpha_p), ...
+        [th_base(al_zc(i)), th_base(al_zc(i)+1)]);
+    % Construct intervals sampled symmetrically about the zero crossing
+    i1 = al_zc(i)-nump; i2 = al_zc(i); 
+    i3 = al_zc(i)+1; i4 = al_zc(i)+1+nump;
+    th_base(i1:i2) = linspace(th_zc-nump*step_size, th_zc-eps, i2-i1+1);
+    th_base(i3:i4) = linspace(th_zc+eps, th_zc+nump*step_size, i4-i3+1);
+    [alpha(i1:i4), beta(i1:i4), gamma(i1:i4), ...
+        Phi(:,i1:i4), dPhi(:,i1:i4), ddPhi(:,i1:i4)] = ...
+        interval(th_base(i1:i4), theta_p, alpha_p);
 end
 
 fx = 2*beta./alpha;
 gx = -2*gamma./alpha;
 
-% Partition fx and gx such that any intervals where there are zero
-% crossings are excluded from the integral
-idx = 1;
 int_fx = zeros(size(th_base));
 int_gxefx = zeros(size(th_base));
-
-for i = 1 : length(al_0c)
-    zc = fzero(@(theta)ZeroDyn(theta_p,alpha_p,theta), ...
-        [th_base(al_0c(i)), th_base(al_0c(i)+1)]);
-    [alm, betm, gamm] = ZeroDyn(theta_p, alpha_p,zc-eps);
-    fx(al_0c(i)) = 2*betm/alm;
-    gx(al_0c(i)) = -2*gamm/alm;
-    th_base(al_0c(i)) = zc-eps;
-    [alp, betp, gamp] = ZeroDyn(theta_p, alpha_p,zc+eps);
-    fx(al_0c(i)+1) = 2*betp/alp;
-    fx(al_0c(i)+1) = -2*gamp/alp;
-    th_base(al_0c(i)+1) = zc+eps;
-    int_fx(idx:al_0c(i)) = cumtrapz(fx(idx:al_0c(i)), ...
-        th_base(idx:al_0c(i)));
-    int_gxefx(idx:al_0c(i)) = cumtrapz(gx(idx:al_0c(i)) ... 
-        .*exp(int_fx(idx:al_0c(i))), th_base(idx:al_0c(i)));
-    idx = al_0c + 1;
+ind = 1;
+al_zc(end+1) = length(th_base); % Slight abuse of notation here
+cum_fx = 0; cum_gx = 0;
+for i = 1 : length(al_zc)
+    int_fx(ind:al_zc(i)) = cum_fx + cumtrapz(th_base(ind:al_zc(i)), ...
+        fx(ind:al_zc(i)), 2);
+    int_gxefx(ind:al_zc(i)) = cum_gx + cumtrapz(th_base(ind:al_zc(i)), ...
+        gx(ind:al_zc(i)).* exp(int_fx(ind:al_zc(i))), 2);
+    ind = al_zc(i)+1;
+    cum_fx = int_fx(al_zc(i));
+    cum_gx = int_gxefx(al_zc(i));
 end
 
-int_fx(idx:end) = cumtrapz(fx(idx:end), th_base(idx:end));
-int_gxefx(idx:end) = cumtrapz(gx(idx:end).*exp(int_fx(idx:end)), ...
-    th_base(idx:end));
+
 Gamma = exp(-int_fx);
 Psi = exp(-int_fx).*int_gxefx;
+end
+
+
+
+
+
+function [alpha, beta, gamma, Phi, dPhi, ddPhi, al_zc] = ...
+    interval(th_base, theta_p, alpha_p)
+
+alpha = zeros(size(th_base));
+beta = zeros(size(th_base));
+gamma = zeros(size(th_base));
+Phi = zeros([size(alpha_p,1)+1, length(th_base)]);
+dPhi = zeros(size(Phi));
+ddPhi = zeros(size(Phi));
+al_zc = [];
+
+for i = 1 : length(th_base)
+    % Calculate zero dynamics coefficients
+    [Phi(:,i), dPhi(:,i), ddPhi(:,i)] = bezier(theta_p, alpha_p, th_base(i));
+    [M, C, G, ~, B_perp] = dynMatrices(Phi(:,i), dPhi(:,i));
+    alpha(i) = al(B_perp, M, dPhi(:,i));
+    beta(i) = bet(B_perp, M, C, dPhi(:,i), ddPhi(:,i));
+    gamma(i) = gam(B_perp, G);
+    
+    % Test for zero crossings of alpha
+    if i>1 && sign(alpha(i-1)) ~= sign(alpha(i))
+        al_zc(end+1) = i-1; %#ok<AGROW>
+    end
+end
+
+end
+
+function alpha = al(B_perp, M, dPhi)
+alpha = B_perp*M*dPhi;
+end
+
+function beta = bet(B_perp, M, C, dPhi, ddPhi)
+beta = B_perp*(M*ddPhi + C*dPhi);
+end
+
+function gamma = gam(B_perp, G)
+gamma = B_perp*G;
+end
+
+function alpha = al2(theta, theta_p, alpha_p)
+[Phi, dPhi] = bezier(theta_p, alpha_p, theta);
+[M,~,~,~,B_perp] = dynMatrices(Phi, dPhi);
+alpha = B_perp*M*dPhi;
+end
+
+function gamma = gam2(theta, theta_p, alpha_p)
+[Phi, dPhi] = bezier(theta_p, alpha_p, theta);
+[~,~,G,~,B_perp] = dynMatrices(Phi, dPhi);
+gamma = B_perp*G;
 end

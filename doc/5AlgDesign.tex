@@ -1,1 +1,38 @@
-Algorithm designs need to be designed!
+\section{Requirements for a practical planner}
+The role of the motion planner is to select a sequence of primitives which are dynamically feasible and enable the robot to traverse across the terrain between its start and end point. In general, ensuring dynamic feasibility of a trajectory for an underactuated system requires complicated computations, solving multivariate nonlinear differential equations. Fortunately, as discussed in Section \ref{sec:hzd}, using virtual constraints as motion primitives simplifies the zero dynamics to a function of a single variable and simplifies evaluating dynamic feasibility to a trivial verification of the initial velocity exceeding a lower limit.
+
+As a result, the practical requirements on the motion planner are to ensure that each choice of primitive is performed such that both that primitive and another which follows and matches the terrain is able to be completed. For a useful robot, the initial and final conditions should be at some statically stable resting configuration, however for the purposes of this body of work, it is assumed that the robot begins with some non-zero velocity conducive to dynamically stable walking and need never come to rest. That is, the motion planner is not concerned with the practical considerations of starting or ceasing motion.
+
+Aside from the essential functional requirement of choosing dynamically feasible sequences of primitives, the performance requirements on the planner are quite stringent. Since the objective of this approach is to allow for real-time reactive planning of walking, it is essential that the planner is capable of producing a planned sequence of footsteps in a time span shorter than that taken by the shortest footstep. Note that it is likely that a physical implementation would be in a low-power embedded system which executes software alongside the planner. Clearly, computational efficiency is a large priority for the planning algorithm. This is no surprise, since the motivation for using the virtual constraints method itself is largely in service of reducing on-line computational requirements.
+
+\section{Execution context}
+The motion planning algorithm is executed using an iterative receding finite horizon approach. This means that the planner produces a dynamically feasible sequence of some set number of footsteps ahead of the current position, but re-evaluates the sequence significantly earlier than the end-point. This can be considered a form of model-predictive control \cite{camacho2013model}.
+
+For convenience of implementation, we may assume that the planner completes an execution once per footstep. In principle, without disturbances, the planner could execute in a purely feed-forward manner. That is, the path would only be recalculated once the robot reached the endpoint of the previously calculated sequence of primitives. In practice, this is typically not possible; the dynamical model, particularly about impacts, is not a full realisation of the physical system. In addition, it is a very useful property for a planner to produce self-correcting trajectories. Indeed, the planning need not be limited to a single evaluation per footstep. However, assuming disturbances are significantly managed by the controller, it should be sufficient.
+
+The planner requires the initial state (configuration and velocity) $q,\dot{q}$ of the robot, along with an accurate map of the terrain ahead. The necessity of state sensing is unavoidable, both in the planning and control of the robot. However, the sensing requirements of underactuated walkers should not be intensive due to deferring control of the state evolution to the zero dynamics \cite{collins2005efficient}. The practice of using sensor data to build a terrain map is well-studied, with advancements in the field moving well beyond simple shape mapping to classification \cite{herbert1989terrain, triebel2006multi, brooks2007self}. The algorithm proposed is largely independent of the method used to build the map, whether by prior mapping or real-time scanning, so long as the range of known terrain extends far enough to allow for the chosen number of footsteps ahead to be planned.
+
+\section{Greedy best-first search algorithm}
+Manchester \& Umenberger \cite{manchester13planning} present a greedy Best-First Search algorithm capable of producing a dynamically feasible sequence of $k$ motion primitives. This algorithm, somewhat modified in order to suit the generated library from Chapter \ref{chap:vclib}, is presented in Algorithm \ref{alg:bestfirstsearch}.
+
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\Function {BestFirstSearch}{$q,\dot{q},\sigma(x),k$}
+		\EndFunction
+		\Function {AddNode}{$q,\dot{q},\sigma(x),k$}
+		\EndFunction
+	\end{algorithmic}
+	\caption{Best-first search planning algorithm}
+	\label{alg:bestfirstsearch}
+\end{algorithm}
+
+The best-first search is dependent upon a worker function \textsc{SearchLibrary}($q^+,s_l,s_h,a$) which returns the primitive which has the smallest $\dot{\theta}(\theta^c) \geq a$ in the set of virtual constraints which match the given initial configuration, step length and step height. Note that for the first primitive, on {\color{blue} L<>}, this function searches through the roots of the trees in the library for $q^+$, but subsequent calls to this function include a pointer to the applicable tree in the library.
+
+\section[Energy-based heuristic]{Improvements using an energy-based heuristic}
+Using heuristic methods can direct the decision tree traversal to avoid primitives which will evaluate as infeasible and to guide the search toward sequences of primitives which are more optimal by some measure. It is important to note that the best-first search does not find an optimising sequence; rather it terminates at the first encountered feasible set of primitives. A well-designed heuristic method therefore offers a significant improvement to the algorithm without requiring the structure to be substantially altered.
+
+In \cite{manchester13planning}, an energy-based heuristic is demonstrated to provide significant reductions in traversals through the decision tree. This heuristic involves a simple look-ahead to detect any increases in step height, and acts to add kinetic energy in the lead-up to the change in terrain. This is effective for the specific example of terrain which has a single step-up but has no proven effectiveness for more varied terrain. In particular, it ignores intermediate steps down in the terrain.
+
+{\color{blue}An improved energy heuristic is proposed as follows: Modelling the walker as a point mass a fixed height above the terrain, evaluate the change in gravitational potential energy between the initial position of the robot and a point $kx_m$ in front, where $x_m$ is the maximum step length. Over a course grid (here every point where the height changes due to the simple ground definition), evaluate the relative GPE to the initial point. From this, we can evaluate the required kinetic energy additions and subtractions to maintain a constant speed.
+	
+One would not expect this heuristic to be significantly more efficacious than that which was previously proposed. However, it should prove better at directing the search towards the least wasteful primitives, improving the overall efficiency of the robot.}

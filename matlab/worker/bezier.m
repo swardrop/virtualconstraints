@@ -1,4 +1,4 @@
-function [phi, d_phi, dd_phi] = bezier(theta_p, alpha_p, theta)
+function [Phi, dPhi, ddPhi] = bezier(theta_p, alpha_p, theta)
 
 theta_0 = theta_p(1);
 theta_f = theta_p(end);
@@ -28,3 +28,6 @@ for i = 2 : N-2
 end
 dd_phi = dd_phi / (theta_f-theta_0)^2;
 
+Phi = [phi; theta];
+dPhi = [d_phi; 1];
+ddPhi = [dd_phi; 0];

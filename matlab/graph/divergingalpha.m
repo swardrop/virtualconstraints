@@ -6,14 +6,14 @@ alpha_p = [-0.5236 -0.4803 -0.5322 0 4.6398 0.5236 0.5236];
     PartialSolZeroDyn(theta_p, alpha_p, 1000);
 
 subplot(2,1,1)
-plot(th_base, Gamma, 'k');
-ylabel('\Gamma(\theta)');
+semilogy(th_base, abs(Gamma), 'k');
+ylabel('|\Gamma(\theta)|');
 xlabel('\theta');
 xlim([-0.3 0.3]);
 
 subplot(2,1,2)
-plot(th_base, Psi, 'k');
-ylabel('\Psi(\theta) (rad/s)^2');
+semilogy(th_base, abs(Psi), 'k');
+ylabel('|\Psi(\theta)| (rad/s)^2');
 xlabel('\theta');
 xlim([-0.3 0.3]);
 
@@ -36,7 +36,7 @@ title('Cartesian robot path')
 figure
 c = makeConstr(theta_p,alpha_p,1000);
 u = nomTorque(c, thdsq_nom(c, 0));
-plot(th_base, abs(u), 'k');
+semilogy(th_base, abs(u), 'k');
 ylabel('|u(\theta)| (Nm)')
 xlabel('\theta');
 xlim([-0.3 0.3]);
