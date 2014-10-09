@@ -1,20 +1,27 @@
-\section{Outcomes of study}
-Maybe something clever can go here
+\section{Key observations}
+This will be somewhat dependent on the results, but I expect the most important points will be:
+\begin{itemize}
+	\item Velocity-independent orderings possible/not possible. If possible, the flexibility of the library is significantly improved
+	\item Zero crossings of $\alpha(\theta)$, being the significant issue in the corruption of the optimisation, are/aren't found in useful constraints
+	\item Virtual constraint generation is, apart from a single point of synchronisation, embarrassingly parallel and therefore scalable
+	\item Constraints optimised for a particular initial velocity suffer badly/are still near-optimal for other velocities in the operational limits of the robot
+	\item Importance of richness of kinetic energy mutations per configuration?
+	\item Importance of richness of configurations per step length and height?
+\end{itemize}
 
 \section{Advantages of virtual constraints method}
-And here
 \begin{itemize}
 	\item Reduces infinite dimensional nonlinear optimisation to combinatorial search
+	\item Directly corresponds to configuration path; allows simple collision checking
 	\item Partial solutions
 	\item Ordering
 	\item Allows for on-board computer to be less powerful and to spend more CPU time on other things
-	\item Allows for pre-vetting of motions?
+	\item Allows for pre-vetting of motions by design of the library
 \end{itemize}
 
 \section{Limitations of virtual constraints method}
-Maybe not too much here
 \begin{itemize}
-	\item Lack of spontaneous planning?
+	\item Lack of spontaneous planning
 	\item Number of VCs grows with $\lvert\tilde{Q}\rvert^2$
 	\item Limited in general optimality - can only optimise for single initial velocity
 	\item Has (at present) no method of recovery

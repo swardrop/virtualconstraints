@@ -15,38 +15,40 @@ Recall the vector functions from Section \ref{sec:zerodyn}. If we assume that th
 \end{align*}
 
 Now, we have the following relation from Equation~\ref{eqn:usefulBez}:
-\begin{equation}
-	\phi_i\left(\theta\right) = \frac{1}{\left(\theta_f-\theta_{0}\right)^n}\sum_{i=0}^{n}\binom{n}{i}
-	\left(\theta_f - \theta\right)^{n-i}
-	\left(\theta - \theta_{0}\right)^i\vartheta_{i}
-\end{equation}
-The derivative is
-\begin{dmath}
-	\frac{\partial\phi}{\partial\theta} = \frac{1}{\left(\theta_f-\theta_0\right)^n}
-	\left(
-	{n\left( \left(\theta-\theta_0\right)^{n-1}\vartheta_n - 
-		\left(\theta_f-\theta\right)^{n-1}\vartheta_0 \right) }
-	+ {\sum_{i=1}^{n-1} \binom{n}{i} \left(i\left(\theta_f-\theta\right)^{n-i}
-		\left(\theta-\theta_0\right)^{i-1} - 
-		\left(n - i\right)\left(\theta_f-\theta\right)^{n-i-1}\left(\theta-
-		\theta_0\right)^{i}\right)\vartheta_i}
-	\right)
-\end{dmath}
-The second derivative is
-\begin{dmath}
-	\frac{\partial^2\phi}{\partial\theta^2} = 
-	\frac{1}{(\theta_f-\theta_0)^n}
-	\left(
-	n(n-1)\left[ (\theta_f-\theta)^{n-2}\vartheta_0 
-		+ (\theta-\theta_0)^{n-2}\vartheta_n
-	+ (n-2)\left((\theta-\theta_0)(\theta_f-\theta)^{n-3}\vartheta_1
-		+ (\theta_f-\theta)(\theta-\theta_0)^{n-3}\vartheta_{n-1} \right)
-		- 2\left((\theta_f-\theta)^{n-2}\vartheta_1
-		+ (\theta-\theta_0)^{n-2}\vartheta_{n-1} \right) 		\right]
-	+ \sum_{i=2}^{n-2} \binom{n}{i} 
-		\left({i(i-1)(\theta_f-\theta)^{n-i}(\theta-\theta_0)^{i-2}
-			- 2i(n-i)(\theta_f-\theta)^{n-i-1}(\theta-\theta_0)^{i-1}}
-			+ (n-i-1)(n-i)(\theta_f-\theta)^{n-i-2}(\theta-\theta_0)^{i} \right)
-			\vartheta_i
-	\right)
-\end{dmath}
+
+{\color{red}<incomplete>}
+%\begin{equation}
+%	\phi_i\left(\theta\right) = \frac{1}{\left(\theta_f-\theta_{0}\right)^n}\sum_{i=0}^{n}\binom{n}{i}
+%	\left(\theta_f - \theta\right)^{n-i}
+%	\left(\theta - \theta_{0}\right)^i\vartheta_{i}
+%\end{equation}
+%The derivative is
+%\begin{dmath}
+%	\frac{\partial\phi}{\partial\theta} = \frac{1}{\left(\theta_f-\theta_0\right)^n}
+%	\left(
+%	{n\left( \left(\theta-\theta_0\right)^{n-1}\vartheta_n - 
+%		\left(\theta_f-\theta\right)^{n-1}\vartheta_0 \right) }
+%	+ {\sum_{i=1}^{n-1} \binom{n}{i} \left(i\left(\theta_f-\theta\right)^{n-i}
+%		\left(\theta-\theta_0\right)^{i-1} - 
+%		\left(n - i\right)\left(\theta_f-\theta\right)^{n-i-1}\left(\theta-
+%		\theta_0\right)^{i}\right)\vartheta_i}
+%	\right)
+%\end{dmath}
+%The second derivative is
+%\begin{dmath}
+%	\frac{\partial^2\phi}{\partial\theta^2} = 
+%	\frac{1}{(\theta_f-\theta_0)^n}
+%	\left(
+%	n(n-1)\left[ (\theta_f-\theta)^{n-2}\vartheta_0 
+%		+ (\theta-\theta_0)^{n-2}\vartheta_n
+%	+ (n-2)\left((\theta-\theta_0)(\theta_f-\theta)^{n-3}\vartheta_1
+%		+ (\theta_f-\theta)(\theta-\theta_0)^{n-3}\vartheta_{n-1} \right)
+%		- 2\left((\theta_f-\theta)^{n-2}\vartheta_1
+%		+ (\theta-\theta_0)^{n-2}\vartheta_{n-1} \right) 		\right]
+%	+ \sum_{i=2}^{n-2} \binom{n}{i} 
+%		\left({i(i-1)(\theta_f-\theta)^{n-i}(\theta-\theta_0)^{i-2}
+%			- 2i(n-i)(\theta_f-\theta)^{n-i-1}(\theta-\theta_0)^{i-1}}
+%			+ (n-i-1)(n-i)(\theta_f-\theta)^{n-i-2}(\theta-\theta_0)^{i} \right)
+%			\vartheta_i
+%	\right)
+%\end{dmath}

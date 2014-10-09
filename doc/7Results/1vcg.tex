@@ -1,13 +1,24 @@
 \subsection{Single primitive optimisation}
-Times to generate using different degrees and grids, torque curves and realisability of self-invariant constraints in simulator
+\subsubsection{Simulation of torque}
+The key outcomes for the single primitive optimisation are to produce physically realisable and useful constraints while minimising the required torque. It is therefore instructive to review the torque requirements and state evolution of the optimised constraints using the simulator, especially noting that the torque is only optimised for a particular initial velocity. In order to keep this study independent from the motion planner, self-invariant constraints were used such that only a single constraint was being evaluated.
 
--- CG
+\begin{itemize}
+	\item torque curves
+	\item kinetic energy mutations
+\end{itemize}
 
--- 5L
+\subsubsection{Varying parameters for optimisation}
+As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Additionally, increasing the degree of the Bézier curve enables finer control over the path.
+
+\begin{itemize}
+	\item Times to generate using different degrees
+	\item and grids
+\end{itemize}
 
 \subsection{Library generation}
-Times to generate, number of failures, (size in MB?)
-
--- CG
-
--- 5L
+For both compass-gait and 5-link:
+\begin{itemize}
+	\item Times to generate
+	\item Number of failures of optimisation
+	\item Storage requirement
+\end{itemize}
