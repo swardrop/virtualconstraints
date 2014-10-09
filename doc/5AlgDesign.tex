@@ -36,3 +36,6 @@ In \cite{manchester13planning}, an energy-based heuristic is demonstrated to pro
 {\color{blue}An improved energy heuristic is proposed as follows: Modelling the walker as a point mass a fixed height above the terrain, evaluate the change in gravitational potential energy between the initial position of the robot and a point $kx_m$ in front, where $x_m$ is the maximum step length. Over a course grid (here every point where the height changes due to the simple ground definition), evaluate the relative GPE to the initial point. From this, we can evaluate the required kinetic energy additions and subtractions to maintain a constant speed.
 	
 One would not expect this heuristic to be significantly more efficacious than that which was previously proposed. However, it should prove better at directing the search towards the least wasteful primitives, improving the overall efficiency of the robot.}
+
+\section{Complexity analysis}
+$\mathcal{O}(\log(n_qn_k))$ search through the primitive list at the end if the target velocity is the velocity you're searching for. $\mathcal{O}(\log(n_y)$ search for height given a length. $\mathcal{O}(n_x)$ -- searching over each step length. $\mathcal{O}(\log(n_xn_yn_q))$ search for initial condition; $\mathcal{O}(1)$ thereafter.
