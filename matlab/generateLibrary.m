@@ -25,10 +25,10 @@ if nargin < 7
         optGrid = 25;
     end
 end
-DelKE = DelKEs(nk);
+[nx, ny, nq, nk, ~, ~, ~, kes] = libParams;
 % Produce arrray of all impact configurations and tree indexing this array
 % by step length and height
-[Q, Qtree] = impactConfigs(nx, ny, nq);
+[Q, Qtree] = impactConfigs;
 % Initialise constraints structure array
 constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
     struct('theta_p', zeros(1,deg),  ...
@@ -41,7 +41,7 @@ constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
 % per config at the leaves.
 Qsize = size(Q,2);
 lib(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
-for q = 1 : Qsize;
+parfor q = 1 : Qsize;
     initq = Q(:,q);
     lib(q).initq = initq;
     for l = 1 : nx          % For each step length in the tree:
@@ -56,7 +56,7 @@ for q = 1 : Qsize;
                 sigma = makeGround(initq, finalq);
                 for k = 1 : nk          % For every DelKE given a final q:
                     [vc, flag] = optimiseConstraint(initq, finalq, ...
-                        DelKE(k), sigma, deg, optGrid);
+                        kes(k), sigma, deg, optGrid);
                     if flag > 0 % Only add constraint if it is valid
                         vc.initq = q;
                         vc.finalq = finalq_ind;
@@ -74,10 +74,11 @@ end
 parfor q = 1 : Qsize;
     for l = 1 : nx
         for h = 1 : ny
-            sortedind = sortConstrs(...
+            [sortkeys, sortedind] = sortConstrs(...
                 constrs(lib(q).step_len(l).step_ht(h).prims),nomvel);
             lib(q).step_len(l).step_ht(h).prims = ...
                 lib(q).step_len(l).step_ht(h).prims(sortedind);
+            lib(q).step_len(l).step_ht(h).sortkeys = sortkeys;
         end
     end
 end

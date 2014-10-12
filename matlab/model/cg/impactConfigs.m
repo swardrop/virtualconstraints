@@ -1,22 +1,11 @@
-function [Qtilde, tree] = impactConfigs(nx, ny, nq)
+function [Qtilde, tree] = impactConfigs
 % Produces nx*ny*nq impact configurations for the robot. nx refers to the
 % number of step lengths, ny to the number of step heights and nq to the
 % number of individual configurations per couple (length, height).
 % Returns the configurations as columns in Qtilde. tree is a structure
 % which stores indexes into Qtilde on the basis of step length and height.
 
-% For the compass-gait, nq must equal 1 - only 2DOF.
-nq = 1;
-
-% Limit step length and height based upon the robot's dimensions
-[~,l] = dynParams;
-step_len_min = 0.25*l;
-step_len_max = 0.6*l;
-step_height_min = -0.1*l;
-step_height_max = 0.1*l;
-
-step_len = linspace(step_len_min, step_len_max, nx);
-step_height = linspace(step_height_min, step_height_max, ny);
+[nx, ny, nq, ~, step_len, step_height, qs] = libParams;
 
 % In general case, here we need to specify more so that the IK has only one
 % solution per evaluation. This is not necessary for the CG.
@@ -29,14 +18,15 @@ Qtilde = zeros(2,nx,ny,nq);
 parfor i = 1:nx
     tree(i).len = step_len(i);
     % Preallocate
-    tree(i).hts(ny) = struct;
+    tree(i).step_ht(ny) = struct;
     for j = 1:ny
         tree(i).step_ht(j).ht = step_height(j);
         tree(i).step_ht(j).configs(nq) = 0;
-        for k = 1:nq % Not necessary for CG
-            ind = sub2ind([nx ny nq], i, j, k);
-            Qtilde(:,i,j,k) = delq*solveIK(step_len(i), step_height(j));
-            tree(i).step_ht(j).configs(k) = ind;
+        for q = 1:nq % Not necessary for CG
+            ind = sub2ind([nx ny nq], i, j, q);
+            Qtilde(:,i,j,q) = delq*solveIK(step_len(i), ...
+                step_height(j), qs(q));
+            tree(i).step_ht(j).configs(q) = ind;
         end
     end
 end

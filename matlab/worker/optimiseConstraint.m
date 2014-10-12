@@ -19,8 +19,8 @@ al_ends(:,2) = al1;
 x0 = getInitEstimate(start, fin, deg);
 [lb, ub] = bounds(start, fin, deg);
 
-options = optimoptions('fmincon', 'Algorithm', 'interior-point', ...
-    'Display', 'off');
+options = optimoptions('fmincon', 'Algorithm', 'interior-point');% ...
+    %'Display', 'off');
 [x,~,flag] = fmincon(...
     @(x)cost(x, th_ends, al_ends, DelKE, deg, grid_num), ...
     x0, [], [], [], [], lb, ub, ...
@@ -42,7 +42,7 @@ thd2 = thdsq_nom(cd, DelKE);
 % Get integral of squared input torque
 u = nomTorque(cd, thd2);
 %Su2 = trapz(sum(u, 1).^2); % Integral of 2-norm squared.
-J = trapz(abs(u));
+J = trapz(abs(u)) + 1*norm(x);
 end
 
 % Get inital estimate of coefficients based upon start and end points
@@ -60,8 +60,8 @@ end
 
 % Bounds on alpha vals
 function [lb, ub] = bounds(start, fin, deg)
-lb = -10*[0; ones(deg-4,1)];
-ub = 10*ones(deg-3,1);
+lb = []; %-10*[0; ones(deg-4,1)];
+ub = []; %10*ones(deg-3,1);
 end
 
 % Nonlinear inequality and equality constraints
