@@ -1,4 +1,4 @@
-function [lib, constrs] = generateLibrary(nx,ny,nq,nk,deg,optGrid,nomvel)
+function [lib, constrs] = generateLibrary(deg,optGrid,nomvel)
 %generateLibrary Produces a complete libary of motion primitives for the
 % robot whose dynamics are expressed in the functions dynMatrices and
 % impactMatries and which have control applied as defined in
@@ -19,15 +19,19 @@ function [lib, constrs] = generateLibrary(nx,ny,nq,nk,deg,optGrid,nomvel)
 % before calling generateLibrary. Close the threads with
 %   matlabpool close
 
-if nargin < 7
-    nomvel = 2; %rad/s
-    if nargin < 6
-        optGrid = 25;
+if nargin < 1
+    deg = 10;
+    if nargin < 2
+        nomvel = 2; %rad/s
+        if nargin < 3
+            optGrid = 25;
+        end
     end
 end
 [nx, ny, nq, nk, ~, ~, ~, kes] = libParams;
 % Produce arrray of all impact configurations and tree indexing this array
 % by step length and height
+disp('Producing impact configurations...');
 [Q, Qtree] = impactConfigs;
 % Initialise constraints structure array
 constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
@@ -41,7 +45,8 @@ constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
 % per config at the leaves.
 Qsize = size(Q,2);
 lib(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
-parfor q = 1 : Qsize;
+for q = 1 : Qsize;
+    fprintf('Generating constraints for impact config %d of %d...\n', q, Qsize);
     initq = Q(:,q);
     lib(q).initq = initq;
     for l = 1 : nx          % For each step length in the tree:
@@ -55,9 +60,12 @@ parfor q = 1 : Qsize;
                 finalq = delq*Q(:,finalq_ind);
                 sigma = makeGround(initq, finalq);
                 for k = 1 : nk          % For every DelKE given a final q:
+                    fprintf('\tOptimising constraint %d of %d...', ...
+                        nk*(k + nq*(q + ny*(h + l))), nx*ny*nq*nk);
                     [vc, flag] = optimiseConstraint(initq, finalq, ...
                         kes(k), sigma, deg, optGrid);
                     if flag > 0 % Only add constraint if it is valid
+                        fprintf('Success\n');
                         vc.initq = q;
                         vc.finalq = finalq_ind;
                         constrs(q,l,h,qf,k) = vc;

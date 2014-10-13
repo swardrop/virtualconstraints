@@ -46,7 +46,7 @@ end
 end
 
 % This function will have to change a bit for robots other than CG
-function q = solveIK(step_len, step_ht)
+function q = solveIK(step_len, step_ht, q_rest)
 q = [pi/4;0];
 iter = 0;
 gridsize = 20;

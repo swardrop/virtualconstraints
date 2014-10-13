@@ -1,9 +1,9 @@
 function [nx, ny, nq, nk, xs, ys, qs, kes] = libParams
 
-nx = 5;
-ny = 20;
+nx = 2; %5;
+ny = 2; %20;
 nq = 1;
-nk = 7;
+nk = 3; %7;
 
 [~,l] = dynParams;
 step_len_min = 0.25*l;

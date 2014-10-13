@@ -23,7 +23,7 @@ nck = precalcnck(length(theta_p)-1);
     interval(th_base, theta_p, alpha_p, nck);
 
 % Identify critical theta (gamma zero crossing)
-if sign(gamma(1)) ~= sign(gamma(end))
+if (sign(gamma(1)) ~= sign(gamma(end))) && ~any(isnan(gamma))
     th_c = fzero(@(t)gam2(t,theta_p,alpha_p, nck),[theta_0, theta_f]);
 else
     th_c = inf; % No critical th_c.
