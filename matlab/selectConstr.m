@@ -103,7 +103,11 @@ end
 end
 
 function isColFree = collisionFree(p, sigma, x)
-isColFree = true; % Need to replace this with proper check
+% Replace with something better than this if you have time.
+[~, Phi_f] = constrEndPts(p.theta_p, p.alpha_p);
+p2 = endSwingFoot(Phi_f);
+x = x + p2(1);
+isColFree = true;
 end
 
 function [p, p_idx] = nextBest(P, p_peers, p_idx)
@@ -141,10 +145,10 @@ while (min < max-1)
     end
 end
 success = true;
-if array(max) >= val
-    idx = max;
-elseif array(min) >= val
+if array(min) >= val
     idx = min;
+elseif array(max) >= val
+    idx = max;
 else
     success = false;
 end

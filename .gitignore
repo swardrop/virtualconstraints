@@ -20,3 +20,4 @@ doc/*.synctex.gz
 doc/*.toc
 doc/*.pl
 seminar
+matlab/lib

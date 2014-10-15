@@ -1,5 +1,3 @@
-clear
-close all
 duration = 5;
 dur_tol = 1e-8;
 org = [0; 0];
@@ -22,24 +20,32 @@ impact = [];
 %             2       0
 %             3       0.05
 %             3.5     0.1];
-ground = [-realmax,0];
+ground = [-realmax,0;
+            3 0.05];
 
-% Define holonomic constraint (Bezier curve)
-constrData = ConstrGui;
-theta_p = constrData(1).theta_p;
-alpha_p = constrData(1).alpha_p;
+% Set initial conditions
+last_t = 0;
+nom_torque = [];
 
 cd worker
 addpath ../model/cg
-% Set initial conditions
-q_0 = constrEndPts(theta_p, alpha_p);
-theta_dot_sq_0 = thdsq_nom(constrData, 0);
-qd_0 = constrData.d_Phi(:,1)*sqrt(theta_dot_sq_0);
-last_t = 0;
+addpath ../../matlab
+
 while (timeleft > dur_tol)
     
-    u_nom = nomTorque(constrData, theta_dot_sq_0);
-    nom_torque = [constrData.th_base; u_nom];
+    [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 2);
+    if ~success
+        disp('Planner failed to find feasible sequence of steps');
+        break;
+    end
+    theta_p = p.theta_p;
+    alpha_p = p.alpha_p;
+    
+    thdsq_0 = phasevar(qd_0)^2;
+    c = makeConstr(p.theta_p, p.alpha_p, 25);
+    u_nom = nomTorque(c, thdsq_0);
+    nom_torque = [c.th_base; u_nom];
+    
     
     stoptime = sprintf('%.2f', timeleft);
     disp('Simulating footstep...');
@@ -73,7 +79,6 @@ while (timeleft > dur_tol)
         % Enact change of coordinates and velocities at impact
         [q_0, qd_0, error] = ...
             impactDynamics(q(:,end), qd(:,end));
-        theta_dot_sq_0 = phasevar(qd_0)^2;
         % Set origin in (x,y) for new swing phase
         org = endSwingFoot(q(:,end),org);
         fprintf('Origin: (%.2f, %.2f)\n\n', org(1), org(2));
@@ -113,5 +118,7 @@ suptitle('Torque expended');
 % Animation of motion
 figure('Position', [300, 100, 1000, 600])
 mov = visualise(q, impact, ground);
+
 rmpath ../model/cg
+rmpath ../../matlab
 cd ..

@@ -53,7 +53,7 @@ All other required data is derived from the supplied data or the simulation. Not
 
 \begin{table}
 	\centering
-	\begin{tabular}{ c | c | c | c}
+	\begin{tabular}{ c | c | c | c }
 		Data                             & Description                                          & Size                & Method of supply          \\ \hline
 		$\alpha$                         & Bézier coefficients                                  & $(n-1)\times (N+1)$ & In workspace              \\
 		$\theta_\alpha$                  & Vector containing $\theta_\alpha^+, \theta_\alpha^-$ & $1\times N$         & In workspace              \\
@@ -79,7 +79,7 @@ All other required data is derived from the supplied data or the simulation. Not
 		$\Delta(q), \Delta_F(q)$   & Dynamics impact map      & $n \times n$     & \mcode{impactMatrices(q)} \\
 		$H_0$                      & VC coordinate definition & $(n-1) \times n$ & \mcode{constrMatrices()}  \\
 		$c$                        & VC coordinate definition & $1 \times n$     & \mcode{constrMatrices()}  \\
-		$\Delta\mathrm{KE}_{list}$ & Range of KE mutations    & $1 \times n_k$   & \mcode{DelKEs()}
+		$\Delta\mathrm{KE}_{list}$ & Range of KE mutations    & $1 \times n_k$   & \mcode{DelKEs()} \\
 	\end{tabular}
 	\caption{Externally supplied data to the code wrapping the simulation}
 	\label{tab:scriptConstants}
@@ -88,7 +88,20 @@ All other required data is derived from the supplied data or the simulation. Not
 \section{Robot models}
 The virtual constraint library generation and simulation of the motion planner were conducted on two robot models. A 2-link (compass-gait) robot was the primary model used for development, in which the simplistic morphology and single actuated coordinate were useful for testing principles and illustrating the concepts of virtual constraint-based planning. {\color{orange} In order to demonstrate the ability of the methods used in this thesis to higher-order robots, a more complex robot model was used; a 5-link robot based on the RABBIT experimental testbed \cite{chevallereau2003rabbit}.}
 \subsection{Compass-gait (2-link) walker}
-Since the compass-gait walker is a simple robot model, it is instructive to present the data which make up the model here. The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg.
+Since the compass-gait walker is a simple robot model, it is instructive to present the data which make up the model here. The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia about its centre by $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg. The values used in the model are presented in Table \ref{tab:cgparams} and are largely derived from those in \cite{westervelt2007feedback}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c | c}
+		Parameter & Value \\ \hline
+		$m$ & 0.3 kg \\
+		$l$ & 1 m \\
+		$I$ & $1/12 ml^2$ \\
+		g & 9.81 m/s \\
+	\end{tabular}
+	\caption{Parameters for the compass-gait model}
+	\label{tab:cgparams}
+\end{table}
 
 \begin{align*}
 	M(q) = &\begin{bmatrix}

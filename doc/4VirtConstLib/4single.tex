@@ -34,7 +34,7 @@ It is not possible to determine \textit{a priori} that an optimisation is well-f
 
 {\color{orange}In the case of higher-DOF walking models, it becomes more difficult to confirm near-convexity or even that the cost function is well-behaved. Taking slices, where we choose two decision variables over which to grid and fix all others, allows us to develop some intuition, see Figure \ref{fig:5lslice1} and \ref{fig:5lslice2}. We note that in these slices, the cost function again appears to be well-behaved and near-convex. On the basis of this evidence, it appears to be reasonable to assume that the convex optimisation approach will produce valid near-optimal results.}
 
-\subsection{Optimisation method}
+\subsection{Optimisation method} \label{sec:optmethod}
 \subsubsection{Decision variables and constraints}
 While the objective of single constraint optimisation is to produce an optimum VC independent of any other virtual constraints in the library, it is important to formulate the optimisation problem in a manner which enables a useful library to be produced. The motion primitive library is intended to contain VCs which span the configuration space of the robot's natural walking as well as including a range of mechanical energy additions and subtractions to facilitate walking over uneven terrain. Therefore, it seems clear that each single constraint optimisation should be formulated subject to constraints on the start and end configurations of the footstep, along with a prescribed energy gain or loss. In addition, it is necessary to specify the ground height applicable to the virtual constraint, since a feasible step cannot intersect with the ground between the start and end conditions.
 

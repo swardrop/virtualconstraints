@@ -52,10 +52,11 @@ for i = 1 : length(isImpact)
 %     trace = plot(X1(1,1:i), X1(2,1:i), 'm-', ...
 %                  X2(1,1:i), X2(2,1:i), 'b-');
     pts = plot([x2 x1 C(1)], [y2 y1 C(2)], 'ko', 'MarkerFaceColor', 'k');
-    links = plot([C(1) x1 x2], [C(2) y1 y2], 'k-', 'LineWidth', 5);
+    links = plot([C(1) x1 x2], [C(2) y1 y2], 'k-', 'LineWidth', 3);
     
-    axis([X1(1,i)-fsize_x/2, X1(1,i)+fsize_x/2, ...
-        X1(2,i)-3/4*fsize_y, X1(2,i)+1/4*fsize_y]);
+%     axis([X1(1,i)-fsize_x/2, X1(1,i)+fsize_x/2, ...
+%         X1(2,i)-3/4*fsize_y, X1(2,i)+1/4*fsize_y]);
+    axis([-1 5 -0.5 1.5]);
     daspect([1 1 1]);
     frames(i) = getframe();
 end

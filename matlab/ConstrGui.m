@@ -362,7 +362,7 @@ h = refreshBezDisplay(handles);
 set(h, 'ButtonDownFcn', @bezplot_ButtonDownFcn);
 refreshSidePlots(handles);
 DelKE = str2double(get(handles.DelKE, 'String'));
-set(handles.editvel_torque, 'String', num2str(thdsq_nom(constr, DelKE)));
+set(handles.editvel_torque, 'String', num2str(thdsq_nom(constr)));
 calcNomTorqueButton_Callback(hObject, eventdata, handles);
 
 

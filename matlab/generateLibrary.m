@@ -1,4 +1,4 @@
-function [lib, constrs] = generateLibrary(deg,optGrid,nomvel)
+function [L, P] = generateLibrary(name, deg,optGrid,nomvel)
 %generateLibrary Produces a complete libary of motion primitives for the
 % robot whose dynamics are expressed in the functions dynMatrices and
 % impactMatries and which have control applied as defined in
@@ -19,22 +19,23 @@ function [lib, constrs] = generateLibrary(deg,optGrid,nomvel)
 % before calling generateLibrary. Close the threads with
 %   matlabpool close
 
-if nargin < 1
+if nargin < 2
     deg = 10;
-    if nargin < 2
+    if nargin < 3
         nomvel = 2; %rad/s
-        if nargin < 3
+        if nargin < 4
             optGrid = 25;
         end
     end
 end
+clear optimiseConstraint
 [nx, ny, nq, nk, ~, ~, ~, kes] = libParams;
 % Produce arrray of all impact configurations and tree indexing this array
 % by step length and height
 disp('Producing impact configurations...');
 [Q, Qtree] = impactConfigs;
 % Initialise constraints structure array
-constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
+P(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
     struct('theta_p', zeros(1,deg),  ...
           'alpha_p', zeros(1,deg), ...
           'Gamma_c', 0, 'Psi_c', -inf, ...
@@ -44,33 +45,39 @@ constrs(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
 % Per element in Q, trace through Qtree and build a set of nk constraints
 % per config at the leaves.
 Qsize = size(Q,2);
-lib(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
+L(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
 for q = 1 : Qsize;
     fprintf('Generating constraints for impact config %d of %d...\n', q, Qsize);
     initq = Q(:,q);
-    lib(q).initq = initq;
+    L(q).initq = initq;
     for l = 1 : nx          % For each step length in the tree:
         
         for h = 1 : ny          % For each step height for a given length:
             % Initialise array of primitives at leaf
-            lib(q).step_len(l).step_ht(h).prims = zeros(1, nq*nk);
+            L(q).step_len(l).step_ht(h).prims = zeros(1, nq*nk);
             
             for qf = 1 : nq         % For each configuration given l & h:
-                finalq_ind = lib(q).step_len(l).step_ht(h).configs(qf);
+                finalq_ind = L(q).step_len(l).step_ht(h).configs(qf);
                 finalq = delq*Q(:,finalq_ind);
                 sigma = makeGround(initq, finalq);
                 for k = 1 : nk          % For every DelKE given a final q:
-                    fprintf('\tOptimising constraint %d of %d...', ...
-                        nk*(k + nq*(q + ny*(h + l))), nx*ny*nq*nk);
-                    [vc, flag] = optimiseConstraint(initq, finalq, ...
-                        kes(k), sigma, deg, optGrid);
-                    if flag > 0 % Only add constraint if it is valid
-                        fprintf('Success\n');
-                        vc.initq = q;
-                        vc.finalq = finalq_ind;
-                        constrs(q,l,h,qf,k) = vc;
+                    fprintf('\t%d> Optimising constraint %d of %d...', q,...
+                        k + nk*(qf-1 + nq*(h-1 + ny*(l-1))), nx*ny*nq*nk);
+                    try
+                        [vc, flag] = optimiseConstraint(initq, finalq, ...
+                            kes(k), sigma, deg, optGrid);
+                        if flag > 0 % Only add constraint if it is valid
+                            fprintf('Success\n');
+                            vc.initq = q;
+                            vc.finalq = finalq_ind;
+                            P(q,l,h,qf,k) = vc;
+                        else
+                            fprintf('Failure\n');
+                        end
+                    catch
+                        fprintf('Hard Failure!\n');
                     end
-                    lib(q).step_len(l).step_ht(h).prims(qf,k) = ...
+                    L(q).step_len(l).step_ht(h).prims(qf,k) = ...
                         sub2ind([Qsize,nx,ny,nq,nk], q,l,h,qf,k);
                 end
             end
@@ -83,11 +90,17 @@ parfor q = 1 : Qsize;
     for l = 1 : nx
         for h = 1 : ny
             [sortkeys, sortedind] = sortConstrs(...
-                constrs(lib(q).step_len(l).step_ht(h).prims),nomvel);
-            lib(q).step_len(l).step_ht(h).prims = ...
-                lib(q).step_len(l).step_ht(h).prims(sortedind);
-            lib(q).step_len(l).step_ht(h).sortkeys = sortkeys;
+                P(L(q).step_len(l).step_ht(h).prims),nomvel);
+            L(q).step_len(l).step_ht(h).prims = ...
+                L(q).step_len(l).step_ht(h).prims(sortedind);
+            L(q).step_len(l).step_ht(h).sortkeys = sortkeys;
         end
     end
 end
+% Save library to MAT file
+if nargin < 1
+    name = 'lib.mat';
+end
+name = ['lib/', name];
+save(name, 'L', 'P');
 end
