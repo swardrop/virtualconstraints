@@ -69,6 +69,7 @@ end
 % Note c(x) <= 0 and ceq(x) = 0 are tested in fmincon
 function [c, ceq] = nonlconstrs(x, th_ends, al_ends, DelKE, ...
     sigma, deg, grid_num)
+ceq = [];
 [theta_p, alpha_p] = getCoefficients(x, th_ends, al_ends, deg);
 
 cd = getOrMakeConstr(theta_p, alpha_p, grid_num);
@@ -82,7 +83,7 @@ KE_after = (Delqd*cd.d_Phi(:,end))' * M_p * Delqd*cd.d_Phi(:,end) * td2m;
 KE_before = cd.d_Phi(:,1)' * M_0 * cd.d_Phi(:,1) * thdsq_0;
 DelKE_act = KE_after - KE_before;
 
-ceq = DelKE - DelKE_act;
+c(1) = DelKE - DelKE_act;
 
 if size(alpha_p,1) > 2
     for i = length(theta_p)-1 : -1 : 2
@@ -90,7 +91,7 @@ if size(alpha_p,1) > 2
             [0,0]);
         ind = find(p(1) > sigma(:,1), 1);
         height = sigma(ind, 2);
-        c(i-1) = height - p(2);
+        c(i) = height - p(2);
     end
 else
     % CG only
@@ -100,7 +101,7 @@ else
     for i = 0 : N
         phi = phi + nchoosek(N,i) * (1-s)^(N-i) * s^i * alpha_p(:,i+1);
     end
-    c = -phi;
+    c(2) = -phi;
 end
 end
 

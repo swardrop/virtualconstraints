@@ -34,6 +34,7 @@ end
 % Sort by Qtilde by q1, then by q2, then by ... qn.
 Qtilde = reshape(Qtilde, length(delq), nx*ny*nq);
 [Qtilde, ind_sorted] = sortrows(Qtilde');
+[~,ind_sorted] = sort(ind_sorted);
 Qtilde = Qtilde';
 % Update indexes in tree
 parfor i = 1:nx;

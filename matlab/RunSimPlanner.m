@@ -1,6 +1,13 @@
+close all
+clear
 duration = 5;
 dur_tol = 1e-8;
 org = [0; 0];
+
+load('lib/cgmaybeworking.mat');
+
+q_0 = delq*solveIK(0.3, 0);
+qd_0 = 2.3*q_0 * -pi^2;
 
 % Set up simulation outputs
 timeleft = duration;
@@ -20,8 +27,12 @@ impact = [];
 %             2       0
 %             3       0.05
 %             3.5     0.1];
-ground = [-realmax,0;
-            3 0.05];
+ground = [-realmax,0
+            0.5 0.01
+            1.6 -0.02
+            2.0 -0.04
+            3.5 -0.02
+            4.0 0.05];
 
 % Set initial conditions
 last_t = 0;
@@ -33,7 +44,7 @@ addpath ../../matlab
 
 while (timeleft > dur_tol)
     
-    [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 2);
+    [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 6);
     if ~success
         disp('Planner failed to find feasible sequence of steps');
         break;
@@ -82,9 +93,9 @@ while (timeleft > dur_tol)
         % Set origin in (x,y) for new swing phase
         org = endSwingFoot(q(:,end),org);
         fprintf('Origin: (%.2f, %.2f)\n\n', org(1), org(2));
-        if (error)
-            break;
-        end
+%         if (error)
+%             break;
+%         end
     end
 end
 

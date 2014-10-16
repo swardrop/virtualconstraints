@@ -17,8 +17,9 @@ v0 = (c*qd)^2;
 for i = length(lens) : -1 : 1
     j = quantise(height(sigma, x, lens(i)));
     [p_idx(i), p_peers{i}, searchSucc(i)] = treeSearch(L, q_ind, i, j, v0);
-    p(i) = P(p_peers{i}(p_idx(i)));
-    if ~searchSucc(i)
+    if searchSucc(i)
+        p(i) = P(p_peers{i}(p_idx(i)));
+    else
         [p(i), p_idx(i)] = nextBest(P, p_peers{i}, p_idx(i));
     end
 end
@@ -38,7 +39,7 @@ while true
         end
     end
     vc = sort(vc);
-    for i = length(p)
+    for i = 1 : length(p)
         if vc(i) == Inf
             break;
         end
@@ -145,11 +146,14 @@ while (min < max-1)
     end
 end
 success = true;
-if array(min) >= val
+if array(max) == array(min) && array(min) >= val
     idx = min;
 elseif array(max) >= val
     idx = max;
+elseif array(min) >= val
+    idx = min;
 else
+    idx = 1;
     success = false;
 end
 end

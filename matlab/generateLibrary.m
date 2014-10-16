@@ -1,4 +1,4 @@
-function [L, P] = generateLibrary(name, deg,optGrid,nomvel)
+function [L, P] = generateLibrary(name, deg,optGrid,minvel)
 %generateLibrary Produces a complete libary of motion primitives for the
 % robot whose dynamics are expressed in the functions dynMatrices and
 % impactMatries and which have control applied as defined in
@@ -22,7 +22,7 @@ function [L, P] = generateLibrary(name, deg,optGrid,nomvel)
 if nargin < 2
     deg = 10;
     if nargin < 3
-        nomvel = 2; %rad/s
+        minvel = 0.5; %rad/s
         if nargin < 4
             optGrid = 25;
         end
@@ -46,7 +46,7 @@ P(1:size(Q,2),1:nx,1:ny,1:nq,1:nk) = ...
 % per config at the leaves.
 Qsize = size(Q,2);
 L(1:Qsize) = struct('initq', 0, 'step_len', Qtree);
-for q = 1 : Qsize;
+parfor q = 1 : Qsize;
     fprintf('Generating constraints for impact config %d of %d...\n', q, Qsize);
     initq = Q(:,q);
     L(q).initq = initq;
@@ -90,7 +90,8 @@ parfor q = 1 : Qsize;
     for l = 1 : nx
         for h = 1 : ny
             [sortkeys, sortedind] = sortConstrs(...
-                P(L(q).step_len(l).step_ht(h).prims),nomvel);
+                P(L(q).step_len(l).step_ht(h).prims),minvel);
+            [~,sortedind] = sort(sortedind);
             L(q).step_len(l).step_ht(h).prims = ...
                 L(q).step_len(l).step_ht(h).prims(sortedind);
             L(q).step_len(l).step_ht(h).sortkeys = sortkeys;
