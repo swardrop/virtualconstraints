@@ -1,28 +1,27 @@
 \section{Contribution of this work to state of the art}
-\begin{itemize}
-	\item Provides means of automatic generation of constraints in contrast to manual generation, which has numerous advantages.
-	\item Investigated $\alpha(\theta)$ zero crossing characteristics, which constitute the least well-behaved virtual constraints.
-	\item Incrementally improved the best first search algorithm
-\end{itemize}
+The primary contribution of thesis work is to build upon the method of using virtual constraints as motion primitives for a path planning algorithm proposed in \cite{manchester13planning} by providing a means of procedural generation of a virtual constraint library. This enables the method of planning using virtual constraints to be applied to general underactuated bipedal walking models, mitigating the arduous requirement for manual tuning of constraints, which becomes less applicable with higher degrees of freedom of the robots.
+
+These produced virtual constraints are close to optimal with respect to the torque requirements and are produced in a manner which facilitates simple spanning of the configuration space along with a means of velocity control. The off-line production of motion primitives would appear to be the most complex component of planning with primitives. The use of this method should allow the remaining challenges in the field to be investigated effectively.
+
+Along with the material contribution of the library generation method, the properties of sets of virtual constraints have been investigated. The insights include means of dealing with the challenges of $\alpha(\theta)$ zero crossings, the prospects of velocity-independent orderings and the accuracy and utility of the production of constraints with differing parameters. These appear to be critical topics of enquiry in the context of the virtual constraints method for path planning.
+
+This thesis work should provide a basis for further investigation of practical path planning for underactuated walkers using virtual constraints. This is achieved both by providing a method for the generation of constraints and the advancement of insights into their properties.
 
 \section{Future work}
-The primary contribution of thesis work is to build upon the method of using virtual constraints as motion primitives for a path planning algorithm proposed in \cite{manchester13planning} by providing a means of procedural generation of a virtual constraint library. This method is, in its current form, still limited in its practicability due to the multiple simplifying assumptions made. In principle, the method can be generalised without fundamentally changing its structure.
+ The method proposed in this thesis is, in its current form, limited in its practicability due to the multiple simplifying assumptions made. In principle, the method can be generalised without fundamentally changing its structure, however there is clearly work still to be done to produce a complete underactuated dynamic walker which uses virtual constraints as motion primitives in the real world.
 
-The first and most obvious extension of this work is to generalise the method to being able to plan for 3D robot models. In principle, this is a fairly simple step; the virtual constraints are constructed to synchronise the additional degrees of freedom introduced by the extra spacial dimension to the phase variable in the same manner. However, the construction of the robot model and simulator become significantly more complex and the formulation of the motion primitives is more difficult to formulate.
+An obvious extension of this work is to generalise the method to being able to plan for 3D robot models. In principle, this is a fairly simple step; the virtual constraints are constructed to synchronise the additional degrees of freedom introduced by the extra spacial dimension to the phase variable in the same manner. However, the construction of the robot model and simulator become significantly more complex and the formulation of the motion primitives is more difficult. In addition, the ground model must also be altered, which makes checking for kinematic feasibility (lack of premature collisions with the ground) more difficult. As an adjunct to this point, this work must be experimentally verified rather than simply tested using simulations.
 
+In order for this method to produce truly useful robots, the motion planning must be subject to a high-level controller which sets targets. At this point, it is assumed that it is desirable for the robot to continue walking forwards indefinitely. Along with the production of the high-level controller, it is necessary to alter the planning algorithm structure to create an interface, since at present the controller is self-contained.
 
+As mentioned in the discussion of the limitations of the robot, the current implementation has no fail-safes or stabilisation of the phase variable. A robust system must have some controller which attempts to keep the robot from falling down or being unable to complete its motion in the event of disturbances. This is particularly important for extending this theory into real-world use. As a theoretical exercise, the instability and failure-prone nature of the robot is acceptable, but robustness is a key performance indicator for practical systems.
 
-\begin{itemize}
-	\item 3D
-	\item Experimentation/physical realisation
-	\item High-level planner - starting and stopping, achieving some desired gait characteristics etc.
-	\item Fail-safes
-	\item Feet
-	\item Optimisation of constraint with better specified path of end of foot?
-	\item Bounding/running
-	\item More efficient optimisation (in C, not MATLAB?)
-	\item Impulsive toe-offs to improve efficiency?
-	\item Produce constraints based on real-world ground data?
-	\item Transverse linearisation controller
-	\item Genuine flexible IK calculation for building of $\tilde{Q}$.
-\end{itemize}
+One method of making the robot significantly more robust as well as more efficient is to introduce feet. The literature indicates that the simple addition of unactuated feet can increase efficiency of the robot by 20\% \cite{asano2007dynamic}. Partial actuation of the feet such as toe-offs may help to improve control of the robot, particularly for the motion immediately after impact.
+
+At this stage, all of the motions produced by the virtual constraint library generation method have been walking gaits. This only forms a subset of the available motions of bipeds; the method has not been proven to work for gaits such as running. It is reasonable to expect that there should be no significant difficulty in such an extension, although there is more of a challenge in the modelling of the robot.
+
+The line of enquiry into the possibility of virtual constraint sets which avail an ordering which is independent of the target velocity should be extended. A method should be proposed by which optimised constraint sets are intelligently chosen and algorithms which use the full benefit of the general ordering should be devised.
+
+The current implementation of the virtual constraint generation method in MATLAB is subject to a considerable performance handicap when compared to other platforms such as the C language. Implementing the method in C would also have the benefit of availing pointer manipulation, which is a much more powerful and efficient method than array indexing. There should be little difficulty in implementing the algorithms from MATLAB into C or any other language. This should be completed for a more practical build of the method, particularly for experimentation on physical robots.
+
+The method of using virtual constraints as motion primitives for planning underactuated dynamic walking has been proven to work in theory and by simulation in this thesis and the work which preceded it \cite{manchester13planning}. Elsewhere in the literature, virtual constraints have been verified to produce viable stable walking gaits \cite{byl2008approximate, sreenath2011compliant}. While there is still work to be completed, there is cause to be optimistic about the possibilities which this method provides; a robust and practical means of efficient bipedal locomotion.
