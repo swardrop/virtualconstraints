@@ -178,9 +178,9 @@ Returning to the point made in the preamble of this discussion, it is not necess
 While the importance of accuracy in the optimisation is limited, it is very important for the motion planner that the outputs of the optimisation ($\Gamma(\theta)$ and $\Psi(\theta)$ at particular values) are correct. It is therefore prudent to use a limited grid ($25 \leq n_s \leq 50$) for the optimisation and to then calculate the partial solution for the produced Bézier coefficients using much finer sampling, e.g. $n_s = 2000$. 
 
 \subsection{Coping with zero crossings of $\alpha(\theta)$} \label{sec:alphazerocrossing}
-Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq 0$ in order to derive the partial solution (Equation \ref{eqn:affinesoln}). This is an important assumption to make, since if at any point $\theta \in [\theta_0, \theta^-], \alpha(\theta) = 0$, the terms $\frac{\beta(\theta)}{\alpha(\theta)}$ and $\frac{\gamma(\theta)}{\alpha(\theta)}$ are undefined. In principle, this is not a significant problem; the partial solution still exists and is correct for all $\theta \not \in \Theta_z$, where $\Theta_z$ is the set of $\theta \in [\theta_0, \theta^-]$ for which $\alpha(\theta)=0$.
+Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq 0$ in order to derive the partial solution (Equation \ref{eqn:affinesoln}). This is an important assumption to make, since if at any point $\theta \in [\theta_0, \theta^-], \alpha(\theta) = 0$, the terms $\frac{\beta(\theta)}{\alpha(\theta)}$ and $\frac{\gamma(\theta)}{\alpha(\theta)}$ are undefined. In principle, this is not a significant problem; the partial solution still exists and is correct for all $\theta \not \in \Theta_z$, where $\Theta_z$ is the set of $\theta \in [\theta_0, \theta^-]$ for which $\alpha(\theta)=0$ \cite{shiriaev2005constructive}.
 
-It turns out that this is by no means guaranteed in general; $\alpha(\theta)$ may cross zero, particularly in primitives which have the robot completing what may be termed ``exaggerated'' motion. Consider Figure \ref{fig:alphazerocrossing}; $\alpha(\theta)$ dips below zero in a constraint where the swing leg crosses the horizontal and points skyward. In the general case, there may be an unbounded number of zero crossings of $\alpha(\theta)$.
+Unfortunately, $\alpha(\theta)$ may cross zero, particularly in primitives which have the robot completing what may be termed ``exaggerated'' motion. Consider Figure \ref{fig:alphazerocrossing}; $\alpha(\theta)$ dips below zero in a constraint where the swing leg crosses the horizontal and points skyward. In the general case, there may be an unbounded number of zero crossings of $\alpha(\theta)$.
 
 \begin{figure}
 	\centering
@@ -190,7 +190,7 @@ It turns out that this is by no means guaranteed in general; $\alpha(\theta)$ ma
 	\label{fig:alphazerocrossing}
 \end{figure}
 
- By virtue of the sampling approach to solving the partial solution (see Appendix \ref{app:partialsol} for details), there is a vanishingly small chance of sampling exactly at the point where $\alpha(\theta)=0$. This is not the concern; when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, thus the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval. This may compromise the convexity of the cost function. Figures \ref{fig:divergence0crossing} and \ref{fig:bad0crossingtorque} demonstrate the erroneous solution obtained by uniform sampling over $[\theta_0, \theta^-]$.
+By virtue of the sampling approach to solving the partial solution (see Appendix \ref{app:partialsol} for details), there is a vanishingly small chance of sampling exactly at the point where $\alpha(\theta)=0$. This is not the concern; when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, thus the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval. This may compromise the convexity of the cost function. Figure \ref{fig:divergence0crossing} demonstrates the erroneous solution obtained by uniform sampling over $[\theta_0, \theta^-]$.
  
 \begin{figure}
 	\centering
@@ -199,29 +199,38 @@ It turns out that this is by no means guaranteed in general; $\alpha(\theta)$ ma
 	\label{fig:divergence0crossing}
 \end{figure}
 
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=0.8\linewidth]{4VirtConstLib/u-0Crossing}
+%	\caption[Absolute value of torque with zero crossings of $\alpha(\theta)$]{Absolute value of torque with a zero crossings of $\alpha(\theta)$ based upon uniform sampling}
+%	\label{fig:bad0crossingtorque}
+%\end{figure}
+
+It is necessary to alter the method of calculating the partial solution if $\alpha(\theta)$ crosses zero; the interval $[\theta_0, \theta^-]$ must be divided at every zero crossing of $\alpha(\theta)$ and the integration must be performed only over those intervals. Due to the sensitivity of the solution to the exact location of the zero crossing on the sampling interval (which is not improved by finer sampling), it is necessary to locate the zero crossing and to ensure that the sampling is symmetrical nearby. This method may be called \textit{adaptive sampling}. Figures \ref{fig:betterGamPsi} and \ref{fig:bettertorque} demonstrate the significant improvements in the behaviour of the numerical solutions gained by using this method. Note that, importantly, there is no residual effect of the divergence in $\Gamma(\theta)$ and $\Psi(\theta)$, unlike in Figure \ref{fig:divergence0crossing}.
+ 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\linewidth]{4VirtConstLib/u-0Crossing}
-	\caption[Absolute value of torque with zero crossings of $\alpha(\theta)$]{Absolute value of torque with a zero crossings of $\alpha(\theta)$ based upon uniform sampling}
-	\label{fig:bad0crossingtorque}
+	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterGamPsi}
+	\caption{Improvements to partial solution using adaptive sampling}
+	\label{fig:betterGamPsi}
 \end{figure}
 
- It is necessary to alter the method of calculating the partial solution if $\alpha(\theta)$ crosses zero; the interval $[\theta_0, \theta^-]$ must be divided at every zero crossing of $\alpha(\theta)$ and the integration must be performed only over those intervals. Due to the sensitivity of the solution to the exact location of the zero crossing on the sampling interval (which is not improved by finer sampling), it is necessary to locate the zero crossing and to ensure that the sampling is symmetrical nearby. This method may be called \textit{adaptive sampling}. Figures \ref{fig:betterGamPsi} and \ref{fig:bettertorque} demonstrate the significant improvements in the behaviour of the numerical solutions gained by using this method. Note that, importantly, there is no residual effect of the divergence in $\Gamma(\theta)$ and $\Psi(\theta)$, unlike in Figure \ref{fig:divergence0crossing}.
- 
- \begin{figure}
+\begin{figure}
  	\centering
- 	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterGamPsi}
- 	\caption{Improvements to partial solution using adaptive sampling}
- 	\label{fig:betterGamPsi}
- \end{figure}
- 
-  \begin{figure}
-  	\centering
-  	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterTorque}
-  	\caption[Torque using adaptive sampling]{Torque using adaptive sampling. Note that it is still impulsive}
-  	\label{fig:bettertorque}
-  \end{figure}
+ 	\includegraphics[width=0.8\linewidth]{4VirtConstLib/betterTorque}
+ 	\caption[Torque using adaptive sampling]{Torque using adaptive sampling. Note that it is still impulsive}
+ 	\label{fig:bettertorque}
+\end{figure}
   
-  Note that in Figure \ref{fig:bettertorque}, the torque is still much too high for a practicable constraint. This is not a problem; the optimisation is concerned with the value of the cost function, not the physical realisability of the constraints. The improved behaviour of the partial solution attained through the use of adaptive sampling methods is in service of ensuring the cost function remains convex such that a minimum can be found.
+Note that in Figure \ref{fig:bettertorque}, the torque is still much too high for a practicable constraint. This is not a problem; the optimisation is concerned with the value of the cost function, not the physical realisability of the constraints. The improved behaviour of the partial solution attained through the use of adaptive sampling methods is in service of ensuring the cost function remains convex such that a minimum can be found.
+
+Note that this method is flawed where zero crossings occur very close to one another. There is no method of rectifying this other than increasing the sampling density. This is intuitively clear; in order to resolve two zero crossings which merge at low sampling rates, the resolution must be increased. This can be considered analogous to resolving two targets using sensing methods.
+
+It is particularly notable that, for very large values of the Bézier coefficients, $\alpha(\theta)$ becomes very oscillatory, crossing zero many times in the interval $\theta\in[\theta_0, \theta^-]$. A sample of this behaviour, with coefficients possessing values in excess of 200, is presented in Figure \ref{fig:badalpha}. There is no good method of dealing with this behaviour other than avoidance.
   
-  Note that this method is flawed where zero crossings occur very close to one another. There is no method of rectifying this other than increasing the sampling density. This is intuitively clear; in order to resolve two zero crossings which merge at low sampling rates, the resolution must be increased. This can be considered analogous to resolving two targets using sensing methods.
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{4VirtConstLib/badalpha}
+\caption{Poor behaviour of $\alpha(\theta)$ with very large Bézier coefficients}
+\label{fig:badalpha}
+\end{figure}
