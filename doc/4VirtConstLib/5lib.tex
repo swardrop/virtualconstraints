@@ -52,7 +52,7 @@ If we say that we wish for the constraint to pass through the critical point wit
 	\Gamma(\theta_\alpha^c)\dot{\theta}_0^2 + \Psi(\theta_\alpha^c) &\geq \dot{\theta}_a^2 \\
 	\dot{\theta}_0^2 \geq \frac{\dot{\theta}_a^2 - \Psi(\theta_\alpha^c)}{\Gamma(\theta_\alpha^c)}
 \end{align*}
-We construct a precedence $\alpha \prec_{\dot{\theta}_a} \beta$ on the basis of the minimum required initial velocity $\dot{\theta}_0^2$ to achieve $\dot{\theta}_c\geq\dot{\theta}_a$:
+We construct a precedence $\alpha \prec_{\dot{\theta}_a} \beta$ on the basis of the minimum required initial velocity $\dot{\theta}_0^2$ to achieve $\dot{\theta}^c\geq\dot{\theta}_a$:
 
 \begin{figure}[h]
 \centering
@@ -69,12 +69,30 @@ Clearly, a similar ordering can be constructed based upon target final or post-i
 \subsubsection{Velocity-independent ordering}
 Note that Equation \ref{eqn:ordering} is dependent on a target velocity $\dot{\theta}_a$. This ordering is useful for looking through the library for the virtual constraint which most closely reaches $\dot{\theta}_a$ at the critical point. However, if a different velocity is desired, the ordering is not guaranteed to provide any useful structure, therefore the search returns to a complexity of $\mathcal{O}(n)$.
 
-An ordering which is independent of a target velocity may be possible; if there is a total ordering between $(\Gamma(\theta^c),-\Psi(\theta^c))$ pairs, i,e. $\Gamma(\theta_\alpha^c) \geq \Gamma(\theta_\beta^c) \Longleftrightarrow -\Psi(\theta_\alpha^c) \geq -\Psi(\theta_\beta^c)$, then Equation \ref{eqn:ordering} is independent of $\dot{\theta}_a$. If such a set of $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ values can be found, the ordering generated avails much more general use.
+An ordering which is independent of a target velocity may be possible. Let us define $\rho$ as the \textit{ordering key} by which we determine the precedence of the set of virtual constraints. It is clear that $\rho$ simply equals the required squared initial velocity to achieve $\dot{\theta}^c \geq \dot{\theta}_a$:
+\[
+	\rho = \frac{\dot{\theta}_a^2 - \Psi(\theta^c)}{\Gamma(\theta^c)}
+\]
+If we rearrange this equation to make $\Psi(\theta)$ the dependent variable, we produce
+\begin{equation} \label{eqn:totord}
+	-\Psi(\theta^c) = \Gamma(\theta^c)\rho - \dot{\theta}_a^2
+\end{equation}
+From this equation, we can see that a particular ordering key defines a line in $(\Gamma-\Psi)$ space. All virtual constraints for which $(\Gamma(\theta^c), -\Psi(\theta^c))$ lies on the line defined by Equation \ref{eqn:totord} are equal in our definition of precedence.
+
+Observing that the ordering key defines the gradient of the line, we see that the order of a particular set of virtual constraints is defined by the order that the points $(\Gamma(\theta^c), -\Psi(\theta^c))$ are passed by sweeping the gradient $\rho$ from 0 to $\infty$. Therefore, if a set of $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ values are arranged such that the result of sweeping the arc is the same regardless of the offset $-\dot{\theta}_a^2$, the ordering is independent of the initial velocity. If we place no restriction on $\dot{\theta}_a$, i.e. $\dot{\theta}_a^2 \in [0, \infty)$, this implies that if $\Gamma(\theta_\alpha^c)>\Gamma(\theta_\beta^c)$, then $-\Psi(\theta_\alpha^c)<-\Psi(\theta_\beta^c)$. To illustrate this, a set of points with this structure is presented in Figure \ref{fig:totord}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{4VirtConstLib/totord}
+\caption[Velocity independent ordering of virtual constraints]{Demonstration of the structure required to have a velocity independent ordering of virtual constraints.}
+\label{fig:totord}
+\end{figure}
+
 
 Another approach to achieving the equivalent of velocity independence in orderings, if the set of $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ does not contain the useful structure described, is to calculate the range of velocities for which a particular ordering applies. If the set of partial solutions is reasonably well behaved, it may be conceivable to cover the entire range of possible $\dot{\theta}_a$ values with relatively few sets of orderings.
 
 \subsection{Library structure}
-The structure of the library is a critical issue in determining the running time of the planning algorithm. It is important that constraints with certain properties can be found efficiently and that traversal through the library is straightforward. The library of motion primitives, as pictured in Figure \ref{fig:lib} is structured similarly to that described in \cite{manchester13planning}.
+The structure of the library is a critical issue in determining the running time of the planning algorithm. It is important that constraints with certain properties can be found efficiently and that traversal through the library is straightforward. The library of motion primitives, as pictured in Figure \ref{fig:lib}, is structured similarly to that described in \cite{manchester13planning}.
 
 \begin{figure}
 	\centering

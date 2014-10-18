@@ -47,17 +47,74 @@ Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varyi
 	\label{tab:vcenergy}
 \end{table}
 
-A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. This may be explained by considering that adding energy pushes the robot further from stability. Any errors are magnified and the system, particularly at impact, has considerable tendency toward energy loss. This problem largely originates in the simple model chosen to represent the walkers. An elastic impact model and feet with some appreciable spring force would rectify much of this problem.
+A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. This may be explained by considering that adding energy pushes the robot further from stability. Any errors are magnified and the system, particularly at impact, has considerable tendency toward energy loss. This problem likely originates in the simple model chosen to represent the walkers. It is reasonable to believe that an elastic impact model and feet with some appreciable spring force should rectify this. Note also that these results are for the simple two-link robot, which, due to its stiff single-jointed legs, suffers a greater loss of energy at impact than a robot with knees and a body above the legs to keep the centre of mass further forward.
 
-\subsection{Varying optimisation parameters}
-There are several parameters in the optimisation which can be relatively freely chosen that compromise some aspect of the optimisation result with computational performance. It is important to investigate the effects of varying these parameters such that a good compromise can be achieved for the library generation.
+\subsection{Grid densities}
+As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Clearly, a more accurate optimisation is favourable in that the torque is better optimised and the kinetic energy mutation is more accurately set. However, as can be read from Table \ref{tab:samplingerror}, increasing the grid density has an approximately linear corresponding increase in the computational time. Since the effect of altering the sampling density has been previously discussed, the results will not be repeated here.
 
-As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Clearly, a more accurate optimisation is favourable in that the torque is better optimised and the kinetic energy mutation is more accurately set. However,
+\subsection{Degree of the Bézier polynomial}
+Increasing the degree of the Bézier curve enables finer control over the path. This is clearly favourable; however since the Bézier coefficients are the decision variables in the optimisation, increasing the degree of the polynomial increases the optimisation dimensionality. It is necessary to find a good compromise between fine control of the virtual constraint and the tractability of the optimisation problem, particularly since the library generation will typically execute no fewer than tens of thousands of VC optimisations.
 
-Additionally, increasing the degree of the Bézier curve enables finer control over the path.
+Table \ref{tab:degpol} presents a comparison of a sample of degrees of polynomials. The cost (L2-norm of the hip torque) for $\Delta\mathrm{KE}=-0.1,0$ and 0.1 are shown, along with the average CPU time taken to complete the optimisation. The start and end configurations are such that the virtual constraints are suited for walking on flat ground. All optimisations were performed with a grid size of 50 samples, corresponding to a grid density of 0.6$^\circ$. Note that for an accurate comparison, the cost was recalculated after the optimisation on a grid of 2000 samples.
 
-\begin{itemize}
-	\item Times to generate using different degrees
-	\item and grids
-	\item and regularisation constant
-\end{itemize}
+\begin{table}
+	\centering
+	\begin{tabular}{c || c | c |c || c}
+		Degree & $J~|~{\Delta\mathrm{KE}=-0.1}$ & $J~|~{\Delta\mathrm{KE}=0}$ & $J~|~{\Delta\mathrm{KE}=0.1}$ & Average CPU Time \\ \hline
+		4  & 672 & 755 & 1109 & 0.42 s \\
+		5  & 364 & 384 & 545  & 0.55 s \\
+		7  & 317 & 316 & 439  & 1.56 s \\
+		10 & 261 & 261 & 310  & 4.39 s \\
+		15 & 427 & 427 & 427  & 10.2 s \\
+		25 & 554 & 554 & 554  & 27.0 s
+	\end{tabular}
+	\caption{Effect of varying the degree of the Bézier polynomial in VC optimisation}
+	\label{tab:degpol}
+\end{table}
+
+Figure \ref{fig:timevsdeg} shows that there is a strong quadratic fit ($R^2=0.9996$) to the CPU-time versus degree data. This should significantly motivate us to choose the minimum degree of the polynomial which achieves sufficient control over the trajectory.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\linewidth]{7Results/timevsdeg}
+\caption{Quadratic dependence of CPU time on degree of the Bézier polynomial}
+\label{fig:timevsdeg}
+\end{figure}
+
+
+It is notable that there is an improvement in cost up to a point, as we expect, but beyond this, the cost increases. This is likely due to the limitations of the grid. As the degree of the polynomial becomes comparable with the size of the grid, the optimality of the path becomes more susceptible to the sampling error. It is also notable that in these cases, the cost for the different kinetic energy mutations is the same. This because of the formulation of the inequality rather than equality constraint in the optimisation; the sampling error makes it seem to cost less to introduce more energy into the system than less energy.
+
+We may conclude that there is little to be gained from increasing the degree of the polynomial past 10 if the grid size is kept to 50. It is reasonable to expect that, even with increased grid size, the returns from a higher degree polynomial in terms of control over the shape of the virtual constraint are vanishing. The quadratic growth of the CPU time with the degree of the polynomial should also apply significant downward pressure on the choice of Bézier polynomial degree.
+
+\subsection{Regularisation}
+As briefly discussed in Section \ref{sec:optmethod}, regularisation was used to attempt to ensure that the optimisation problem was well-posed. This was largely due to the poor behaviour of $\alpha(\theta)$ as the Bézier coefficients became large but also to improve the convergence rates of the optimisation. It is important to recognise, however, that these gains compromise the cost function in the sense that the minimum found is no longer simply the minimal torque.
+
+The effect of altering the constant $\lambda$ in Equation \ref{eqn:regcost} was assessed in terms of convergence time and the torque cost of the solution to the optimisation. Ideally, this evaluation would also include an analysis of the extent to which the optimisation avoids poor behaviour of $\alpha(\theta)$, however it is difficult to formalise this. The results of this analysis are presented in Table \ref{tab:reg}. Note that the method for producing these results was similar to that of the previous section. The virtual constraint was suited to walking on flat ground and all parameters other than the regularisation coefficient $\lambda$ were kept fixed; the degree was set to 7 and the grid size to 50.
+
+\begin{table}
+	\centering
+	\begin{tabular}{c || c | c |c || c}
+		$\lambda$ & $J~|~{\Delta\mathrm{KE}=-0.1}$ & $J~|~{\Delta\mathrm{KE}=0}$ & $J~|~{\Delta\mathrm{KE}=0.1}$ & Average CPU Time \\ \hline
+		 1        & 317 & 316 & 439  & 1.57 s \\
+		 10       & 317 & 316 & 439  & 1.46 s \\
+		 100      & 316 & 315 & 438  & 1.25 s \\
+		 500      & 315 & 314 & 437  & 1.06 s \\
+		 $10^3$   & 316 & 316 & 437  & 1.21 s \\
+		 $10^4$   & 354 & 361 & 474  & 1.30 s \\
+		 $10^5$   & 470 & 530 & 691  & 1.25 s \\
+		 $10^6$   & 652 & 732 & 1145  & 1.41 s \\
+	\end{tabular}
+	\caption{Effect of varying the regularisation constant in VC optimisation}
+	\label{tab:reg}
+\end{table}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{7Results/reg}
+\caption{Average cost and CPU time with varying regularisation}
+\label{fig:reg}
+\end{figure}
+
+It is not clear how the regularisation constant affects the convergence rate. We do not observe a clear trend of decreased computation time with increasing $\lambda$. This should be expected; we see in Figure \ref{fig:cggridtorque} that the cost is already well shaped. As discussed in Section \ref{sec:alphazerocrossing}, this is only violated where $\alpha(\theta)$ crosses zero in nearby grid sections.
+
+As expected, once the regularisation coefficient becomes comparable with $J$, the solution found by the optimisation decreases in optimality. A surprising result is the small reduction in torque cost with increasing $\lambda$ observed until $\lambda=500$. We also observe the fastest convergence at this point. It is difficult to understand why this should be the case. Nonetheless, in this case, we do not need to make a compromise between performance and the optimality, since these appear to coexist at $\lambda\approx500$.

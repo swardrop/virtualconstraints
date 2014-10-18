@@ -61,21 +61,21 @@ parfor q = 1 : Qsize;
                 finalq = delq*Q(:,finalq_ind);
                 sigma = makeGround(initq, finalq);
                 for k = 1 : nk          % For every DelKE given a final q:
-                    fprintf('\t%d> Optimising constraint %d of %d...', q,...
-                        k + nk*(qf-1 + nq*(h-1 + ny*(l-1))), nx*ny*nq*nk);
+                    %fprintf('\t%d> Optimising constraint %d of %d...', q,...
+                    %    k + nk*(qf-1 + nq*(h-1 + ny*(l-1))), nx*ny*nq*nk);
                     try
                         [vc, flag] = optimiseConstraint(initq, finalq, ...
                             kes(k), sigma, deg, optGrid);
                         if flag > 0 % Only add constraint if it is valid
-                            fprintf('Success\n');
+                            %fprintf('Success\n');
                             vc.initq = q;
                             vc.finalq = finalq_ind;
                             P(q,l,h,qf,k) = vc;
                         else
-                            fprintf('Failure\n');
+                            %fprintf('Failure\n');
                         end
                     catch
-                        fprintf('Hard Failure!\n');
+                        %fprintf('Hard Failure!\n');
                     end
                     L(q).step_len(l).step_ht(h).prims(qf,k) = ...
                         sub2ind([Qsize,nx,ny,nq,nk], q,l,h,qf,k);

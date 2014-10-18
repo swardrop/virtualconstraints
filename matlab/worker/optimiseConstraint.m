@@ -1,5 +1,5 @@
 function [constraintData, flag] = ...
-    optimiseConstraint(start, fin, DelKE, sigma, deg, grid_num)
+    optimiseConstraint(start, fin, DelKE, sigma, deg, grid_num, reg)
 % optimiseConstraint Produces the optimal constraint given the target
 % change in post-impact kinetic energy from the previous post-impact KE
 % subject to the start and end conditions.
@@ -7,6 +7,10 @@ function [constraintData, flag] = ...
 % Optimality is considered to be the minimum of integrated square of the
 % input torque.
 % Note start and fin are column vectors [q1; q2; ... ; qn]
+
+if nargin < 7
+    reg = 1;
+end
 
 th_ends = [phasevar(start), phasevar(fin)];
 al_ends(:,1) = actuated(start);
@@ -22,7 +26,7 @@ x0 = getInitEstimate(start, fin, deg);
 options = optimoptions('fmincon', 'Algorithm', 'interior-point', ...
     'Display', 'off');
 [x,~,flag] = fmincon(...
-    @(x)cost(x, th_ends, al_ends, DelKE, deg, grid_num), ...
+    @(x)cost(x, th_ends, al_ends, DelKE, deg, grid_num, reg), ...
     x0, [], [], [], [], lb, ub, ...
     @(x)nonlconstrs(x, th_ends, al_ends, DelKE, sigma, deg, grid_num), ...
     options);
@@ -32,7 +36,7 @@ constraintData = publishConstr(theta_p, alpha_p);
 
 end
 
-function J = cost(x, th_ends, al_ends, DelKE, deg, grid_num)
+function J = cost(x, th_ends, al_ends, DelKE, deg, grid_num, reg)
 % Extract the Bezier coefficients from x
 [theta_p, alpha_p] = getCoefficients(x, th_ends, al_ends, deg);
 % Calculate nominal intial squared velocity
@@ -42,7 +46,7 @@ thd2 = thdsq_nom(cd);
 % Get integral of squared input torque
 u = nomTorque(cd, thd2);
 %Su2 = trapz(sum(u, 1).^2); % Integral of 2-norm squared.
-J = trapz(u.^2) + 1*norm(x);
+J = trapz(u.^2) + reg*norm(x);
 end
 
 % Get inital estimate of coefficients based upon start and end points
