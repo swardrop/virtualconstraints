@@ -43,8 +43,9 @@ addpath ../model/cg
 addpath ../../matlab
 
 while (timeleft > dur_tol)
-    
+    tic
     [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 6);
+    planningTime = 
     if ~success
         disp('Planner failed to find feasible sequence of steps');
         break;

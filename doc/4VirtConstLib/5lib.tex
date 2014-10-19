@@ -232,44 +232,46 @@ The library generation begins by producing the set of impact configurations and 
 \nomenclature{$L$}{The structured virtual constraint library containing pointers into $\tilde{Q}$ and $P$}
 
 \subsubsection{Impact configurations}
-In order to generate the impact configurations in the form described above, it is necessary to calculate the inverse kinematics (IK) using a stipulated the step length and height. This significantly increases the complexity of the problem; forward kinematics (FK) are always able to be analytically derived, whereas one cannot even guarantee the existence of an IK solution. It is typically necessary to fix some other coordinates in order to produce a unique solution to the IK. %
+In order to generate the impact configurations in the form described above, it is necessary to calculate the inverse kinematics (IK) using a stipulated step length and height. This significantly increases the complexity of the problem; forward kinematics (FK) are always able to be analytically derived, whereas one cannot even guarantee the existence of an IK solution. Other than for the simple two link compass-gait walker, for which the configuration is set by the step length and height, it is typically necessary to fix some other coordinates in order to produce a unique solution to the IK. %
 \nomenclature[*]{IK}{Inverse kinematics; i.e. calculating a set of generalised coordinates $q$ to achieve a desired position of a point on the robot}
 
-The IK are solved using a search with iterative grid refinement, as shown in Algorithm \ref{alg:iksol}. $s_l$ and $s_h$ are the step length and height respectively and $[h_h^*, h_v^*]$ is the position of the hip at impact. $N_g$ is the 1-D length of the grid, $\epsilon^*$ being the tolerance for error for accepting a solution. $q_p$ is the portion of the generalised coordinates which affect the position of the end of the swing leg $p$. 
-\begin{algorithm}
-\begin{algorithmic}[1]
-	\Function {solveIK}{$s_l,s_h,h_h^*,h_v^*,N_g,\epsilon^*$}
-		\State $[q_{p_{lim-}},q_{p_{lim+}}] \gets$ \Call{getLims}{}
-		\State $q_p \gets (q_{p_{lim-}}+q_{p_{lim+}})/2$
-		\State $q_{p_\Delta} \gets q_p - q_{p_{lim-}}$
-		\State $i \gets 0$
-		\State $accept \gets$ \textbf{false}
-		\While {$\neg ~accept$}
-			\State $q_{p_{min}} \gets q_p - q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
-			\State $q_{p_{max}} \gets q_p + q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
-			\State $[q_p,accept] \gets$ \Call{minGrid}{$s_l,s_h,h_l,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
-			\State $i \gets i + 1$
-		\EndWhile
-		\State \Return{$q_p$}
-	\EndFunction
-	\Function {minGrid}{$s_l,s_h,h_h^*,h_v^*,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
-		\State $[q_1, \ldots, q_n] \gets$ \Call{ndGrid}{$q_{p_{min}}^*,q_{p_{max}}^*,N_g$}
-		\State $[p_h, p_y] \gets$ \Call{endSwingLeg}{$q_1, \ldots, q_n$}
-		\State $[h_h, h_v] \gets$ \Call{hipPos}{$q_1, \ldots, q_n$}\Comment{Note hipPos ignored for CG}
-		\State $\epsilon \gets \lVert [s_l-p_h; s_h-p_v; h_h^*-h_h; h_v^*-h_v] \rVert_2$
-		\State $[\epsilon_{min}, q_{min}] \gets$ \Call{findMin}{$\epsilon$}
-		\State \Return{$q_{min}, (\epsilon_{min} \leq \epsilon^*)$}
-	\EndFunction
-\end{algorithmic}
-\caption{Iterative grid search for IK solution}
-\label{alg:iksol}
-\end{algorithm}
+Setting the step length and height along with the hip position is sufficient to provide a unique solution to the IK for the legs of a planar bipedal robot with up to one knee per leg. Since coordinates above the hip, e.g. the torso angle, do not affect the step length and height, these may be freely chosen. Note that for each step length and height, $n_q$ different sets of hip height and applicable additional coordinates are chosen. For the degenerate case of the compass-gait walker, $n_q=1$, and the hip position is not constrained.
 
-Setting the step length and height along with the hip position is sufficient to provide a unique solution to the IK for the legs of a planar bipedal robot with up to one knee per leg. Since coordinates above the hip, e.g. the torso angle, do not affect the step length and height, these may be freely chosen. Note that for each step length and height, $n_q$ different sets of hip height and applicable additional coordinates are set. For the degenerate case of the compass-gait walker, $n_q=1$, and the hip position is not constrained, since the step length and height are sufficient to uniquely define the IK.
+The IK are solved by producing a coarse grid over the coordinates of the robot which set the hip position and the step length and height $q_p$. The point in this grid which produces the closest configuration to the desired hip position and step length and height is chosen as the initial estimate for an unconstrained nonlinear minimisation. The objective function is defined as the euclidean norm (2-norm) of the vector $\epsilon = [s_l-p_h; s_h-p_v; h_h^*-h_h; h_v^*-h_v]$, where $(h_h, h_v)$ is the position of the hip.
 
-It should be noted that this algorithm is exponential in the dimensions of $q_p$ and recalculates the entire grid each time. It is not possible in general to produce a polynomial time algorithm for IK \cite{??}, however the efficiency could be improved by using previous solutions to the IK to inform the initial guess, or by implementing an Adaptive Neuro-Fuzzy Inference System (ANFIS) \cite{??}.
+%The IK are solved using a search with iterative grid refinement, as shown in Algorithm \ref{alg:iksol}. $s_l$ and $s_h$ are the step length and height respectively and $[h_h^*, h_v^*]$ is the position of the hip at impact. $N_g$ is the 1-D length of the grid, $\epsilon^*$ being the tolerance for error for accepting a solution. $q_p$ is the portion of the generalised coordinates which affect the position of the end of the swing leg $p$. 
+%\begin{algorithm}
+%\begin{algorithmic}[1]
+%	\Function {solveIK}{$s_l,s_h,h_h^*,h_v^*,N_g,\epsilon^*$}
+%		\State $[q_{p_{lim-}},q_{p_{lim+}}] \gets$ \Call{getLims}{}
+%		\State $q_p \gets (q_{p_{lim-}}+q_{p_{lim+}})/2$
+%		\State $q_{p_\Delta} \gets q_p - q_{p_{lim-}}$
+%		\State $i \gets 0$
+%		\State $accept \gets$ \textbf{false}
+%		\While {$\neg ~accept$}
+%			\State $q_{p_{min}} \gets q_p - q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
+%			\State $q_{p_{max}} \gets q_p + q_{p_\Delta} / (\tfrac{1}{2}N_g)^i$
+%			\State $[q_p,accept] \gets$ \Call{minGrid}{$s_l,s_h,h_l,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
+%			\State $i \gets i + 1$
+%		\EndWhile
+%		\State \Return{$q_p$}
+%	\EndFunction
+%	\Function {minGrid}{$s_l,s_h,h_h^*,h_v^*,q_{p_{min}},q_{p_{max}},N_g,\epsilon^*$}
+%		\State $[q_1, \ldots, q_n] \gets$ \Call{ndGrid}{$q_{p_{min}}^*,q_{p_{max}}^*,N_g$}
+%		\State $[p_h, p_y] \gets$ \Call{endSwingLeg}{$q_1, \ldots, q_n$}
+%		\State $[h_h, h_v] \gets$ \Call{hipPos}{$q_1, \ldots, q_n$}\Comment{Note hipPos ignored for CG}
+%		\State $\epsilon \gets \lVert [s_l-p_h; s_h-p_v; h_h^*-h_h; h_v^*-h_v] \rVert_2$
+%		\State $[\epsilon_{min}, q_{min}] \gets$ \Call{findMin}{$\epsilon$}
+%		\State \Return{$q_{min}, (\epsilon_{min} \leq \epsilon^*)$}
+%	\EndFunction
+%\end{algorithmic}
+%\caption{Iterative grid search for IK solution}
+%\label{alg:iksol}
+%\end{algorithm}
 
-It is important to check that the generated final configuration will be admissible on the basis of the simplified friction cone condition (Equation \ref{eqn:zeroslopefriccone}). This check may be completed in the code which calls \mcode{solveIK}. It is preferable that there are exactly $n_q$ configurations per step length and height in the library, so at this point the best practice is to recalculate the IK using a different set hip height or other coordinates. However, such configurations can be simply omitted from the library for simplicity of implementation without compromising the data structure. This is not a large concern; the friction cone constraint is typically satisfied if the range of step lengths and heights are within the robot's nominal operating limits.
+It should be noted that this algorithm is exponential in the dimensions of $q_p$ and recalculates the grid each time. The efficiency could be improved by using previous solutions to the IK to inform the initial guess, or by implementing a machine learning-based implementation such as an Adaptive Neuro-Fuzzy Inference System (ANFIS) \cite{jang1993anfis}. This is not considered a priority, since the production of the library of virtual constraints is much more computationally intensive than the IK solution.
+
+It is important to check that the generated final configuration will be admissible on the basis of the simplified friction cone condition (Equation \ref{eqn:zeroslopefriccone}). It is preferable that there are exactly $n_q$ configurations per step length and height in the library, so upon failure the best practice is to recalculate the IK using a different set hip height or other coordinates. However, such configurations can be simply omitted from the library for simplicity of implementation without compromising the data structure. This is not a large concern; the friction cone constraint is typically satisfied if the range of step lengths and heights are within the robot's nominal operating limits.
 
 The library of virtual constraints $L$ allows for an efficient search through the structure from a given initial configuration $q^+$. Since the virtual constraints contain references to the following impact configuration, finding the root in $L$ of a primitive given the preceding primitive is achieved in $\mathcal{O}(1)$ time. However, this clearly does not apply to the initial case. $\tilde{Q}$ is therefore sorted by $q_1$, then $q_2$, etc, to $q_n$. This allows for a $\mathcal{O}(\log\lvert\tilde{Q}\rvert)$ time initial search for a root node in $L$, assuming that the initial $q$ is known.
 
@@ -290,10 +292,7 @@ Following the discussion in Section \ref{sec:ground} on conservative ground defi
 \end{equation}
 Optimising a virtual constraint with this ground definition implicitly enforces \ref{item:liftoff} and \ref{item:posnormalF} from Section \ref{sec:impact}, since if the configuration path leaves the ground on a positive-height trajectory, then comes back into contact with the ground from above, the vertical component of the swing foot's velocity, $p_v$, must be respectively positive and negative. The only robots which must have additional checks placed on the optimisation solution, therefore, are those with rigid legs, e.g. the compass-gait walker.
 
-{\color{red}\subsubsection{Multiple orderings?}
-Possibly order multiply in $\theta_c$ or perhaps also by $\theta^+$}
-
 \subsubsection{MATLAB implementation}
 Due to a lack of pointers in MATLAB, the set of all virtual constraints $P$ is stored in an array, with indexes operating as \textit{de facto} pointers. The same is true for the ``pointers'' in $\tilde{Q}_{tree}$ into $\tilde{Q}$. While this limits the freedom of memory allocation and precludes the program from several efficiency measures, the full functionality of the algorithm is able to be maintained.
 
-The only significant point of difference in the algorithm is in the handling of the optimisation returning an invalid constraint or an error flag. Since the virtual constraint set $P$ must already be initialised and is indexed, it is necessary to fill the entries of $P$ corresponding to errors with some values. For reasons which should be self-evident when considering the ordering method in Section \ref{sec:orderings}, these entries are filled with $\Gamma_\bullet = 0, \Psi_\bullet=-\infty$.
+The only significant point of difference in the algorithm is in the handling of the optimisation returning an invalid constraint or an error flag. Since the virtual constraint set $P$ must already be initialised and is indexed, it is necessary to fill the entries of $P$ corresponding to errors with some values. With consideration given to the ordering in Section \ref{sec:orderings}, these entries are filled with $\Gamma_\bullet = 0, \Psi_\bullet=-\infty$ such that the virtual constraints produced by an unsuccessful optimisation are never chosen over those which are successful.

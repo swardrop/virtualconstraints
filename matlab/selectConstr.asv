@@ -11,11 +11,7 @@ b = inf; % Max phase vel (rad/s)
 end
 
 function [constr, success] = addNode(L, P, q_ind, qd, sigma, lens, x, b, k)
-if q_ind == 0
-    constr = [];
-    success = false;
-    return
-end
+
 [~,~,c] = constrMatrices;
 v0 = (c*qd)^2;
 for i = length(lens) : -1 : 1
@@ -43,12 +39,10 @@ while true
         end
     end
     [vc, ind] = sort(vc);
+    [~,ind] = sort(ind);
     for i = 1 : length(p)
         if vc(i) == Inf
             break;
-        end
-        if ~searchSucc(ind(i))
-            continue
         end
         if k == 1
             constr = p(ind(i));
@@ -56,9 +50,8 @@ while true
             return
         end
         qp_ind = p(ind(i)).finalq;
-        [~,Phi_f,~,dPhi_f] = constrEndPts(p(ind(i)).theta_p, p(ind(i)).alpha_p);
-        Delq = impactMatrices(Phi_f);
-        qdp = Delq*dPhi_f*sqrt(p(ind(i)).Gamma_f*v0 + p(ind(i)).Psi_f);
+        [~,~,Phi_f,dPhi_f] = constrEndPts(p(ind(i)).theta_p, p(ind(i)).alpha_p);
+        qdp = dPhi_f*sqrt(p(ind(i)).Gamma_f*v0 + p(ind(i)).Psi_f);
         p2 = endSwingFoot(Phi_f);
         xp = x + p2(1);
         [~, success] = addNode(L, P, qp_ind, qdp, sigma, lens, xp, b, k-1);
