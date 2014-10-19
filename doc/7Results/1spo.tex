@@ -29,7 +29,7 @@ Note that the torque in these plots seem excessive; from the literature one woul
 \end{figure}
 
 
-\subsection{Kinetic energy mutations}
+\subsection{Kinetic energy mutations} \label{sec:reskineng}
 The kinetic energy change over the virtual constraint, like the torque, is dependent on the initial velocity. In principle, this may be computed analytically, however since the analytical solution is dependent on the virtual constraint being perfectly maintained, using a simulator is likely to provide a more realistic expectation of the extent of the dependence of the kinetic energy mutation on the initial velocity. It is important that the desired energy change roughly equals the observed change for a reasonable range of initial velocities, since the richness of the library is dependent on the existence of a range of kinetic energy mutations available at each step for any given initial velocity.
 
 Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varying initial velocities for a set of sample virtual constraints, each with the same initial and final configurations. Empty table cells correspond to the virtual constraint being unable to be completed due to insufficient initial velocity. A somewhat surprising result is how poorly the kinetic energy mutations are met at the nominal velocity. This is due to the numerical inaccuracies in optimising the constraint as well as those introduced in the simulation. Encouragingly, while there is a notable increase in the loss of kinetic energy with increasing velocity, there remains a genuine range in the kinetic energy mutations available independent of the initial velocity.

@@ -1,5 +1,5 @@
 close all
-clear
+%clear
 duration = 5;
 dur_tol = 1e-8;
 org = [0; 0];
@@ -7,7 +7,7 @@ org = [0; 0];
 load('lib/cglargewk.mat');
 
 q_0 = delq*solveIK(0.3, 0);
-qd_0 = 2.3*q_0 * -pi^2;
+qd_0 = 1.8*q_0 * -pi^2;
 
 % Set up simulation outputs
 timeleft = duration;
@@ -18,9 +18,9 @@ qdd = [];
 u = [];
 err = [];
 impact = [];
-
+planningTime = [];
 % Set up terrain (stored as set of heights with zero-order hold)
-%ground = [-realmax,0];                    % Flat ground
+ground = [-realmax,0];                    % Flat ground
 %ground = [-realmax, 0; 1 -0.05];          % Step up 0.05m at 1m
 % ground = [-realmax, 0;
 %             1       -0.05
@@ -28,23 +28,25 @@ impact = [];
 %             3       0.05
 %             3.5     0.1];
 ground = [-realmax,0
-            0.5 0.01
-            1.6 -0.02
-            2.0 -0.04
-            3.5 -0.02
-            4.0 0.05];
+            0.5  -0.05
+            2    -0.1
+            3    -0.15
+            4    -0.2
+            10    0];
 
 % Set initial conditions
 last_t = 0;
 nom_torque = [];
+deviation = [];
 
 cd worker
 addpath ../model/cg
 addpath ../../matlab
 
 while (timeleft > dur_tol)
-    
+    tic
     [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 6);
+    planningTime(end+1) = toc;
     if ~success
         disp('Planner failed to find feasible sequence of steps');
         break;
@@ -52,8 +54,12 @@ while (timeleft > dur_tol)
     theta_p = p.theta_p;
     alpha_p = p.alpha_p;
     
-    thdsq_0 = phasevar(qd_0)^2;
+    
+    
     c = makeConstr(p.theta_p, p.alpha_p, 25);
+    thdsq_0 = phasevar(qd_0)^2;
+    thdsq_n = thdsq_nom(c);
+    deviation(end+1) = (thdsq_n-thdsq_0)/thdsq_n;
     u_nom = nomTorque(c, thdsq_0);
     nom_torque = [c.th_base; u_nom];
     
