@@ -15,9 +15,9 @@ where $M\left(q(t)\right)$ is the matrix of inertial terms, $C\left(q(t),\dot{q}
 
 We model the dynamics of the robot by assuming that between each impact event, one leg, the \textit{stance leg} is pinned at its end. During the swing phase, the configuration of the robot evolves from $q^+=q(t^+)$ immediately post-impact to $q^-=q(t^-)$ immediately before the next impact. The other leg, the \textit{swing leg} interacts with the ground only upon impact, in which the swing leg instantaneously becomes the stance leg. This has several corollaries:
 \begin{enumerate}[parsep=0cm]
-	\item The forces at impact are impulsive and alter the velocities instantaneously but do not affect configurations.
-	\item The collisions are purely inelastic, i.e. the swing leg becomes the stance leg without bouncing
-	\item The stance leg lifts off the ground without further interaction; other than at the instant of impact, there is no time when both legs are in contact with the ground.
+	\item The forces at impact are impulsive and alter the velocities instantaneously but do not affect configurations;
+	\item The collisions are purely inelastic, i.e. the swing leg becomes the stance leg without bouncing;
+	\item The stance leg lifts off the ground without further interaction -- other than at the instant of impact, there is no time when both legs are in contact with the ground.
 \end{enumerate}
 Furthermore, we assume that all impacts occur without slipping. That is, the impulsive forces which occur at impact lie within the static friction cone. 
 
@@ -150,11 +150,11 @@ The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impact
 In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial value of $\theta$ for the constraint $\alpha$. This will be denoted $\theta_0$ where it is important to distinguish the initial velocity from the \textit{following} post-impact velocity.
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
-	\item $\Phi_\beta\left(\theta_\beta^+\right) = R\Phi_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
-	\item $\Phi_\beta'\left(\theta_\beta^+\right)\dot{\theta}^+ = R\Delta\left(\Phi_\alpha(\theta_\alpha^-)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)\dot{\theta}^-$ -- The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
-	\item The vertical component of the post-impact velocity of the end of the new swing leg, $\dot{p}_v^+ > 0$ -- The new swing lifts off the ground immediately after impact. \label{item:liftoff}
-	\item $F_N > 0$ -- the vertical force at impact is compressive; the ground resists the leg rather than attracts it. \label{item:posnormalF}
-	\item $|F_T|/F_N<\mu_s$ -- the forces at impact lie within the friction cone. \label{item:frictioncone}
+	\item $\Phi_\beta\left(\theta_\beta^+\right) = R\Phi_\alpha\left(\theta_\alpha^-\right)$ : The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
+	\item $\Phi_\beta'\left(\theta_\beta^+\right)\dot{\theta}^+ = R\Delta\left(\Phi_\alpha(\theta_\alpha^-)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)\dot{\theta}^-$ : The initial velocity under the constraint matches the the post-impact velocity following the previous constraint. \label{item:velinvariance}
+	\item The vertical component of the post-impact velocity of the end of the new swing leg, $\dot{p}_v^+ > 0$ : The new swing lifts off the ground immediately after impact. \label{item:liftoff}
+	\item $F_N > 0$ : the vertical force at impact is compressive; the ground resists the leg rather than attracts it. \label{item:posnormalF}
+	\item $|F_T|/F_N<\mu_s$ : the forces at impact lie within the friction cone. \label{item:frictioncone}
 \end{enumerate}
 \end{adjustwidth}
 
@@ -253,7 +253,7 @@ Similarly, \ref{item:posnormalF} is satisfied if $\dot{p}_v^- < 0$, therefore it
 	\left(\Phi_\alpha\left(\theta_\alpha^-\right)\right)\Phi_\alpha'\left(\theta_\alpha^-\right)<0
 \end{equation}
 
-It is possible to write the force at impact in the following manner, with $F = [F_T;F_N]$ \cite{westervelt2007feedback}:
+It is possible to write the (tangential and normal) force at impact in the following manner, with $F = [F_T;F_N]$ \cite{westervelt2007feedback}:
 \[ F = \Delta_{F}(q^-)\dot{q}^- \]
 Therefore \ref{item:frictioncone} is satisfied if 
 \begin{equation}

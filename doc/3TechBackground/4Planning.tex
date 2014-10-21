@@ -1,6 +1,6 @@
 Using primitives reduces the motion planning problem from an infinite dimensional nonlinear optimisation to a combinatorial search. This renders an entirely intractable problem for even the most advanced computers into an algorithm which, if the primitive library is constructed carefully, can be run on low-powered microcontrollers.
 
-The efficacy of this method relies on two main components; the production of the primitive library and the selection algorithm. The combination of these define the required on-line computation to select a feasible primitive as well as the extent to which the robot is capable of walking over arbitrary terrains and the optimality of that traversal.
+The efficacy of this method relies on two main components: the production of the primitive library and the selection algorithm. The combination of these define the required on-line computation to select a feasible primitive as well as the extent to which the robot is capable of walking over arbitrary terrains and the optimality of that traversal.
 
 The optimality of the paths is secondary to the feasibility both in physical and computational terms. The key requirement of a motion primitive library is to facilitate a rapid search which avoids unnecessary or redundant computations and which enables fast evaluation of the kinematic and dynamic feasibility of the primitives. In addition, a means of ordering between sets of primitives is desirable to allow for the search time to be reduced from linear in the number of primitives to logarithmic.
 

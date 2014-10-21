@@ -40,7 +40,7 @@ While there does not seem to be any guarantee of structure among the virtual con
 \subsection{Failures}
 While the optimisation of the virtual constraints has attempted to be framed in such a way as to ensure feasibility of the optimisation, e.g. by regularisation, the nature of nonlinear optimisation, particularly constrained, means there is no means of ensuring that this is the case for all initial and final conditions.
 
-Failures are undesirable for two reasons. Firstly, they degrade the coverage in the virtual constraint library, since the virtual constraint intended to link the particular initial and final configurations with the desired change in kinetic energy will not exist in the produced library. Furthermore, typically infeasible optimisations take a much longer period to terminate than successful well-formed optimisations.
+Failures are undesirable for two reasons. Firstly, they degrade the coverage in the virtual constraint library, since the virtual constraint intended to link the particular initial and final configurations with the desired change in kinetic energy will not exist in the produced library. Secondly, infeasible optimisations typically take a much longer period to terminate than successful well-formed optimisations.
 
 It is not easy to rigorously analyse the rate of failure of the virtual constraint library generation. We are able to produce some result by simply attempting to generate a library and counting the number of failures, as well as observing where those failures tend to occur. Note that we also consider an optimisation to have failed if there is no critical point $\theta^c$ in the interval defined by the virtual constraint.
 
