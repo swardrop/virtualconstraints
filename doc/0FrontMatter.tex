@@ -45,9 +45,9 @@ October, 2014
 \setcounter{page}{3}
 There is significant technical and aesthetic interest in the development of bipedal robots which locomote stably, efficiently and reliably over uneven terrain. The efficiency of robotic locomotion is maximised when control input augments the natural dynamics of the robot, rather than imposing foreign dynamics. A class of robotic walkers for which the dynamics must evolve in this manner are so-called underactuated dynamic walkers; robots for which some degrees of freedom are not subject to direct control.
 
-Motion planning and control for this class of robots is challenging due to its highly complex nonlinear dynamics and intrinsic instability, which makes it computationally intractable. The most successful progress made toward overcoming the intractability of the general problem has been by artificially restricting the problem to particular domains or motions. One such method is to prepare a library of motion primitives, which limits the on-line computation to the choice of a sequence of primitives from within the library.
+The highly complex nonlinear dynamics and intrinsic instability of this class of robots present a significant challenge for the computational tractability of motion planning. The most successful progress made toward overcoming the intractability of the general problem has been by artificially restricting the problem to particular domains or motions. One such method is to prepare a library of motion primitives, which limits the on-line computation to the choice of a sequence of primitives from within the library.
 
-Virtual constraints are a particularly useful class of primitives as they allow significant simplification of the computation required for real-time path planning of dynamic walking over uneven terrain. In this work a general method is presented for the production of a library of virtual constraints that sufficiently spans the feasible motions of the robot so as to allow for walking, as well as an improved method for intelligently selecting from them during on-line computation.
+Virtual constraints are a particularly useful class of primitives as they allow significant simplification of the computation required for real-time path planning of dynamic walking over uneven terrain. In this work, a general method is presented for the production of a library of virtual constraints that sufficiently spans the feasible motions of the robot so as to allow for walking, as well as an improved method for intelligently selecting from the primitives during on-line computation.
 \end{abstract}
 \pagebreak
 ~
@@ -88,14 +88,14 @@ Signed \\~\\~\\
 \setcounter{page}{7}
 I would like to thank my supervisor, Dr Ian Manchester, for his forbearance in spending the time to help me grasp the matter of this field and for his many insightful comments and critiques. Along with him, I thank Jack Umenberger for always being available with helpful insights to get me up to speed with his previous work.
 
-To the wonderful people who proofread my thesis, enduring the many pages of dry content in the expectation of no reward: my brother Matthew, whose advise and support throughout the year have been of immense help; Harry, whose rigour and attention to detail have always impressed me; Nick, who despite having no engineering background fought through the pages to help a friend; Ashley, who, barely knowing me, put in hours of work to make sure my thesis is presentable; and Trevor for not only proofreading, but also for being a willing and effective co-worker and on so many assignments and projects over the course of our degrees, particularly for the last couple of years. I am humbled by the time that you all have spent on my behalf. Truly, thank you.
+To the wonderful people who proofread my thesis, enduring the many pages of dry content in the expectation of no reward: my brother Matthew, whose advise and support throughout the year have been of immense help; Harry, whose rigour and attention to detail have always impressed me; Nick, who despite having no engineering background fought through the pages to help a friend; Ashley, who, barely knowing me, put in hours of work to make sure my thesis is presentable; and Trevor, for not only proofreading, but also for being a willing and effective co-worker on so many assignments and projects over the course of our degrees, particularly for the last couple of years. I am humbled by the time that you all have spent on my behalf. Truly, thank you.
 
 I extend my sincere and heartfelt gratitude to my parents for their belief in me and for investing in my education from long before I knew that it was important.
 
 I also thank my wife Laura for enduring the countless nights and weekends spent with a preoccupied or absent husband even while taking care of our young daughter. Thank you for boosting my motivation when it was lacking and for doing everything you could to give me the space I needed to finish this work. You're amazing and your encouragement and patience have been vital to me.
 \end{abstract}
 
-
+\onehalfspacing
 \pagenumbering{roman}
 \setcounter{page}{8}
 \tableofcontents
@@ -107,6 +107,3 @@ I also thank my wife Laura for enduring the countless nights and weekends spent 
 \renewcommand{\nomname}{Abbreviations and Nomenclature}
 \printnomenclature
 \clearpage
-~
-\thispagestyle{empty}
-\pagebreak
