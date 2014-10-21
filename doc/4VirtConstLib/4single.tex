@@ -36,11 +36,12 @@ In the case of higher-DOF walking models, it becomes more difficult to confirm n
 
 \subsection{Optimisation method} \label{sec:optmethod}
 \subsubsection{Decision variables and constraints}
-While the objective of single constraint optimisation is to produce an optimum VC independent of any other virtual constraints in the library, it is important to formulate the optimisation problem in a manner which enables a useful library to be produced. The motion primitive library is intended to contain VCs which span the configuration space of the robot's natural walking as well as including a range of mechanical energy additions and subtractions to facilitate walking over uneven terrain. Therefore, it seems clear that each single constraint optimisation should be formulated subject to constraints on the start and end configurations of the footstep, along with a prescribed energy gain or loss. In addition, it is necessary to specify the ground height applicable to the virtual constraint, since a feasible step cannot intersect with the ground between the start and end conditions.
+It is important to formulate the optimisation problem in a manner which enables a useful library to be produced. The motion primitive library must contain VCs which span the configuration space as well as including a range of mechanical energy additions and subtractions to facilitate walking over uneven terrain. Therefore, it seems clear that each single constraint optimisation should be formulated subject to constraints on the start and end configurations of the footstep, along with a prescribed energy gain or loss. In addition, it is necessary to specify the ground height applicable to the virtual constraint, since a feasible step cannot intersect with the ground between the start and end conditions.
 
 Since the potential energy change is prescribed by the start and end conditions, it is convenient to formulate the optimisation using kinetic, rather than total mechanical, energy. The change in kinetic energy $\Delta$KE from one footstep to the next could be calculated with respect to numerous reference points. A simple and obvious choice is to define $\Delta$KE as the change in kinetic energy from $\theta_0 \rightarrow \theta^+$.
 
 The ground height at a horizontal displacement $x$ from the end of the stance leg is encoded in the scalar function $\sigma(x)$. For the purposes of analysing a virtual constraint, the ground height is pertinent only when considering the end of the swing leg, thus we may produce a more convenient representation $\sigma(\theta)=\sigma(p_h(\theta))$. The ground height places the following nonlinear constraints on the optimisation:
+
 \begin{equation} \label{eqn:groundheight}
 	p_v(\theta) \left\{
 	\begin{array}{lcr}
@@ -123,17 +124,7 @@ In summary, the nonlinear optimisation is formulated as such:
 \subsection{Coping with zero crossings of $\alpha(\theta)$} \label{sec:alphazerocrossing}
 Recall from Section \ref{sec:partialsol} that we assume that $\alpha(\theta)\neq 0$ in order to derive the partial solution (Equation \ref{eqn:affinesoln}). This is an important assumption to make, since if at any point $\theta \in [\theta_0, \theta^-], \alpha(\theta) = 0$, the terms $\frac{\beta(\theta)}{\alpha(\theta)}$ and $\frac{\gamma(\theta)}{\alpha(\theta)}$ are undefined. In principle, this is not a significant problem; the partial solution still exists and is correct for all $\theta \not \in \Theta_z$, where $\Theta_z$ is the set of $\theta \in [\theta_0, \theta^-]$ for which $\alpha(\theta)=0$ \cite{shiriaev2005constructive}.
 
-Unfortunately, $\alpha(\theta)$ may cross zero, particularly in primitives which have the robot completing what may be termed ``exaggerated'' motion. Consider Figure \ref{fig:alphazerocrossing}: $\alpha(\theta)$ dips below zero in a constraint where the swing leg crosses the horizontal and points skyward. In the general case, there may be an unbounded number of zero crossings of $\alpha(\theta)$.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.49\linewidth]{4VirtConstLib/al0Crossing.eps}
-	\includegraphics[width=0.49\linewidth]{4VirtConstLib/xy-0Crossing.eps}
-	\caption{Zero crossing of $\alpha(\theta)$ for compass-gait robot}
-	\label{fig:alphazerocrossing}
-\end{figure}
-
-By virtue of the sampling approach to solving the partial solution (see Appendix \ref{app:partialsol} for details), there is a vanishingly small chance of sampling exactly at the point where $\alpha(\theta)=0$. This is not the concern; when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, thus the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval. This may compromise the convexity of the cost function. Figure \ref{fig:divergence0crossing} demonstrates the erroneous solution obtained by uniform sampling over $[\theta_0, \theta^-]$.
+In the general case, there may be an unbounded number of zero crossings of $\alpha(\theta)$. By virtue of the sampling approach to solving the partial solution (see Appendix \ref{app:partialsol} for details), there is a vanishingly small chance of sampling exactly at the point where $\alpha(\theta)=0$. This is not the concern; when $\alpha(\theta)$ is close to zero, the terms in the differential equation diverge, thus the values of the partial solution and therefore the torque are very sensitive to the relative position of the zero crossing to the sampling interval. This may compromise the convexity of the cost function. Figure \ref{fig:divergence0crossing} demonstrates the erroneous solution obtained by uniform sampling over $[\theta_0, \theta^-]$.
  
 \begin{figure}
 	\centering
