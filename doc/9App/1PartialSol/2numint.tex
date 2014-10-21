@@ -1,4 +1,4 @@
-In Section \ref{sec:zerodyn}, we produce functions of the form
+Recall from Section \ref{sec:zerodyn}, that the zero dynamics have the form
 \[
 \alpha\left(\theta\right)\ddot{\theta}(t) + \beta\left(\theta\right)\dot{\theta}(t)^2 + \gamma\left(\theta\right) = 0
 \]
@@ -9,20 +9,14 @@ with
 	+C\left(\Phi(\theta),\Phi'(\theta)\right)\Phi'(\theta) \right)\\
 	\gamma(\theta) &= B^{\bot}\left(\Phi(\theta)\right)G\left(\Phi(\theta)\right)\\
 \end{align*}
-We also have the differential equation:
+Using $\theta$ as the dependent variable in place of time produces the differential equation
 \[
 \frac{d}{d\theta}{\dot{\theta}\left(\theta\right)}^2 = -2\frac{\beta\left(\theta\right)}
 {\alpha\left(\theta\right)}\dot{\theta}\left(\theta\right)^2 - 2\frac{\gamma\left(\theta\right)}
 {\alpha\left(\theta\right)}
 \]
 
-Solving this over any interval $\theta \in \left[\theta_0,\theta_f\right]$ yields
-\[
-\dot{\theta}\left(\theta\right)^2 = \Gamma\left(\theta,\theta_0\right)\dot{\theta}^2 
-+ \Psi\left(\theta, \theta_0\right)
-\]
-
-This solution is achieved by using the general method for first-order linear ODEs with varying coefficients, i.e. given
+Noting that his equation is a first-order ODE with varying coefficients, this may be solved by using the general method for differential equations of this class, i.e. given
 \begin{equation*}
 y'(x) + f(x)y(x) = g(x)
 \end{equation*}
@@ -30,7 +24,13 @@ the solution is
 \begin{equation*}
 y = e^{-\int f(x)dx}\left(\int g(x)e^{\int f(x)dx}dx + \kappa\right)
 \end{equation*}
-Thus we have
+
+Thus we may produce the partial closed form solution by solving the DE over the interval $\theta \in \left[\theta_0,\theta^-\right]$
+\[
+\dot{\theta}\left(\theta\right)^2 = \Gamma\left(\theta\right)\dot{\theta}^2 
++ \Psi\left(\theta\right)
+\]
+where
 \begin{subequations}
 	\begin{align}
 	\Gamma(\theta) &= e^{-\int_{\theta_0}^{\theta}f(x)dx} \\
@@ -41,4 +41,6 @@ Thus we have
 	\end{align}
 \end{subequations}
 
-{\color{red}<incomplete: explain method of producing solution numerically>}
+In order to produce the functions $\Gamma(\theta)$ and $\Psi(\theta)$ defining the coefficients of the partial solution, it is necessary to sample $\theta$ values on the interval $\left[\theta_0,\theta^-\right]$. This could be achieved in several ways. A brute-force method would be to calculate the integral from $\theta_0\to\theta$ for every $\theta$ in a grid. Since this method would use MATLAB's inbuilt libraries for integration, it would be accurate. However, this is a very inefficient means of solving the integrals since it involves recalculation of the same portion of the integral many times.
+
+Therefore, the method of producing the partial solution used in this work is to sample the functions $f(\theta)$ and $g(\theta)$ over a sufficiently fine grid between $\theta_0$ and $\theta^-$ and to use cumulative trapezoidal integration to generate the value of $\Gamma(\theta)$ and $\Psi(\theta)$. Note that this is susceptible to sampling error but produces the result significantly more rapidly than individual calculations of the integral for many $\theta$ values.

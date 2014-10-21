@@ -88,10 +88,10 @@ All other required data is derived from the supplied data or the simulation. Not
 	\label{tab:scriptConstants}
 \end{table}
 
-\section{Robot models}
-The virtual constraint library generation and simulation of the motion planner were conducted on two robot models. A 2-link (compass-gait) robot was the primary model used for development, in which the simplistic morphology and single actuated coordinate were useful for testing principles and illustrating the concepts of virtual constraint-based planning. {\color{orange} In order to demonstrate the ability of the methods used in this thesis to higher-order robots, a more complex robot model was used; a 5-link robot based on the RABBIT experimental testbed \cite{chevallereau2003rabbit}.}
-\subsection{Compass-gait (2-link) walker}
-Since the compass-gait walker is a simple robot model, it is instructive to present the data which make up the model here. The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia about its centre by $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg. The values used in the model are presented in Table \ref{tab:cgparams} and are largely derived from those in \cite{westervelt2007feedback}.
+\section{Compass-gait (2-link) walker model}
+A 2-link (compass-gait) robot model was used in the development and verification of this thesis, in which the simplistic morphology and single actuated coordinate were useful for testing principles and illustrating the concepts of virtual constraint-based planning. Here, we present the parameters of the model used in the simulation.
+
+The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia about its centre by $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg. The values used in the model are presented in Table \ref{tab:cgparams} and are largely derived from those in \cite{westervelt2007feedback}.
 
 \begin{table}
 	\centering
@@ -178,6 +178,3 @@ The matrices which define the coordinates which are synchronised to the phase va
 		1 & 0 \\ 0 & 1
 	\end{bmatrix}
 \end{align*}
-
-{\color{orange}\subsection{5-link walker}
-Describe how the matrices were generated \cite{westervelt2007feedback}?}

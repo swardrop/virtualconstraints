@@ -1,4 +1,4 @@
-Recall the vector functions from Section \ref{sec:zerodyn}. If we assume that the phase variable is simply the unactuated coordinate, as is typically the case for underactuated walking robots, then these vector functions take the form:
+Recall the vector functions from Section \ref{sec:zerodyn}. Assuming that the phase variable is simply the unactuated coordinate, as is typically the case for underactuated walking robots,
 \begin{align*}
 	\Phi\left(\theta\right) &= 
 	\begin{bmatrix}
@@ -14,41 +14,26 @@ Recall the vector functions from Section \ref{sec:zerodyn}. If we assume that th
 	\end{bmatrix}^T
 \end{align*}
 
-Now, we have the following relation from Equation~\ref{eqn:usefulBez}:
+Now, under Bézier constraints, we can explicitly calculate the virtual constraint and its derivatives:
+\begin{subequations}
+\begin{align}
+	\phi_k\left(\theta\right) &= \sum_{i=0}^{N}\binom{N}{i}
+	(1-s)^{N-i} s^i\alpha_i^k \\
+	s &= \frac{\theta - \theta_0}{\theta^- - \theta_0}
+\end{align}
+\end{subequations}
+\begin{align}
+	(\theta^--\theta_0)\frac{\partial\phi_k}{\partial\theta} &=
+	N\left( s^{N-1}\alpha^k_N - (1-s)^{N-1}\alpha^k_0 \right) \\ \nonumber
+	&+ \sum_{i=1}^{N-1} \binom{N}{i} (i-Ns)s^{i-1}(1-s)^{N-i-1}\alpha^k_i
+\end{align}
+\begin{align}
+	(\theta^--\theta_0)^2\frac{\partial^2\phi_k}{\partial\theta^2} &= 
+	N(N-1)\left[ (1-s)^{N-2}\alpha^k_0 + s^{N-2}\alpha^k_N \right.\\
+		&+ ((N-2)s(1-s)^{N-3} - 2(1-s)^{N-2})\alpha^k_1 \nonumber \\
+		&+ \left. ((N-2)s^{N-3}(1-s) - 2s^{N-2})\alpha^k_{N-1}	\right] \nonumber \\
+	&+ \sum_{i=2}^{N-2} \binom{N}{i} 
+		\left(s^{i-2}(1-s)^{N-i-2}(i^2-i(2(N-1)s + 1) + N(N-1)s^2 \right) \alpha^k_i \nonumber
+\end{align}
 
-{\color{red}<incomplete>}
-%\begin{equation}
-%	\phi_i\left(\theta\right) = \frac{1}{\left(\theta_f-\theta_{0}\right)^n}\sum_{i=0}^{n}\binom{n}{i}
-%	\left(\theta_f - \theta\right)^{n-i}
-%	\left(\theta - \theta_{0}\right)^i\vartheta_{i}
-%\end{equation}
-%The derivative is
-%\begin{dmath}
-%	\frac{\partial\phi}{\partial\theta} = \frac{1}{\left(\theta_f-\theta_0\right)^n}
-%	\left(
-%	{n\left( \left(\theta-\theta_0\right)^{n-1}\vartheta_n - 
-%		\left(\theta_f-\theta\right)^{n-1}\vartheta_0 \right) }
-%	+ {\sum_{i=1}^{n-1} \binom{n}{i} \left(i\left(\theta_f-\theta\right)^{n-i}
-%		\left(\theta-\theta_0\right)^{i-1} - 
-%		\left(n - i\right)\left(\theta_f-\theta\right)^{n-i-1}\left(\theta-
-%		\theta_0\right)^{i}\right)\vartheta_i}
-%	\right)
-%\end{dmath}
-%The second derivative is
-%\begin{dmath}
-%	\frac{\partial^2\phi}{\partial\theta^2} = 
-%	\frac{1}{(\theta_f-\theta_0)^n}
-%	\left(
-%	n(n-1)\left[ (\theta_f-\theta)^{n-2}\vartheta_0 
-%		+ (\theta-\theta_0)^{n-2}\vartheta_n
-%	+ (n-2)\left((\theta-\theta_0)(\theta_f-\theta)^{n-3}\vartheta_1
-%		+ (\theta_f-\theta)(\theta-\theta_0)^{n-3}\vartheta_{n-1} \right)
-%		- 2\left((\theta_f-\theta)^{n-2}\vartheta_1
-%		+ (\theta-\theta_0)^{n-2}\vartheta_{n-1} \right) 		\right]
-%	+ \sum_{i=2}^{n-2} \binom{n}{i} 
-%		\left({i(i-1)(\theta_f-\theta)^{n-i}(\theta-\theta_0)^{i-2}
-%			- 2i(n-i)(\theta_f-\theta)^{n-i-1}(\theta-\theta_0)^{i-1}}
-%			+ (n-i-1)(n-i)(\theta_f-\theta)^{n-i-2}(\theta-\theta_0)^{i} \right)
-%			\vartheta_i
-%	\right)
-%\end{dmath}
+Therefore, we have an explicit and somewhat simple form of the vector functions $\Phi\left(\theta\right)$, $\Phi'\left(\theta\right)$ and $\Phi''\left(\theta\right)$. These may be used in Equation \ref{eqn:zerodyn} to explicitly calculate the zero dynamics at any given $\theta$. This is critical for the numerical integration method discussed in the following section. Note that the performance of the numerical solution can be significantly improved by precalculating the values of $\binom{N}{i}$.

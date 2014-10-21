@@ -32,7 +32,7 @@ It is not possible to determine \textit{a priori} that an optimisation is well-f
 	\label{fig:cggridtorque}
 \end{figure}
 
-{\color{orange}In the case of higher-DOF walking models, it becomes more difficult to confirm near-convexity or even that the cost function is well-behaved. Taking slices, where we choose two decision variables over which to grid and fix all others, allows us to develop some intuition, see Figure \ref{fig:5lslice1} and \ref{fig:5lslice2}. We note that in these slices, the cost function again appears to be well-behaved and near-convex. On the basis of this evidence, it appears to be reasonable to assume that the convex optimisation approach will produce valid near-optimal results.}
+In the case of higher-DOF walking models, it becomes more difficult to confirm near-convexity. Intuition suggests that large decision variables should result in high costs which suggests that the overall behaviour should be somewhat well behaved, however this must be verified. Taking slices, where we choose two decision variables over which to grid and fix all others, should provide some basis for concluding that the result for the compass-gait is generalisable to higher degree of freedom walkers. This is deferred to a later work.
 
 \subsection{Optimisation method} \label{sec:optmethod}
 \subsubsection{Decision variables and constraints}

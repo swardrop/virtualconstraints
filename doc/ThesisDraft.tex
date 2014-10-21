@@ -102,8 +102,8 @@
 \titleformat{\chapter}[display]
 	{\bfseries\Large}
 	{}
-	{-4cm}
-	{\titlerule\vspace{1ex}
+	{-4.45cm}
+	{\vspace{1ex}
 	\ifnum\value{chapter}>0 \MakeUppercase{\chaptertitlename}~\Huge\thechapter \fi
 		~ \Large\filright}
 	[\vspace{1ex}\titlerule]
@@ -117,7 +117,6 @@
 \chapter{Technical Background}
 \input{3TechBackground}
 
-\addtocontents{toc}{\protect\newpage}
 \chapter{Virtual Constraint Library} \label{chap:vclib}
 \input{4VirtConstLib}
 

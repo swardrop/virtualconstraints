@@ -45,7 +45,7 @@ addpath ../../matlab
 
 while (timeleft > dur_tol)
     tic
-    [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 6);
+    [p, success] = selectConstr(L, P, q_0, qd_0, ground, org(1), 1);
     planningTime(end+1) = toc;
     if ~success
         disp('Planner failed to find feasible sequence of steps');
@@ -133,8 +133,8 @@ grid on
 suptitle('Torque expended');
 
 % Animation of motion
-figure('Position', [300, 100, 1000, 600])
-mov = visualise(q, impact, ground);
+%figure('Position', [300, 100, 1000, 600])
+%mov = visualise(q, impact, ground);
 
 rmpath ../model/cg
 rmpath ../../matlab
