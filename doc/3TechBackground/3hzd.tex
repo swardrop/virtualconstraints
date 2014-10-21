@@ -1,4 +1,4 @@
-In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with rank($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since rank($h$) $<$ rank($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints (VCs)}. %
+In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with dim($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since dim($h$) $<$ dim($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints} (VCs). %
 \nomenclature[w]{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
 \nomenclature[*]{VC}{Virtual (holonomic) constraint}
 
@@ -6,14 +6,14 @@ Walking robots are able to be modelled using ordinary differential equations for
 \nomenclature[*]{HZD}{Hybrid zero dynamics}
 
 \subsection{Dynamics of a general underactuated walker}
-The general equation of motion of a nonlinear time-invariant physical system may be written as:
+The general equation of motion of a nonlinear time-varying physical system may be written as:
 \begin{equation}\label{eqn:dynamics}
 	M\left(q(t)\right)\ddot{q}(t) + C\left(q(t),\dot{q}(t)\right)\dot{q}(t)
 	 + G\left(q(t)\right) = B\left(q(t)\right)u(t)
 \end{equation}
 where $M\left(q(t)\right)$ is the matrix of inertial terms, $C\left(q(t),\dot{q}(t)\right)$ is the matrix of Coriolis and centrifugal terms, $G\left(q(t)\right)$ is the gradient of the potential field and $B\left(q(t)\right)$ is some matrix which specifies the effect of control inputs $u(t)$. 
 
-We model the dynamics of the walking robot by assuming that between each impact event, one leg, the \textit{stance leg} is pinned at its end. During the swing phase, the configuration of the robot evolves from $q^+$ immediately post-impact to $q^-$ immediately before the next impact. The other leg, the \textit{swing leg} interacts with the ground only upon impact, in which the swing leg instantaneously becomes the stance leg. This has several corollaries:
+We model the dynamics of the robot by assuming that between each impact event, one leg, the \textit{stance leg} is pinned at its end. During the swing phase, the configuration of the robot evolves from $q^+=q(t^+)$ immediately post-impact to $q^-=q(t^-)$ immediately before the next impact. The other leg, the \textit{swing leg} interacts with the ground only upon impact, in which the swing leg instantaneously becomes the stance leg. This has several corollaries:
 \begin{enumerate}[parsep=0cm]
 	\item The forces at impact are impulsive and alter the velocities instantaneously but do not affect configurations.
 	\item The collisions are purely inelastic, i.e. the swing leg becomes the stance leg without bouncing
@@ -24,13 +24,12 @@ Furthermore, we assume that all impacts occur without slipping. That is, the imp
 These assumptions represent an adequate model of physical walking and are widely used and discussed in the literature, see \cite{hurmuzlu1994rigid, westervelt2007feedback}. Under this impact model, there exists an impact map of following form \cite{manchester13planning}:
 \begin{subequations} \label{eqn:impact}
 \begin{align}
-	q\left(t^+\right) &= Rq\left(t^-\right) \label{eqn:impactconfig}\\
-	\dot{q}\left(t^+\right) &= R\Delta\left(q\left(t^-\right)\right)\dot{q}\left(t^-\right) \label{eqn:impactvel}
+	q^+ &= Rq^- \label{eqn:impactconfig}\\
+	\dot{q}^+ &= R\Delta\left(q^-\right)\dot{q}^- \label{eqn:impactvel}
 \end{align}
 \end{subequations} %
-\nomenclature[j]{$R$}{Matrix encapsulating relabelling of coordinates at impact}
-\nomenclature[k]{$\Delta(q)$}{Map of instantaneous change in velocity at impact}
-
+\nomenclature[j]{$R$}{Matrix encapsulating relabelling of coordinates at impact} %
+\nomenclature[k]{$\Delta(q)$}{Map of instantaneous change in velocity at impact} %
 For the underactuated walkers considered in this thesis, $R$ represents a relabelling of coordinates. A simple example of relabelling of the coordinates at impact for a compass-gait walker is shown in Figure~\ref{fig:relabelimpact}.
 
 \begin{figure}[htp]
@@ -44,6 +43,9 @@ For the underactuated walkers considered in this thesis, $R$ represents a relabe
 \hspace{0.5cm}
 \begin{minipage}{0.45\linewidth}
 \begin{align*}
+	q &= \begin{bmatrix}
+		q_1 \\ q_2
+	\end{bmatrix} \\
 	q_1^+ &= -q_1^- \\
 	q_2^+ &= -q_1^- + q_2 \\
 	R &= \begin{bmatrix}
@@ -54,7 +56,7 @@ For the underactuated walkers considered in this thesis, $R$ represents a relabe
 \end{minipage}
 \end{figure}
 
-To simplify the simulations and mathematics somewhat with no loss to in-principle generality of the method, all ground is considered to be piecewise flat. This implies that the normal force is always purely vertical and the frictional force is purely horizontal.
+To simplify the simulations and mathematics somewhat with no loss to the in-principle generality of the method, all ground is considered to be piecewise flat. This implies that the normal force is always purely vertical and the frictional force is purely horizontal.
 
 \subsection{Zero dynamics} \label{sec:zerodyn}
 The application of virtual holonomic constraints synchronises a system's generalised coordinates to a single \textit{phase variable} $\theta$ which is increasing over the interval $[\theta_0, \theta^-]$. This produces functions of the following form: %
@@ -104,11 +106,10 @@ where, if we denote $B^{\perp}(q)$ as a row vector which satisfies $B^{\perp}(q)
 \end{subequations}
 
 \subsection{Partial closed-form solutions for velocity and energy} \label{sec:partialsol}
-One of the useful properties of virtual constraints is that they allow precomputation of a partial closed-form solution for velocity and energy. The solution is partial in that we obtain an expression for $\dot{\theta}^2$ in terms of $\theta$ rather than time. Under the assumption that $\theta$ is monotonic, it can be used as a new dependent variable:
+One of the useful properties of virtual constraints is that they allow precomputation of a partial closed-form solution for velocity and energy. The solution is partial in that we obtain an expression for $\dot{\theta}^2$ in terms of $\theta$ rather than time. Under the assumption that $\theta$ is monotonic, it can be used as a new independent variable:
 \begin{align*}
-	\frac{d}{d\theta}\left[\dot{\theta}\left(t(\theta)\right)^2\right] &= 
-	\frac{d}{dt}\frac{dt}{d\theta}\left[\frac{d\theta}{dt}\left(t(\theta)\right)^2\right] \nonumber \\ 
-	&= 2\ddot{\theta}\left(t(\theta)\right)
+	\frac{d}{d\theta}\left[\dot{\theta}\left(t(\theta)\right)^2\right] = 
+	\frac{d}{dt}\left[\dot{\theta}\left(t(\theta)\right)^2\right]\frac{dt}{d\theta} &= 2\dot{\theta}(t(\theta))\ddot{\theta}(t(\theta))\frac{dt}{d\theta} = 2\ddot{\theta}\left(t(\theta)\right)
 \end{align*}
 Substituting Equation~\ref{eqn:zerodyn} into this expression, we arrive at a first-order ODE in $\dot{\theta}(\theta)^2$:
 \begin{equation}\label{eqn:zerodynDE}
@@ -124,7 +125,7 @@ For typical walking motions, there exits a single point of maximum potential ene
 \begin{equation} \label{eqn:critvel}
 	\Gamma_\alpha(\theta_\alpha^c)\dot{\theta}_\alpha^{c^2} + \Psi_\alpha(\theta_\alpha^c) = 0
 \end{equation}
-For any constraint, if the initial velocity is less than $\dot{\theta}^c$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta^c$; the robot will fall back rather than complete the footstep.
+For any virtual constraint, if the initial velocity is less than $\dot{\theta}^c$, there is no real solution for Equation \ref{eqn:affinesoln} at $\theta^c$; the robot will fall back rather than complete the footstep.
 
 Following from Equation \ref{eqn:affinesoln}, we may also derive the total mechanical energy of the system. For general systems with dynamics as expressed in Equation~\ref{eqn:dynamics}, the mechanical energy has the form:
 \[ H\left(q,\dot{q}\right) = \dot{q}^TM(q)\dot{q} + V(q) \]
@@ -146,7 +147,7 @@ Note that the impact map (Equation \ref{eqn:impactvel}) is linear in velocity. S
 \subsection{Impact conditions} \label{sec:impact}
 It is not possible to apply virtual constraints across impacts since the dynamics of impact are discontinuous; the impulsive forces applied by the ground on the end of the swing leg occur over too short a time period to oppose through the application of control. The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impactvel} are therefore independent of the control applied over the swing phases. 
 
-In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial (post-impact) value of $\theta$ for the constraint $\alpha$. This is denoted $\theta_0$ in places where it is important to distinguish the initial velocity from the post-impact velocity \textit{following} the constraint.
+In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial (post-impact) value of $\theta$ for the constraint $\alpha$. This will be denoted $\theta_0$ in places where it is important to distinguish the initial velocity from the post-impact velocity \textit{following} the constraint.
 \begin{samepage}
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
