@@ -55,7 +55,7 @@ Encouragingly, while there is a notable increase in the loss of kinetic energy w
 As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Clearly, a more accurate optimisation is favourable in that the torque is better optimised and the kinetic energy mutation is more accurately set. However, as can be read from Table \ref{tab:samplingerror}, increasing the grid density has an approximately linear corresponding increase in the computational time. Since the effect of altering the sampling density has been previously discussed in Section \ref{sec:numsolacc}, the results will not be repeated here.
 
 \subsection{Degree of the Bézier polynomial}
-Increasing the degree of the Bézier curve enables finer control over the path. This is clearly favourable; however since the Bézier coefficients are the decision variables in the optimisation, increasing the degree of the polynomial increases the optimisation dimensionality. It is necessary to find a good compromise between fine control of the virtual constraint and the tractability of the optimisation problem, particularly since the library generation will typically execute no fewer than tens of thousands of VC optimisations.
+Increasing the degree of the Bézier curve enables finer control over the path. This is clearly favourable; however since the Bézier coefficients are the decision variables in the optimisation, increasing the degree of the polynomial increases the optimisation dimensionality. It is necessary to find a good compromise between fine control of the virtual constraint and the tractability of the optimisation problem, particularly since the library generation will typically execute many tens of thousands of VC optimisations.
 
 Table \ref{tab:degpol} presents a comparison of a sample of degrees of polynomials. The cost (L2-norm of the hip torque) for $\Delta\mathrm{KE}=-0.1,0$ and 0.1 are shown, along with the average CPU time taken to complete the optimisation. The start and end configurations are such that the virtual constraints are suited for walking on flat ground. All optimisations were performed with a grid size of 50 samples, corresponding to a grid density of 0.6$^\circ$. Note that for an accurate comparison, the cost was recalculated after the optimisation on a grid of 2000 samples.
 
@@ -82,7 +82,6 @@ Figure \ref{fig:timevsdeg} shows that there is a strong quadratic fit ($R^2=0.99
 \caption{Quadratic dependence of CPU time on degree of the Bézier polynomial}
 \label{fig:timevsdeg}
 \end{figure}
-
 
 Note that increasing the Bézier degree only leads to the improvement up to a point, after which the optimisation begins fitting the noise. As the degree of the polynomial becomes comparable with the size of the grid, the optimality of the path becomes more susceptible to the sampling error. It is also notable that in these cases, the cost for the different kinetic energy mutations is the same. This is because of the formulation of the inequality rather than equality constraint in the optimisation; the sampling error artificially deflates the cost of introducing more energy into the system.
 

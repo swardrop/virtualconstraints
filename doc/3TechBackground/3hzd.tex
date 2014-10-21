@@ -1,8 +1,8 @@
-In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with dim($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, an output function may be defined, however since dim($h$) $<$ dim($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints} (VCs). %
+In fully actuated systems, it is possible to produce a control scheme which asymptotically drives the deviations from some specified time-dependent trajectory to zero. This may be interpreted as defining an \textit{output function}, $h(q,t)$, with dim($h$) $= m$, which is identically zero when the trajectory is perfectly regulated, and attempting to maintain $h(q,t) = 0$. In underactuated systems, since dim($h$) $<$ dim($q$), $h = 0$ defines a set of admissible values of $q$. In systems modelled by ordinary differential equations, the maximal internal dynamics of the system under the constraint $h=0$ is called the \textit{zero dynamics} \cite{isidori1995nonlinear}. It is possible to explicitly define the zero dynamics by synchronising all of the generalised coordinates of the system to a single variable labelled the \textit{phase variable}. The remaining variables are said to be under \textit{virtual constraints} (VCs). %
 \nomenclature[w]{$\theta$}{The \textit{phase variable} to which all coordinates are synchronised in a virtual constraint} %
 \nomenclature[*]{VC}{Virtual (holonomic) constraint}
 
-Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what are labelled the \textit{swing phases}, interspersed with impacts. The swing phase dynamics of the robot coupled with the applied virtual constraints, along with the impact dynamics, produce the \textit{hybrid zero dynamics} of the underactuated walker. In this section, we the derivation of hybrid zero dynamics for general underactuation degree one robots along with some useful results for the motion planner.
+Walking robots are able to be modelled using ordinary differential equations for the majority of their motion, with the exception of their impact dynamics. We therefore apply virtual constraints over what are labelled the \textit{swing phases}, interspersed with impacts. We therefore produce the \textit{hybrid zero dynamics} of the underactuated walker. In this section, we present the derivation of hybrid zero dynamics for general underactuation degree one robots along with some useful results for the motion planner.
 \nomenclature[*]{HZD}{Hybrid zero dynamics}
 
 \subsection{Dynamics of a general underactuated walker}
@@ -84,7 +84,7 @@ We define the following vector functions:
 \end{align*} %
 \nomenclature{$\Phi\left(\theta\right)$}{Vector function describing the synchronisation of the generalised coordinates to the phase variable under a VC, i.e. $q=\Phi\left(\theta\right)$, $\dot{q} = \Phi'\left(\theta\right)\dot{\theta}$, etc}
 
-Under the assumption perfect regulation of the virtual constraints, we can evaluate the zero dynamics by simple substitution into Equation~\ref{eqn:dynamics}:
+Under the assumption of perfect regulation of the virtual constraints, we can evaluate the zero dynamics by simple substitution into Equation~\ref{eqn:dynamics}:
 \begin{equation*}
 	M\left(\Phi(\theta)\right)\left[\Phi'(\theta)\ddot{\theta} + \Phi''\dot{\theta}^2\right] + 
 	C\left(\Phi(\theta),\Phi'(\theta)\dot{\theta}\right)\Phi'(\theta)\dot{\theta} +
@@ -121,7 +121,7 @@ If we assume, as in \cite{manchester13planning}, that for all $\theta \in [\thet
 	\dot{\theta}(\theta)^2 = \Gamma(\theta)\dot{\theta}_0^2 + \Psi(\theta)
 \end{equation}
 
-For typical walking motions, there exits a single point of maximum potential energy within each footstep. This corresponds to a zero crossing of $\gamma(\theta)$. If we denote this point the \textit{critical point}, $\theta^c$, the affine form of Equation \ref{eqn:affinesoln} allows us to trivially determine the feasibility of a particular constraint given the initial velocity; for any given virtual constraint $\alpha$, there exists an initial velocity which satisfies
+For typical walking motions, there exits a single point of maximum potential energy within each footstep corresponding to a zero crossing of $\gamma(\theta)$. If we denote this point the \textit{critical point}, $\theta^c$, for any given virtual constraint $\alpha$, there exists an initial velocity which satisfies
 \begin{equation} \label{eqn:critvel}
 	\Gamma_\alpha(\theta_\alpha^c)\dot{\theta}_\alpha^{c^2} + \Psi_\alpha(\theta_\alpha^c) = 0
 \end{equation}
@@ -142,13 +142,12 @@ Since this is affine in $\dot{\theta}^2$ for a given $\theta$, we may trivially 
 	\Upsilon(\theta)\Psi\left(\theta\right) + \Xi(\theta)
 \end{equation}
 
-Note that the impact map (Equation \ref{eqn:impactvel}) is linear in velocity. Since compositions of affine functions remain affine, and linear functions are a subset of affine functions, it is possible to formulate an affine solution for the velocity through one or more impact events. Clearly, the same is also true for energy.
+Note that the impact map (Equation \ref{eqn:impactvel}) is linear in velocity. Since compositions of affine functions remain affine, and linear functions are a subset of affine functions, it is possible to formulate an affine solution for the velocity through impact events.
 
 \subsection{Impact conditions} \label{sec:impact}
-It is not possible to apply virtual constraints across impacts since the dynamics of impact are discontinuous; the impulsive forces applied by the ground on the end of the swing leg occur over too short a time period to oppose through the application of control. The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impactvel} are therefore independent of the control applied over the swing phases. 
+The dynamics of impact from Equations \ref{eqn:impactconfig} and \ref{eqn:impactvel} are independent of the control applied over the swing phases; it is not possible to apply corrective control at impact.
 
-In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial (post-impact) value of $\theta$ for the constraint $\alpha$. This will be denoted $\theta_0$ in places where it is important to distinguish the initial velocity from the post-impact velocity \textit{following} the constraint.
-\begin{samepage}
+In order to be admissible, a virtual constraint must satisfy the following conditions. Consider $\alpha$ to denote the constraint which precedes $\beta$. Note that here $\theta_\alpha^+$ refers to the initial value of $\theta$ for the constraint $\alpha$. This will be denoted $\theta_0$ where it is important to distinguish the initial velocity from the \textit{following} post-impact velocity.
 \begin{adjustwidth}{1.8cm}{}
 \begin{enumerate}[label=\bfseries Condition \arabic*, parsep=0pt]
 	\item $\Phi_\beta\left(\theta_\beta^+\right) = R\Phi_\alpha\left(\theta_\alpha^-\right)$ -- The initial configuration of the constraint matches the output of the impact map for the final configuration of the previous constraint. \label{item:configinvariance}
@@ -158,40 +157,19 @@ In order to be admissible, a virtual constraint must satisfy the following condi
 	\item $|F_T|/F_N<\mu_s$ -- the forces at impact lie within the friction cone. \label{item:frictioncone}
 \end{enumerate}
 \end{adjustwidth}
-\end{samepage}
 
 \ref{item:configinvariance} and \ref{item:velinvariance} refer to what may be labelled the \textit{invariance of the zero dynamics}; they specify the requirement of a constraint to match the previous constraint in configuration and velocity through the impact map. The remaining conditions must be met in order for the assumptions made about the impact map to be reasonable.
 
 \subsection{B{\'e}zier curves as virtual constraints} \label{sec:bezconstraints}
-Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $N+1$ points, where $N$ is the degree of the curve. These points provide an intuitive way of defining the curve, in contrast with polynomial coefficients. Furthermore, as demonstrated in \cite{westervelt2007feedback}, the use of Bézier polynomials to describe the virtual constraint leads to a closed form of the invariance conditions described in Section \ref{sec:impact}. 
+Bézier curves provide a way to produce families of curves for particular start and end heights and are sparsely identified by only $N+1$ points, where $N$ is the degree of the curve. Furthermore, as demonstrated in \cite{westervelt2007feedback}, the use of Bézier polynomials to describe a virtual constraint leads to a closed form of the invariance conditions from Section \ref{sec:impact}. 
 
-A general Bézier curve is defined by the following parametric equation.
-\begin{equation}
-	\begin{bmatrix}
-		\theta \\ b_k
-	\end{bmatrix}
-	=
-	\sum_{i=0}^{N}\binom{N}{i}\left(1-t\right)^{N-i}t^i
-	\begin{bmatrix}
-		\theta_i \\ \alpha^k_i
-	\end{bmatrix} \label{eqn:genBez}
-\end{equation}
-Since this equation is not monotonic in $\theta$, it is not a convenient expression. Therefore, we build families of Bézier curves with the following formulation.
+We build families of Bézier curves with the following formulation:
 \begin{subequations} \label{eqn:usefulBez}
 \begin{align}
 	t &= \frac{\theta - \theta^+}{\theta^- - \theta^+} \\
 	b_k &= \sum_{i=0}^{N}\binom{N}{i}\left(1-t\right)^{N-i}t^i~\alpha^k_i
 \end{align}
 \end{subequations}
-%This is expressible explicitly as
-%\begin{equation}
-%	b_k = \frac{1}{\left(\theta_N - \theta_0\right)^N}\sum_{i=0}^{N}\binom{N}{i}
-%		\left(\theta_N - \theta\right)^{N-i}
-%		\left(\theta - \theta_0\right)^i~\alpha^k_i \label{eqn:expBez}
-%\end{equation}
-This formulation produces curves of the form given in Equation~\ref{eqn:genBez} with
-\[\theta_i = \frac{i}{N}\left(\theta^- - \theta^+\right) + \theta+ ~~
-	\forall ~~ i \in \left[1,~N-1\right]\]
 
 The use of Bézier polynomials in this manner to define constraints trivially generalises to arbitrary dimensions. We define the output function to be:
 \begin{subequations}\label{eqn:outputfun} 
