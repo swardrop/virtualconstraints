@@ -79,17 +79,16 @@
 \numberwithin{algorithm}{chapter}
 
 
-\renewcommand{\chaptermark}[1]{\markleft{}}
-\renewcommand{\sectionmark}[1]{\markright{}}
+\renewcommand{\chaptermark}[1]{\markright{}}
+\renewcommand{\sectionmark}[1]{\markleft{}}
 
 \begin{document}
 \input{0FrontMatter}
 
 \fancyhf{}
 \pagestyle{fancy}
-\fancyhead[LE]{\textit{\leftmark}}
-\fancyhead[RO]{\textit{\rightmark}}
-\fancyhead[RE,LO]{Stephen Wardrop}
+\fancyhead[LO]{\textit{\leftmark}}
+\fancyhead[RE]{\textit{\rightmark}}
 \fancyfoot[CE,CO]{\thepage}
 \pagenumbering{arabic}
 \setcounter{page}{1}
@@ -126,6 +125,7 @@
 \chapter{Discussion}
 \input{8Disc}
 
+\addtocontents{toc}{\protect\newpage}
 \chapter{Conclusion}
 \input{9Conc}
 
