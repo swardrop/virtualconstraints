@@ -1,5 +1,5 @@
 \subsection{Torque requirements}
-The key outcome for single primitive optimisation is to produce physically realisable and useful constraints while minimising the required torque. It is therefore necessary to review the torque requirements and state evolution of the optimised constraints using the simulator described in Chapter \ref{chap:sim}, especially noting that the torque is only optimised for a particular initial velocity. In order to retain clarity, results in this section are limited to the 2-link compass-gait walker such that there is only a single torque.
+The key outcome for single primitive optimisation is to produce physically realisable and useful constraints while minimising the required torque. It is therefore necessary to review the torque requirements and state evolution of the optimised constraints using the simulator described in Appendix \ref{chap:sim}, especially noting that the torque is only optimised for a particular initial velocity. In order to retain clarity, results in this section are limited to the 2-link compass-gait walker such that there is only a single torque.
 
 The torque required for a particular virtual constraint to be completed over a range of initial velocities is presented in Figure \ref{fig:singleflattorque}. The result is quite predictable; the torque curves all have reasonably similar shapes (modulo numerical noise), with the footsteps at higher initial velocities requiring more torque and finishing earlier than those which started more slowly. This has the effect of contracting the curve in time but expanding it in the torque dimension. Since the shape of the torque curve is well behaved in its dependence on velocity, it is reasonable to expect near-optimality for initial velocities near the nominal.
 
@@ -25,14 +25,14 @@ Note that the torque in these plots seems excessive; from the literature one wou
 
 \begin{figure}
 \centering
-\includegraphics[width=0.6\linewidth]{7Results/pdmatchesnom}
+\includegraphics[width=0.5\linewidth]{7Results/pdmatchesnom}
 \caption{Nominal torque and simulated PD torque for a single virtual constraint}
 \label{fig:pdmatchesnom}
 \end{figure}
 
 
 \subsection{Kinetic energy mutations} \label{sec:reskineng}
-The kinetic energy change over the virtual constraint, like the torque, is dependent on the initial velocity. In principle, this may be computed analytically, however since the analytical solution is dependent on the virtual constraint being perfectly maintained, using a simulator is likely to provide a more realistic expectation of the dependence of the kinetic energy mutation on the initial velocity. It is important that the desired energy change roughly equals the observed change for a reasonable range of initial velocities, since the richness of the library is dependent on the existence of a range of kinetic energy mutations available at each step for any given initial velocity.
+The kinetic energy change over the virtual constraint, like the torque, is dependent on the initial velocity. In principle, this may be computed analytically, however since the analytical solution is dependent on the virtual constraint being perfectly maintained, a simulator is used such that the performance under the controller is assessed.
 
 Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varying initial velocities for a set of sample virtual constraints, each with the same initial and final configurations. Empty table cells correspond to the virtual constraint being unable to be completed due to insufficient initial velocity. A somewhat surprising result is how poorly the nominal kinetic energy mutations are realised at the nominal velocity. This is due to the numerical inaccuracies in optimising the constraint as well as those introduced by using a HZD + PD controller in the simulation. One would expect that using a transverse linearisation controller, which stabilises the velocity as well as the kinematic trajectory, would produce a more accurate realisation. 
 
@@ -49,15 +49,65 @@ Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varyi
 	\label{tab:vcenergy}
 \end{table}
 
-Encouragingly, while there is a notable increase in the loss of kinetic energy with increasing velocity, there remains a genuine range in the kinetic energy mutations available independent of the initial velocity. A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. Along with using a transverse linearisation controller, an elastic impact model and feet with some appreciable spring force should rectify this. Note also that these results are for the simple two-link robot, which, due to its stiff single-jointed legs, suffers a greater loss of energy at impact than a robot with knees and a body above the legs to keep the centre of mass further forward.
+Encouragingly, while there is a notable increase in the loss of kinetic energy with increasing velocity, there remains a genuine range in the kinetic energy mutations available independent of the initial velocity. A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. Along with using a transverse linearisation controller, an elastic impact model and feet with some appreciable spring force and a kneed robot model should rectify this.
 
-\subsection{Grid densities}
-As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Clearly, a more accurate optimisation is favourable in that the torque is better optimised and the kinetic energy mutation is more accurately set. However, as can be read from Table \ref{tab:samplingerror}, increasing the grid density has an approximately linear corresponding increase in the computational time. Since the effect of altering the sampling density has been previously discussed in Section \ref{sec:numsolacc}, the results will not be repeated here.
+\subsection{Grid densities} \label{sec:numsolacc}
+The optimisation of a virtual constraint is significantly dependent upon the numerical partial solution for velocity and energy. The accuracy of the numerical solution therefore limits the optimality of the constraint and the closeness to which the prescribed $\Delta$KE is achieved.
+
+\begin{figure}[b]
+	\centering
+	\includegraphics[width=\linewidth]{4VirtConstLib/samplingerror.eps}
+	\caption{Sampling error in $\Gamma(\theta)$ and $\Psi(\theta)$}
+	\label{fig:samplingerror}
+\end{figure}
+
+The partial solution (the functions $\Gamma(\theta)$ and $\Psi(\theta)$) is produced by constructing a grid of $\theta$ values, over which functions are evaluated and integrated (see Appendix \ref{app:numint}). The critical issue is that because the partial solution is generated by \textit{integration} over a grid, the accuracy of the solution is sensitive to the grid density, as shown in Figure \ref{fig:samplingerror}.
+
+The extent of the loss of accuracy due to sampling was evaluated by optimising a self-invariant constraint on flat ground using a set number of samples $n_s$ (with sampling resolution $\epsilon_s$) with the target $\Delta$KE $=0$. A  ``ground truth'' $\Delta$KE$_{act}$ for the optimised virtual constraint was constructed using $n_s=2000$ ($\epsilon = 0.015^\circ$). The percentage error $\delta(\Delta\mathrm{KE})$ was calculated with reference to the initial kinetic energy KE$(\theta_0)$. Since the virtual constraint is self-invariant and on flat ground, $\Delta$KE $=0$ should imply $\dot{\theta}^+=\dot{\theta}^*$. The error in $\dot{\theta}^+_{act}$ was determined using a similar method as for $\Delta$KE. The results are presented in Table \ref{tab:samplingerror}.
+
+\begin{table}
+	\centering
+	\begin{tabular}{ c | c || c | c || c | c | c  | c || c }
+		$n_s$ & $\epsilon_s$ & $\Delta$KE$_{act}$ & $\delta(\Delta\mathrm{KE})$ & $\dot{\theta}^*_s$ & $\dot{\theta}^*_{act}$ & $\dot{\theta}^+_{act}$ & $\delta(\dot{\theta}^+)$ & CPU Time (s) \\ \hline
+		5   & $6^\circ$    & -0.515 & -41.0 \% & 1.111 & 1.599 & 1.227 & -23.3 \% & 0.98 \\
+		10  & $3^\circ$    & -0.262 & -22.7 \% & 1.306 & 1.533 & 1.347 & -12.1 \% & 2.15 \\
+		25  & $1.2^\circ$  & 0.090  & 9.11 \%  & 1.416 & 1.417 & 1.481 & 4.50 \%  & 4.58 \\
+		50  & $0.6^\circ$  & 0.014  & 1.37 \%  & 1.408 & 1.423 & 1.433 & 0.70 \%  & 6.54 \\
+		200 & $0.15^\circ$ & -0.003 & -0.26 \% & 1.417 & 1.424 & 1.422 & -0.14 \% & 23.7
+	\end{tabular}
+	\caption[Effect of sampling error on optimisation accuracy]{Effect of sampling error on optimisation accuracy. Energy is in Joules and all velocities are in rad/s}
+	\label{tab:samplingerror}
+\end{table}
+
+\begin{figure}[t]
+	\begin{minipage}{0.49\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{4VirtConstLib/numacc.eps}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.49\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{4VirtConstLib/sampleCPU.eps}
+	\end{minipage}
+	\caption{Sampling error and CPU time for a range of grid resolutions}
+\end{figure}
+
+From this table, we can make several key observations:
+\begin{adjustwidth}{0.5cm}{}
+	\begin{enumerate}[label=\bfseries Obs \arabic*, parsep=0pt]
+		\item KE$(\theta^+)$ is approximately twice as sensitive to error as $\dot{\theta}^+$. This is to be expected, since KE $\propto \dot{\theta}^2$. \label{item:ke2}
+		\item The solution converges to the ground truth more rapidly for small than large sampling resolutions
+		\item The computation time is approximately linear in the number of samples.
+		\item The error is effectively \textit{random}; there is no means of knowing \textit{a priori} if the solution is larger or smaller than the true value \label{item:randerror}
+	\end{enumerate}
+\end{adjustwidth}
+
+While the importance of accuracy in the optimisation is limited, the outputs of the optimisation ($\Gamma(\theta)$ and $\Psi(\theta)$ at particular values) should be correct. It is therefore prudent to use a limited grid ($25 \leq n_s \leq 50$) for the optimisation and to then calculate the partial solution for the produced virtual constraints using much finer sampling, e.g. $n_s = 2000$. 
 
 \subsection{Degree of the Bézier polynomial}
-Increasing the degree of the Bézier curve enables finer control over the path. This is clearly favourable; however since the Bézier coefficients are the decision variables in the optimisation, increasing the degree of the polynomial increases the optimisation dimensionality. It is necessary to find a good compromise between fine control of the virtual constraint and the tractability of the optimisation problem, particularly since the library generation will typically execute many tens of thousands of VC optimisations.
+Increasing the degree of the Bézier curve enables finer control over the path. This is clearly favourable; however since the Bézier coefficients are the decision variables in the optimisation, increasing the degree of the polynomial increases the optimisation dimensionality. It is necessary to find a good compromise between fine control of the virtual constraint and the tractability of the optimisation problem.
 
-Table \ref{tab:degpol} presents a comparison of a sample of degrees of polynomials. The cost (L2-norm of the hip torque) for $\Delta\mathrm{KE}=-0.1,0$ and 0.1 are shown, along with the average CPU time taken to complete the optimisation. The start and end configurations are such that the virtual constraints are suited for walking on flat ground. All optimisations were performed with a grid size of 50 samples, corresponding to a grid density of 0.6$^\circ$. Note that for an accurate comparison, the cost was recalculated after the optimisation on a grid of 2000 samples.
+Table \ref{tab:degpol} presents a comparison of a sample of degrees of polynomials. The cost $J$ for $\Delta\mathrm{KE}=-0.1,0$ and 0.1 are shown, along with the average CPU time taken to complete the optimisation. The start and end configurations are such that the virtual constraints are suited for walking on flat ground. All optimisations were performed with a grid size of 50 samples, corresponding to a grid density of 0.6$^\circ$. Note that for an accurate comparison, the cost was recalculated after the optimisation on a grid of 2000 samples.
 
 \begin{table}
 	\centering
@@ -83,9 +133,7 @@ Figure \ref{fig:timevsdeg} shows that there is a strong quadratic fit ($R^2=0.99
 \label{fig:timevsdeg}
 \end{figure}
 
-Note that increasing the Bézier degree only leads to the improvement up to a point, after which the optimisation begins fitting the noise. As the degree of the polynomial becomes comparable with the size of the grid, the optimality of the path becomes more susceptible to the sampling error. It is also notable that in these cases, the cost for the different kinetic energy mutations is the same. This is because of the formulation of the inequality rather than equality constraint in the optimisation; the sampling error artificially deflates the cost of introducing more energy into the system.
-
-We may conclude that there is little to be gained from increasing the degree of the polynomial past 10 if the grid size is kept to 50. It is reasonable to expect that, even with increased grid size, the returns from a higher degree polynomial in terms of control over the shape of the virtual constraint are vanishing. The quadratic growth of the CPU time with the degree of the polynomial should also apply significant downward pressure.
+Note that increasing the Bézier degree only leads to the improvement up to a point, after which the optimisation begins fitting the numerical noise induced by the sampling error. It is also notable that in these cases, the cost for the different kinetic energy mutations is the same. This is because of the formulation of the inequality rather than equality constraint in the optimisation; the sampling error artificially deflates the cost of introducing more energy into the system. It is reasonable to expect that, even without the sampling error, the returns from a higher degree polynomial in terms of control over the shape of the virtual constraint are vanishing. The quadratic growth of the CPU time with the degree of the polynomial should also apply significant downward pressure.
 
 \subsection{Regularisation}
 As briefly discussed in Section \ref{sec:optmethod}, regularisation was used to attempt to ensure that the optimisation problem was well-posed. This was largely due to the poor behaviour of $\alpha(\theta)$ as the Bézier coefficients became large, but also to improve the convergence rates of the optimisation. It is important to recognise, however, that these gains compromise the cost function in the sense that the minimum found is no longer necessarily the minimal torque.
