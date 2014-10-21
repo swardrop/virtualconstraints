@@ -7,7 +7,7 @@ org = [0; 0];
 load('lib/cglargewk.mat');
 
 q_0 = delq*solveIK(0.3, 0);
-qd_0 = 1.8*q_0 * -pi^2;
+qd_0 = 2.3*q_0 * -pi^2;
 
 % Set up simulation outputs
 timeleft = duration;
