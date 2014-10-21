@@ -4,26 +4,28 @@ The key outcome for single primitive optimisation is to produce physically reali
 The torque required for a particular virtual constraint to be completed with a range of initial velocities is presented in Figure \ref{fig:singleflattorque}. The result is quite predictable; the torque curves all have reasonably similar shapes (ignoring some numerical noise), with the footsteps with higher initial velocities requiring more torque and finishing earlier than those which started more slowly. This has the effect of contracting the curve in time but expanding it in the torque dimension. Since the shape of the torque curve is well behaved in its dependence on velocity, it is reasonable to expect near-optimality for initial velocities near the nominal.
 
 \begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth]{7Results/singleflattorque}
-\caption[Torque curves for differing initial velocities on flat ground]{Torque curves for different initial velocities of a virtual constraint on flat ground with $s_l=0.3$m}
-\label{fig:singleflattorque}
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{7Results/singleflattorque}
+		\caption[Torque curves for differing initial velocities on flat ground]{Torque curves for different initial velocities of a virtual constraint on flat ground with $s_l=0.3$m}
+		\label{fig:singleflattorque}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{7Results/twonomvels}
+		\caption[Torque curves with differing nominal velocities]{Torque curves for similar constraints with the same initial velocity but optimised for different nominal velocities}
+		\label{fig:twonomvels}
+	\end{minipage}
 \end{figure}
 
 An alternative method for assessing the closeness to optimality of the virtual constraints for non-nominal velocities is to optimise two VCs with the same beginning and final configurations but differing initial velocities and to compare the torque curves. The result of this analysis with one VC optimised using the nominal velocity definition from Section \ref{sec:optmethod} the other with a nominal velocity 20\% larger is displayed in Figure \ref{fig:twonomvels}. From this plot, we observe the sensitivity in the optimisation to the initial velocity; the curves show a much stronger difference than observed in Figure \ref{fig:singleflattorque}. Even so, the curves show a somewhat similar shape; while the optimality of the curve is clearly not maintained across a range of velocities, the torque requirements are well behaved.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth]{7Results/twonomvels}
-\caption[Torque curves with differing nominal velocities]{Torque curves for similar constraints with the same initial velocity but optimised for different nominal velocities over a single footstep}
-\label{fig:twonomvels}
-\end{figure}
 
 Note that the torque in these plots seem excessive; from the literature one would expect to see peak torques below 1 Nm \cite{westervelt2007feedback, collins2005efficient}. It is not clear what is causing this; the calculation of nominal torque closely matches that produced by PD control (see Figure \ref{fig:pdmatchesnom}), therefore the simulation is consistent with the model used for production of the virtual constraints. While the torque appears to be significantly higher than it should be, the actual values are not of critical importance, since this is a largely theoretical exercise given the simple model used. A more complete model will include toe-off forces which are likely to lead to significantly smaller hip torques, particularly at the initial point of the constraint, which is where we observe the largest torque.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\linewidth]{7Results/pdmatchesnom}
+\includegraphics[width=0.6\linewidth]{7Results/pdmatchesnom}
 \caption{Nominal torque and simulated PD torque for a single virtual constraint}
 \label{fig:pdmatchesnom}
 \end{figure}
@@ -32,7 +34,7 @@ Note that the torque in these plots seem excessive; from the literature one woul
 \subsection{Kinetic energy mutations} \label{sec:reskineng}
 The kinetic energy change over the virtual constraint, like the torque, is dependent on the initial velocity. In principle, this may be computed analytically, however since the analytical solution is dependent on the virtual constraint being perfectly maintained, using a simulator is likely to provide a more realistic expectation of the extent of the dependence of the kinetic energy mutation on the initial velocity. It is important that the desired energy change roughly equals the observed change for a reasonable range of initial velocities, since the richness of the library is dependent on the existence of a range of kinetic energy mutations available at each step for any given initial velocity.
 
-Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varying initial velocities for a set of sample virtual constraints, each with the same initial and final configurations. Empty table cells correspond to the virtual constraint being unable to be completed due to insufficient initial velocity. A somewhat surprising result is how poorly the kinetic energy mutations are met at the nominal velocity. This is due to the numerical inaccuracies in optimising the constraint as well as those introduced in the simulation. Encouragingly, while there is a notable increase in the loss of kinetic energy with increasing velocity, there remains a genuine range in the kinetic energy mutations available independent of the initial velocity.
+Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varying initial velocities for a set of sample virtual constraints, each with the same initial and final configurations. Empty table cells correspond to the virtual constraint being unable to be completed due to insufficient initial velocity. A somewhat surprising result is how poorly the nominal kinetic energy mutations are realised at the nominal velocity. This is due to the numerical inaccuracies in optimising the constraint as well as those introduced by using a HZD + PD controller in the simulation. One would expect that using a transverse linearisation controller, which stabilises the velocity as well as the kinematic trajectory, would produce a more accurate realisation. 
 
 \begin{table}
 	\centering
@@ -47,7 +49,7 @@ Table \ref{tab:vcenergy} presents the observed kinetic energy changes with varyi
 	\label{tab:vcenergy}
 \end{table}
 
-A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. This may be explained by considering that adding energy pushes the robot further from stability. Any errors are magnified and the system, particularly at impact, has considerable tendency toward energy loss. This problem likely originates in the simple model chosen to represent the walkers. It is reasonable to believe that an elastic impact model and feet with some appreciable spring force should rectify this. Note also that these results are for the simple two-link robot, which, due to its stiff single-jointed legs, suffers a greater loss of energy at impact than a robot with knees and a body above the legs to keep the centre of mass further forward.
+Encouragingly, while there is a notable increase in the loss of kinetic energy with increasing velocity, there remains a genuine range in the kinetic energy mutations available independent of the initial velocity. A more concerning result is the apparent difficulty of adding mechanical energy to the robot through the application of hip torque over a footstep. Along with using a transverse linearisation controller, an elastic impact model and feet with some appreciable spring force should rectify this. Note also that these results are for the simple two-link robot, which, due to its stiff single-jointed legs, suffers a greater loss of energy at impact than a robot with knees and a body above the legs to keep the centre of mass further forward.
 
 \subsection{Grid densities}
 As discussed in Section \ref{sec:numsolacc}, the accuracy of the optimisation is dependent on the grid size. Clearly, a more accurate optimisation is favourable in that the torque is better optimised and the kinetic energy mutation is more accurately set. However, as can be read from Table \ref{tab:samplingerror}, increasing the grid density has an approximately linear corresponding increase in the computational time. Since the effect of altering the sampling density has been previously discussed, the results will not be repeated here.
@@ -76,7 +78,7 @@ Figure \ref{fig:timevsdeg} shows that there is a strong quadratic fit ($R^2=0.99
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\linewidth]{7Results/timevsdeg}
+\includegraphics[width=0.6\linewidth]{7Results/timevsdeg}
 \caption{Quadratic dependence of CPU time on degree of the Bézier polynomial}
 \label{fig:timevsdeg}
 \end{figure}

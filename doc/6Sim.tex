@@ -1,3 +1,4 @@
+\chapter{Simulation} \label{chap:sim}
 \section{Design of simulator}
 All simulation presented in this thesis was implemented using MATLAB \& Simulink Version 8.1 (R2013a). The dynamics of the walking robots in conjunction with the controller and path planner were simulated through executing a Simulink model within a MATLAB script. The Simulink model is designed to be flexible such that any robot satisfying the following predicates is able to be simulated:
 \begin{enumerate}
@@ -91,7 +92,7 @@ All other required data is derived from the supplied data or the simulation. Not
 \section{Compass-gait (2-link) walker model}
 A 2-link (compass-gait) robot model was used in the development and verification of this thesis, in which the simplistic morphology and single actuated coordinate were useful for testing principles and illustrating the concepts of virtual constraint-based planning. Here, we present the parameters of the model used in the simulation.
 
-The derivation of the swing-phase and impact dynamics is presented in Appendix \ref{app:cgdyn}. Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia about its centre by $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg. The values used in the model are presented in Table \ref{tab:cgparams} and are largely derived from those in \cite{westervelt2007feedback}.
+Each leg's mass is denoted by $m$, the length by $l$ and the moment of inertia about its centre by $I$. The gravitational constant is denoted $g$. Note that for further simplicity, it is assumed that the centre of mass is in the centre of each leg. The values used in the model are presented in Table \ref{tab:cgparams} and are largely derived from those in \cite{westervelt2007feedback}.
 
 \begin{table}
 	\centering

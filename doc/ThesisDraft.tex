@@ -50,9 +50,6 @@
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
-\usepackage{draftwatermark}
-\SetWatermarkLightness{0.95}
-
 \AtBeginDocument{\renewcommand{\bibname}{References}}
 \bibliographystyle{plain}
 % Figures within a column...
@@ -123,9 +120,6 @@
 \chapter{Path Planning Algorithm}
 \input{5AlgDesign}
 
-\chapter{Simulation} \label{chap:sim}
-\input{6Sim}
-
 \chapter{Results}
 \input{7Results}
 
@@ -142,6 +136,7 @@
 \renewcommand{\theequation}{\Alph{chapter}.\arabic{equation}}
 \renewcommand{\thetable}{\Alph{chapter}.\arabic{table}}
 \input{91App}
+\input{6Sim}
 \end{appendices}
 
 \endgroup

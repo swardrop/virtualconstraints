@@ -8,43 +8,34 @@ To illustrate this, a library was generated for the compass-gait robot which has
 \subsection{Velocity ordering of VCs in optimised library}
 As discussed in Section \ref{sec:orderings}, if the library contains primitives which have $\Gamma(\theta^c)$ and $\Psi(\theta^c)$ structured similarly to as shown in Figure \ref{fig:totord}, the ordering method introduced in Section \ref{sec:orderings} becomes independent of the target velocity. This is favourable, since the heuristics set a target velocity (or energy), therefore other than for the unguided best-first search, a target velocity-specific ordering is of limited utility.
 
-Figure \ref{fig:GammaPsiAll} plots the values of $-\Psi(\theta^c)$ against $\Gamma(\theta^c)$ for an entire virtual constraint library. We do not observe the structure we hope to see here. In fact, while the points are not particularly structured, there are noticeable spokes in radial directions out from the origin. Since the gradient between any pair of points must be in the range $(-\infty,1]$ for a velocity-independent ordering to be possible, the spokes which have a greater gradient than 1 are of concern. Unfortunately, it appears that this forms the majority.
+The feasibility of ordering the set of constraints, it would seem, is quite dependent on the particular set within the library. For example, constraints which are suitable for walking on flat ground, i.e. $s_h=0$ typically have a similar structure to that shown in Figure \ref{fig:GPFlat}. While this contains some points which very poorly match the velocity-independent ordering, relatively few points can be removed to produce a set which does match, since the general trend of the data is a line which has a gradient $<1$.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\linewidth]{7Results/GammaPsiAll}
-\caption{$\Gamma(\theta^c)$ and $\Psi(\theta^c)$ values for an entire library}
-\label{fig:GammaPsiAll}
-\end{figure}
-
-However, it is not the entire library that we wish to order. Since we store the library in a tree structure, it is only those virtual constraints which have the same start configuration and step length and height which must be ordered.
-
-The feasibility of ordering the set of constraints, it would seem, is quite dependent on the particular set within the library. For example, constraints which are suitable for walking on flat ground, i.e. $s_h=0$ typically have a similar structure to that shown in Figure \ref{fig:GPFlat}. While this contains some points which very poorly match the velocity-independent ordering, relatively few points can be removed to produce a set which does match, since the general trend of the data is a line which has a gradient $<1$. It is not clear whether the removal of these points will result in insufficient coverage of kinetic energies, however this plot is somewhat encouraging.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\linewidth]{7Results/GPFlat}
+\includegraphics[width=0.6\linewidth]{7Results/GPFlat}
 \caption{Typical plot of $\Gamma(\theta^c)$ and $-\Psi(\theta^c)$ for flat ground VCs}
 \label{fig:GPFlat}
 \end{figure}
 
-For virtual constraints which include a step up or down, the points do not often fall onto the somewhat neat line of the flat ground result. Some sets produce points like in Figure \ref{fig:GPSU}, which is conducive to the velocity independent ordering without any alteration with the exception of a single point. However others show a systematic shape which violates the condition, as in Figure \ref{fig:GPSD}.
+For virtual constraints which include a step up or down, the points do not often fall onto the somewhat neat line of the flat ground result. Some sets produce points like in Figure \ref{fig:GPSU}, which is conducive to the velocity independent ordering without any alteration, with the exception of a single point. However others show a systematic shape which violates the condition, as in Figure \ref{fig:GPSD}.
 
 \begin{figure}
+\begin{minipage}{0.48\textwidth}
 \centering
-\includegraphics[width=0.8\linewidth]{7Results/GPSU}
+\includegraphics[width=\linewidth]{7Results/GPSU}
 \caption{$\Gamma(\theta^c)$ and $-\Psi(\theta^c)$ for a sample step-up trajectory showing good ordering}
 \label{fig:GPSU}
-\end{figure}
-
-\begin{figure}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
 \centering
-\includegraphics[width=0.8\linewidth]{7Results/GPSD}
-\caption[$\Gamma(\theta^c)$ and $-\Psi(\theta^c)$ for a step-down trajectory]{$\Gamma(\theta^c)$ and $-\Psi(\theta^c)$ for a step-down trajectory showing systematic violation of velocity-independent ordering}
+\includegraphics[width=\linewidth]{7Results/GPSD}
+\caption{$\Gamma(\theta^c)$ and $-\Psi(\theta^c)$ for a step-down trajectory}
 \label{fig:GPSD}
+\end{minipage}
 \end{figure}
 
-It would appear that in order to produce orderings independent of target velocity, the set must be considered on a case by case basis. There does not seem to be any guarantee of structure among the virtual constraints which can be known \textit{a priori}. These results suggest that for the majority of cases, an ordering can be produced which includes the majority of virtual constraints, however the way to detect and choose those VCs and a study into the effects of such an approach on the coverage in the library is deferred to a later work.
+While there does not seem to be any guarantee of structure among the virtual constraints which can be known \textit{a priori}, these results suggest that for the majority of cases, an ordering can be produced which includes most of the virtual constraints. There are numerous methods by which several ordered sets could be extracted from the set of applicable virtual constraints. However, the implementation of such a method and its proof of efficacy are deferred to a later work.
 
 \subsection{Failures}
 While the optimisation of the virtual constraints has attempted to be framed in such a way as to ensure feasibility of the optimisation, e.g. by regularisation, the nature of nonlinear optimisation, particularly constrained, means there is no means of ensuring that this is the case for all initial and final conditions.
